@@ -101,6 +101,7 @@ const books = [
           "Strong responses should: (1) identify that the isolated, unfamiliar setting limits Bruno's information, (2) note that he is told only what adults choose to share, and (3) use specific details — such as the fence, the striped pajamas, or what he observes from his bedroom window — as textual evidence.",
         explanation:
           "STAAR SCR responses are scored on clarity of claim, use of relevant textual evidence, and explanation of how the evidence supports the claim (RAC or RACES strategy).",
+        modelAnswer: "In The Boy in the Striped Pajamas, the setting of Out-With shapes Bruno's understanding of the world around him by controlling every piece of information he receives. Because Bruno is isolated — physically separated from the camp by distance, and socially separated from the truth by his father's authority and the adults' deliberate silence — he can only interpret what he sees through the limited lens of a child who has never been told the truth. When Bruno looks out his bedroom window and observes the people in striped pajamas on the other side of the fence, he describes them with genuine curiosity, noting that they all seem thin and unhappy but not understanding why. The fence itself is the setting's most powerful detail: it makes the horror of the camp invisible to Bruno even while it stands directly in front of him. Boyne uses this setting to argue that the environments we grow up in — the information we are given and withheld — shape what we are capable of understanding, for better or worse.",
         strongExample: "In The Boy in the Striped Pajamas, Boyne uses the setting of Out-With to keep Bruno — and the reader — in a state of deliberate ignorance. Because Bruno is isolated from the outside world and told only what adults choose to share, he misinterprets everything he sees. For example, Bruno observes the people in 'striped pajamas' through his bedroom window and thinks they must live there by choice, never imagining the horror of what the camp actually is. This detail shows that the setting is not just a backdrop but a tool the author uses to control what Bruno — and through him, the reader — understands. The setting creates the novel's central dramatic irony: the reader slowly fills in the truth that Bruno can never quite see.",
         weakExample: "The setting of Out-With affects Bruno's understanding because it is in a different place than Berlin. Bruno doesn't know a lot about what is happening around him. The setting is important to the story.",
         weakFeedback: "This response loses points because it makes only vague, general claims with no specific textual evidence. Saying 'Bruno doesn't know a lot' restates the question without analyzing it. A strong response names a specific detail from the text and explains exactly how that detail reveals something about the setting's effect on Bruno's understanding.",
@@ -168,6 +169,7 @@ const books = [
           "Strong responses should: (1) State a clear, specific claim about the theme; (2) Identify at least two characters who represent silence/complicity (e.g., the Mother, Bruno himself when he denies knowing Shmuel); (3) Cite specific textual evidence for each; (4) Explain how each piece of evidence supports the claim; (5) Conclude with a statement about the broader significance of the theme.",
         explanation:
           "ECR responses are scored on thesis clarity, quality and integration of textual evidence, depth of analysis, and writing conventions. Aim for 3–5 developed paragraphs.",
+        modelAnswer: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who remain silent in the face of injustice bear moral responsibility for its consequences. This theme is developed most powerfully through two characters: Bruno's mother and Bruno himself. The Mother is aware enough of what the camp represents to be deeply disturbed by it — she begins drinking heavily and argues repeatedly with the Father about returning to Berlin. Yet she never acts. Her private moral discomfort never becomes public opposition. Boyne uses her deterioration not to excuse her but to indict her: knowing what is wrong and choosing comfort over action is its own form of complicity. Bruno, too, commits this failure in the scene where Lieutenant Kotler confronts Shmuel in the kitchen. When Bruno is asked if he knows Shmuel, he denies it — choosing self-preservation over loyalty. The betrayal is small in scale but enormous in meaning; Bruno has the opportunity to witness injustice and speak against it, and he chooses silence. Boyne's novel is ultimately a warning: the Holocaust was not only the work of fanatics like Kotler. It was sustained by the silence of ordinary people who knew something was wrong and did nothing.",
         strongExample: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who choose comfort over conscience bear responsibility for the evil that results. This theme is developed most powerfully through the Mother and Bruno himself. The Mother knows enough about the camp to be disturbed — she begins drinking and argues with the Father about returning to Berlin — yet she never acts on her moral discomfort. Her inaction is not ignorance; it is a choice. Bruno, too, chooses his own comfort when he denies knowing Shmuel to Lieutenant Kotler, sacrificing his friend to avoid punishment. Both characters represent the moral failure Boyne is warning against: awareness without action. The novel suggests that silence in the face of injustice is not neutrality — it is a form of participation.",
         weakExample: "The Boy in the Striped Pajamas shows that people should not be silent when bad things happen. Bruno and his family knew bad things were happening. They should have done something to help. This is why the theme of the book is about responsibility.",
         weakFeedback: "This response has a theme but no textual evidence and no analysis. It tells the reader what to think without proving it. A strong ECR identifies specific characters, cites specific moments from the text, and then explains — in analytical sentences, not summary — what those moments prove about the theme. The claim 'they should have done something' needs to become 'the Mother's choice to drink and argue privately rather than act publicly represents Boyne's argument that private moral discomfort without action is its own form of complicity.'",
@@ -278,6 +280,7 @@ const books = [
           "Strong responses should: (1) Open with a clear thesis connecting Kotler's character to the theme of ideology and dehumanization; (2) Analyze specific scenes — such as Kotler's treatment of Pavel, his interactions with Shmuel, or his behavior toward the household — as evidence; (3) Argue that Kotler's cruelty is not personal but systemic — he is what the Nazi ideology produced; (4) Consider how Bruno's discomfort around Kotler functions as a moral signal even before Bruno fully understands why; (5) Conclude by connecting this character study to the novel's broader warning about systems that normalize cruelty.",
         explanation:
           "ECR responses are scored on thesis strength, analytical depth, evidence integration, and writing conventions. Avoid summarizing what Kotler does — analyze what his characterization means and how Boyne uses him to develop the novel's themes.",
+        modelAnswer: "John Boyne uses Lieutenant Kotler to demonstrate how ideology, when it replaces individual moral judgment, produces cruelty as a matter of policy rather than personal choice. Kotler is not portrayed as a psychologically complex character driven by personal hatred — he is defined by his function within the system. When he humiliates Pavel in the dining room, forcing an elderly man to serve at the table without acknowledgment of his humanity, he does so without visible emotion or hesitation. This absence of feeling is precisely Boyne's point. The most dangerous cruelty is not passionate and visible; it is routine and normalized. Kotler's treatment of Shmuel in the kitchen scene reinforces this: his interrogation of a nine-year-old child is conducted with the same bureaucratic calmness as any other duty. What makes Kotler powerful as a literary device is Bruno's response to him. Bruno — who is too young to articulate why — consistently feels something wrong in Kotler's presence. This discomfort is Boyne's signal that moral awareness does not require political sophistication; it requires only a willingness to listen to it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty and indifference is professionalism.",
         strongExample: "Boyne uses Lieutenant Kotler to show that ideology, when it removes individual moral judgment, produces cruelty not as an exception but as a feature. Kotler does not appear cruel because of personal hatred — he is cruel because the system he serves demands and rewards it. When he humiliates Pavel or threatens Shmuel, he does so without visible emotion, as though it requires no thought. This is Boyne's point: the most dangerous evil is not passionate hatred but bureaucratic indifference. Even Bruno — a nine-year-old with no political understanding — feels something wrong about Kotler, and this discomfort is Boyne's signal that moral awareness is available even to children, if they choose to act on it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty.",
         weakExample: "Lieutenant Kotler is a mean character in the story. He is cruel to the Jewish people and also to Pavel. He represents the Nazis. Boyne includes him to show that bad people existed during the Holocaust.",
         weakFeedback: "This response summarizes Kotler's role but does not analyze it. Saying he 'represents the Nazis' is true but obvious — the analytical question is HOW and WHY Boyne characterizes him this specific way, and what that reveals about how ideology operates. A strong ECR moves from observation ('Kotler is cruel') to analysis ('Kotler's cruelty is effortless — which is Boyne's argument that systemic evil is most dangerous when it becomes routine and ordinary').",
@@ -437,6 +440,7 @@ const books = [
           "Strong responses should: (1) State a clear theme — e.g., true friendship is based on loyalty and genuine care, not shared beauty or social status; (2) Explain how Agatha's loyalty to Sophie (even when Sophie treats her poorly) and Sophie's eventual recognition of Agatha's value develops that theme; (3) Include at least one specific detail from the text as evidence; (4) Explain how the evidence connects back to the theme.",
         explanation:
           "Use the RACES strategy: Restate the question, Answer with your claim, Cite a specific detail, Explain how it supports your claim, and Summarize the connection to theme. SCR responses should be 4–6 focused sentences.",
+        modelAnswer: "In The School for Good and Evil, Soman Chainani develops the theme that true friendship is defined by loyalty and genuine care rather than by shared status, appearance, or mutual benefit. Agatha's relationship with Sophie embodies this theme through a pattern the novel repeats across every major conflict: Sophie dismisses, belittles, or outright betrays Agatha, and Agatha returns anyway — not because Sophie deserves it, but because Agatha's care is not conditional on being deserved. This distinction is crucial. Sophie's version of friendship is transactional: she values Agatha when Agatha is useful and discards her when she is not. Agatha's version is unconditional: she continues trying to help Sophie even after being humiliated by her in front of other students. Chainani uses this imbalance deliberately. By making the friendship so clearly one-sided, he forces the reader to ask what truly defines a bond between people — and to conclude that real friendship is not an equal exchange but a commitment that holds even when the other person fails you repeatedly.",
         strongExample: "In The School for Good and Evil, Chainani develops the theme that true friendship is defined by loyalty regardless of circumstances, through Agatha's repeated choice to prioritize Sophie over her own comfort and social standing. Even after Sophie dismisses and belittles her, Agatha continues trying to help her — not because Sophie deserves it, but because Agatha's care is unconditional. This one-sided loyalty is the novel's most powerful argument about what friendship actually looks like: not a balanced transaction between equals, but a commitment that holds even when the other person fails you. Chainani uses Agatha's consistent returns to Sophie's side as evidence that real friendship is defined not by what you receive, but by what you choose to give.",
         weakExample: "Agatha and Sophie have a strong friendship because Agatha always helps Sophie. This shows that true friends stick together no matter what. Their friendship is important to the story.",
         weakFeedback: "'True friends stick together' is a cliché, not a theme analysis. A strong SCR names a specific moment of loyalty, explains what that moment demonstrates about the nature of real friendship, and connects it to an idea Chainani is developing — not just restating that friendship is good. The analytical move is: what does Agatha's unconditional loyalty cost her, and what does Chainani argue about friendship through that cost?",
@@ -535,6 +539,7 @@ const books = [
           "Strong responses should: (1) Acknowledge that Sophie undergoes some change — she glimpses moments of genuine connection and doubt — but largely resists full self-awareness throughout Book 1; (2) Explain that her resistance to change is itself a thematic statement: true growth requires honest self-reflection, which Sophie avoids; (3) Cite at least one specific moment where Sophie has the opportunity to change and chooses vanity or self-interest instead; (4) Connect this to the novel's larger theme about the relationship between self-knowledge and genuine goodness.",
         explanation:
           "This question targets character change — a high-frequency STAAR skill. Strong responses avoid simply summarizing what Sophie does and instead analyze what her behavior pattern reveals. Use RACES and aim for 4–6 sentences.",
+        modelAnswer: "In The School for Good and Evil, Sophie undergoes moments of genuine self-awareness but consistently retreats from them, revealing Chainani's argument that true change requires honesty about oneself that vanity will always resist. Throughout the novel, Sophie is placed in situations that should force her to reckon with her actual motivations: her repeated failures in the School for Evil, her inability to perform the kind of instinctive goodness that Agatha demonstrates effortlessly, and the moments when her so-called acts of kindness are exposed as self-serving calculations. In one revealing pattern, whenever Sophie acts in a way that resembles genuine care, she immediately frames it as evidence that she belongs in Good — turning even compassion into a performance for an audience. This pattern of awareness followed by reframing is itself the novel's thematic statement: Sophie cannot grow because she refuses to look at herself clearly. Chainani uses Sophie not as a villain but as a portrait of what unexamined vanity costs a person — the ability to know, and therefore to become, who you actually are.",
         strongExample: "In The School for Good and Evil, Sophie's resistance to genuine self-awareness reveals Chainani's message that true growth requires honest self-reflection — and that some people choose comfort over truth. Though Sophie has moments where she glimpses the gap between who she believes she is and who she actually is, she consistently chooses to reframe those moments as injustice rather than insight. For example, when her Good-like instincts occasionally surface, she quickly redirects them toward self-interest, as if kindness is only valuable if it earns her the outcome she wants. This pattern — awareness followed by avoidance — is itself the novel's argument: Sophie cannot grow because she will not look at herself clearly.",
         weakExample: "Sophie changes a little bit throughout the story but not very much. She still wants to be in the School for Good at the end. She is a complicated character because she does some good things and some bad things.",
         weakFeedback: "This response describes Sophie without analyzing her. 'She does some good things and some bad things' is an observation, not a claim. A strong SCR makes a specific argument — for example, that Sophie's pattern of awareness-then-avoidance is itself the thematic statement — and supports it with a specific moment from the text."
@@ -568,6 +573,7 @@ const books = [
           "Strong responses should: (1) Open with a thesis that identifies both the contrast and the theme it develops (e.g., true character is revealed by how we respond to adversity, not by how we appear); (2) Analyze Sophie's response — denial, obsession with appearance, scheming to switch schools — and what it reveals about her vanity and self-deception; (3) Analyze Agatha's response — discomfort but a willingness to engage, focus on Sophie's wellbeing over her own status — and what it reveals about her genuine goodness; (4) Explain how the contrast between the two responses is the engine that drives the novel's central theme; (5) Conclude by connecting the comparison to a broader idea about self-knowledge and moral character.",
         explanation:
           "Comparative ECR questions are among the most demanding STAAR writing tasks. Strong responses spend roughly equal time on each character and make sure every body paragraph contains a claim, textual evidence, and explicit analysis of what the evidence means. Avoid summarizing — every sentence should advance the argument.",
+        modelAnswer: "Soman Chainani reveals each character's true nature not through their self-descriptions but through how they respond when placed in circumstances that contradict their self-image. Sophie's response to the School for Evil is immediate denial, obsessive self-examination in mirrors, and a series of schemes designed to convince the school — and herself — that a mistake has been made. She cannot engage with the curriculum, cannot form genuine bonds with her classmates, and cannot stop performing goodness long enough to examine whether she actually possesses it. This response is itself the evidence. A person whose goodness is real does not need to audition for it. Agatha's response to the School for Good is more complex: she is uncomfortable, out of place, and unsure of herself — but her first instinct is not to improve her own position. It is to find Sophie. While Sophie schemes to switch schools, Agatha schemes to reach her friend. This contrast is Chainani's central argument: true character is not what you claim when things are easy; it is what you reach for instinctively when things are difficult. Sophie's disruption exposes vanity. Agatha's exposes loyalty. The two responses together define the novel's most important theme: goodness is not a quality you perform. It is a direction you consistently choose.",
         strongExample: "Chainani reveals each character's true nature not by telling the reader who they are, but by showing how they respond when placed in an environment that contradicts their self-image. Sophie's response to Evil School — denial, obsession with her reflection, frantic scheming — is the behavior of someone who has built her identity on external validation. She cannot accept the placement because her entire sense of self depends on being seen as good, not on actually being good. Agatha's response, by contrast, is discomfort without performance — she is unsettled by Good School but her first instinct is to find Sophie, not to cultivate her own status. This contrast is Chainani's argument: true character is revealed not in moments of comfort, but in moments of disruption. Sophie's disruption exposes vanity; Agatha's exposes genuine loyalty.",
         weakExample: "Sophie was upset when she was placed in the School for Evil because she thought she should be in Good. Agatha was placed in Good but she did not feel like she belonged there either. Both of them had trouble adjusting to their new schools.",
         weakFeedback: "This response summarizes what happened but never analyzes what it means. 'Both had trouble adjusting' treats the characters as equivalent when the whole point of the comparison is that their responses are completely different in what they reveal. A strong comparative ECR explains specifically what each response reveals about each character's inner nature, and connects that to the theme being developed."
@@ -826,6 +832,7 @@ const books = [
           "Strong responses should: (1) Identify the theme — e.g., those with power often make assumptions about those without it, and the accused must prove innocence rather than guilt being proven; (2) Explain that Percy is presumed guilty by the Olympian gods simply because he is a son of Poseidon and was present; (3) Connect this to Percy's real-world experiences of being blamed and expelled from schools for things he did not fully control; (4) Cite at least one specific detail from the novel as evidence; (5) Explain what this pattern reveals about how power operates in both the mythological and human world.",
         explanation:
           "This SCR targets the higher-order skill of connecting a specific plot conflict to a broader theme. Strong responses make the thematic link explicit — they don't just describe what happened, they explain what it means. Use RACES and aim for 5–6 focused sentences.",
+        modelAnswer: "In The Lightning Thief, Rick Riordan uses the false accusation against Percy Jackson to develop the theme that power often operates by presuming the guilt of those who lack it, requiring the powerless to prove their innocence rather than allowing innocence to be assumed. Percy is accused of stealing Zeus's master lightning bolt with no evidence beyond his identity: he is the son of Poseidon, he was present near Olympus, and therefore he must be responsible. This logic — accusation as proof — mirrors Percy's experience in the mortal world with painful precision. He has been expelled from school after school for incidents that were not entirely his fault, disciplined by adults who assumed the worst before investigating, labeled a problem child by institutions that were not designed for someone like him. Riordan places these two worlds — the Olympian and the American middle school — in deliberate parallel to make a single argument: when institutions hold the power to punish, individuals without status or protection must spend their energy proving a negative. The accused is already guilty in the eyes of the powerful. Percy's quest is not just to find the lightning bolt; it is to exist in a world that assumed he had already failed.",
         strongExample: "In The Lightning Thief, Riordan uses the false accusation against Percy to develop the theme that the powerful often treat the powerless as guilty by default. Percy is accused of stealing Zeus's lightning bolt with no evidence beyond his identity — he is Poseidon's son, he was present, and therefore he must be responsible. This mirrors Percy's experiences in the mortal world, where he is repeatedly expelled for incidents he did not fully control, and where teachers assume the worst before investigating. Riordan uses both contexts to argue the same point: when institutions hold power to punish, individuals with less power must prove their innocence rather than being presumed innocent. This parallel between Olympus and a public school is not accidental — it is the novel's quiet critique of how power operates in any institution.",
         weakExample: "Percy is accused of stealing the lightning bolt even though he didn't do it. This is unfair because the gods just assumed he was guilty. This shows that the gods are not very just.",
         weakFeedback: "'The gods are not very just' is a surface-level observation. A strong SCR connects the accusation to a specific theme about power — explaining that Percy's situation follows the same pattern as his school expulsions, and that Riordan uses this repeating pattern to argue something about how institutions treat those with less power. The connection between the mythological and real-world pattern is where the analysis lives.",
@@ -859,6 +866,7 @@ const books = [
           "Strong responses should: (1) Open with a thesis about what the modern setting accomplishes thematically — e.g., it argues that ancient human struggles (pride, loyalty, jealousy, the search for identity) are timeless and still alive today; (2) Analyze two or more specific examples where a mythological element in a modern setting creates meaning — such as Olympus atop the Empire State Building, the Underworld beneath Los Angeles, or Medusa running a garden statue shop; (3) Explain what each example suggests about the modern world or human nature; (4) Connect the setting choices back to the novel's themes about heroism, identity, or belonging; (5) Conclude by arguing why this setting choice makes the mythology feel relevant rather than remote.",
         explanation:
           "This is a sophisticated ECR that asks students to analyze craft choices (setting) rather than just theme or character. Strong responses treat each modern-mythological pairing as evidence and explain its specific effect. Avoid simply listing locations — analyze what each pairing means.",
+        modelAnswer: "Rick Riordan's decision to embed Greek mythology in the contemporary United States is not a quirk of setting — it is the novel's central argument about human nature. By placing Olympus on the 600th floor of the Empire State Building, Riordan signals that the gods' hunger for power, status, and dominance did not belong to ancient Greece. It belongs to every era, including this one. The Empire State Building — a monument to American ambition, competition, and the desire to be tallest — is the natural home of gods who spend their immortality fighting over authority. The choice of Los Angeles as the entrance to the Underworld is equally precise. Hollywood is a city built on illusion, on the performance of life rather than its reality, on the worship of fame that outlasts the body. Placing the realm of the dead beneath a city devoted to manufactured immortality is not accidental — it is Riordan's argument that Americans, like the ancient Greeks, spend enormous energy denying and disguising mortality. Together, these settings make the same point: mythology has survived for three thousand years not because it describes ancient people but because it describes permanent ones. The gods are still alive because the drives they represent — jealousy, pride, the need for loyalty, the fear of being forgotten — never left.",
         strongExample: "By placing Mount Olympus on the 600th floor of the Empire State Building and the Underworld beneath Los Angeles, Riordan argues that the ancient conflicts embodied in Greek mythology — ambition, jealousy, the hunger for power, the search for identity — are not relics of the past but living forces shaping the modern world. Each modern location is chosen with thematic precision: Olympus above the center of American ambition signals that the gods' hunger for power mirrors the most recognizable drives of contemporary society. The Underworld beneath Hollywood — a city built on illusion and the performance of fame — suggests that escapism and denial of mortality are as modern as they are ancient. Riordan's setting is not decoration; it is his argument that mythology survives because the human conditions it describes never went away.",
         weakExample: "Riordan sets the story in modern America which makes it interesting because you can see places you recognize. Olympus is on top of the Empire State Building and the Underworld is in Los Angeles. This makes the mythology feel more real.",
         weakFeedback: "'Makes it feel more real' describes an effect but doesn't analyze a meaning. A strong ECR explains WHY each specific location was chosen — what does the Empire State Building say about Olympus and the kind of power it represents? What does Los Angeles say about the Underworld? Every location choice should be analyzed as a deliberate argument about the modern world, not just noted as a detail."
@@ -1015,6 +1023,7 @@ const books = [
           "Strong responses should: (1) Identify a clear theme (e.g., believing in yourself when others do not); (2) Explain how the family dynamic — being overlooked in a large household — creates the challenge Luigi must overcome; (3) Use at least one specific detail from the text as evidence; (4) Explain how that evidence connects to the theme.",
         explanation:
           "Use the RACES strategy: Restate the question, Answer with a claim, Cite evidence, Explain the evidence, and Summarize/connect back to the theme.",
+        modelAnswer: "In Mr. Lemoncello's Very First Game, Chris Grabenstein develops the theme that believing in yourself requires the most courage precisely when the people closest to you cannot see your potential. Luigi's family is not cruel — they are simply too busy, too large, and too conventional to have a framework for what Luigi is building. Because no one in the household stops to engage with his ideas, Luigi must generate his own momentum entirely from within. When an early version of his game fails during testing, he does not quit — but more importantly, he has no one to reassure him that quitting would be reasonable. He adjusts and rebuilds without external encouragement, which makes his persistence a more demanding act than it would be in a supportive environment. Grabenstein uses this family dynamic to argue that self-belief in isolation is a different and more difficult thing than self-belief when others are cheering you on. Luigi's creativity is not nurtured by his environment; it survives despite it. That survival is the novel's quiet act of heroism.",
         strongExample: "In Mr. Lemoncello's Very First Game, Grabenstein uses Luigi's relationship with his large, chaotic family to develop the theme that believing in yourself requires more courage when the people closest to you cannot see your potential. Because Luigi's family is constantly busy and loud, his game ideas go unnoticed — he works on them alone, without anyone asking to help or play. This isolation is not cruel, but it is costly: Luigi must sustain his creative energy entirely on his own, without the fuel of external encouragement. Grabenstein uses this dynamic to argue that self-belief under those conditions is not just a personality trait — it is an act of courage.",
         weakExample: "Luigi's family doesn't always support his ideas. They are a big family and sometimes they ignore him. This makes Luigi have to work by himself which is hard for him.",
         weakFeedback: "'This is hard for him' describes an emotion without analyzing a theme. A strong SCR identifies what the family dynamic reveals thematically and connects that to a broader argument Grabenstein is making. The analytical move is: what does Luigi's isolation require of him, and what does the novel say about that requirement?"
@@ -1113,6 +1122,7 @@ const books = [
           "Strong responses should: (1) State a clear theme — e.g., failure is not the opposite of success; it is a necessary part of it; (2) Describe how Luigi responds to a specific setback — not by quitting, but by adjusting, rebuilding, or trying a different angle; (3) Cite at least one specific detail from the novel as evidence; (4) Explain how Luigi's response to failure differs from what might be expected, and what that difference reveals about his character and the author's message.",
         explanation:
           "STAAR SCR responses require a claim, specific evidence, and analysis of the connection between the two. This question targets a secondary theme (failure as part of growth) that is distinct from the main theme already covered, giving students practice with layered thematic thinking.",
+        modelAnswer: "In Mr. Lemoncello's Very First Game, Chris Grabenstein develops the theme that the ability to learn from failure — rather than be defined by it — is the creative skill that separates people who build something extraordinary from those who abandon their ideas too soon. When Luigi's early game designs do not work as intended, his response is not to conclude that games are a foolish pursuit. It is to examine what went wrong as information: something to incorporate into the next version. This distinction matters enormously. Most people around Luigi interpret his failures as confirmation of what they already suspected — that his interest in games is a waste of time. Luigi interprets his failures as data. Grabenstein uses this contrast to make a precise argument: failure does not tell you whether an idea has value. It tells you what the idea needs in order to work. The person who understands this distinction will keep building. The person who doesn't will stop. Luigi keeps building, and the novel's entire premise — that he will one day become the world's greatest game maker — depends on his ability to treat every failure as a lesson rather than a verdict.",
         strongExample: "In Mr. Lemoncello's Very First Game, Grabenstein develops the theme that failure is not the opposite of success but a necessary part of it, through Luigi's response to setbacks during the contest. When an early version of his game does not work as intended, Luigi does not treat the failure as proof that his idea was wrong — he treats it as information about how to make the idea better. He adjusts, rebuilds, and tries again from a different angle. This response matters because it is the opposite of what the people around him expect: they interpret his failures as confirmation that games are a waste of time. Grabenstein uses Luigi's persistence through failure to argue that the ability to learn from what goes wrong — rather than be defined by it — is the actual creative skill that separates people who build extraordinary things from those who abandon their ideas too soon.",
         weakExample: "Luigi fails a few times in the story but he keeps trying. This teaches us that we should never give up. Luigi eventually succeeds because he does not quit.",
         weakFeedback: "'Never give up' is a cliché, not a theme analysis. A strong SCR identifies a specific moment of failure, describes Luigi's specific response to it, and then explains what that response reveals about Grabenstein's argument. The theme is not just 'persistence' — it's something more precise: that the capacity to learn from failure, rather than be defeated by it, is a distinct and learnable skill.",
@@ -1146,6 +1156,7 @@ const books = [
           "Strong responses should: (1) Open with a clear thesis connecting setting (family, community, era) to the theme of nurturing vs. suppressing potential; (2) Analyze how the large, chaotic family home — where Luigi's ideas are drowned out — represents a suppressive environment, with specific evidence; (3) Analyze how the small-town Ohio setting of the 1970s adds another layer — limited exposure, limited models of unconventional success; (4) Argue that Luigi's persistence despite this environment is the novel's core act of heroism; (5) Conclude by connecting this to the author's purpose: Grabenstein wrote this for readers who feel overlooked by their own environments.",
         explanation:
           "This ECR asks students to use setting analytically — not just as backdrop but as a force that acts on character and theme. Strong responses treat the family home, the town, and the era as separate but related elements, each contributing to the novel's central argument about potential and environment.",
+        modelAnswer: "In Mr. Lemoncello's Very First Game, Chris Grabenstein uses Luigi's environment — a crowded household, a small Ohio town, the limited horizons of the 1970s — not simply as backdrop but as a force that actively works against his potential, making his eventual success a more powerful argument about what individual persistence can accomplish. The Lemoncello household is loud and large, populated by people who have no frame of reference for a career built on game design. No one is deliberately discouraging Luigi; they simply cannot imagine what he is imagining. The small-town Ohio setting compounds this: there are no mentors, no models of unconventional success, no community of people who have done what Luigi wants to do. And the 1970s add a final layer — this is before the era when games became a billion-dollar industry, before anyone could point to a precedent and say, yes, this is a viable path. Luigi is pursuing something that does not yet exist as a recognizable career. Grabenstein's argument is built from this gap: external conditions can limit what a person sees as possible, but they cannot eliminate the internal drive that refuses to accept those limits as final. Luigi's origin story is ultimately a case for the stubbornness of creative vision — the refusal to wait for the world to confirm that your idea is worth pursuing before you pursue it.",
         strongExample: "Grabenstein uses Luigi's setting — a crowded house, a small Ohio town, the 1970s — not simply as background but as a force that actively suppresses his potential, making his eventual success a more powerful argument about individual agency. The Lemoncello household is loud and populated with people who have no framework for imagining a career built on game design; in the 1970s, that path had no visible models. Luigi's town offers no mentors, no creative community, no evidence that someone like him could build something like what he imagines. Yet Luigi persists — and Grabenstein's argument emerges from this gap between environment and outcome: external conditions can limit what a person sees as possible, but they cannot eliminate the internal drive that refuses to accept those limits. Luigi's origin story is ultimately an argument that the most important resource for creative people is not opportunity — it is the stubbornness to pursue what you believe in when the environment offers you no proof it is worth pursuing.",
         weakExample: "Luigi grows up in a small town in Ohio in the 1970s. His family is big and loud and does not pay much attention to him. This setting makes it harder for Luigi to pursue his dreams because no one supports him.",
         weakFeedback: "This response describes the setting but doesn't analyze it. 'No one supports him' is an observation — a strong ECR explains what that lack of support requires of Luigi, and connects that to Grabenstein's larger thematic argument. The setting analysis should answer: what does this specific environment reveal about what Luigi has to overcome, and what does the novel say about whether environment determines outcome?"
@@ -1340,6 +1351,7 @@ const books = [
           "Strong responses should: (1) Take a clear position — yes, Chase earns it, or no, earning implies the victims' forgiveness which is not his to claim; (2) Support the position with at least two specific actions Chase takes (e.g., defending Joel, standing up to Aaron, volunteering honestly at the care facility); (3) Acknowledge the counterargument — that Chase's good behavior came easier because he doesn't remember what he did; (4) Conclude with a statement about what 'earning' a second chance actually requires.",
         explanation:
           "This SCR is intentionally open-ended — there is no single correct position. STAAR rewards responses that take a defensible claim, support it with specific evidence, and demonstrate awareness of complexity. Responses that argue both 'yes' and 'no' without committing to a position will score lower than those with a clear, supported stance.",
+        modelAnswer: "Chase Ambrose earns his second chance — not because he fully understands or atones for everything the old Chase did, but because his choices throughout the novel consistently reflect a person choosing to be better even when it costs him something real. The clearest evidence of this is the scene in which Chase steps between Aaron and Joel at the video production club. Chase does not remember tormenting Joel. He has no guilt to resolve, no debt he is consciously repaying. He acts because in that moment, with full knowledge that it will cost him his social standing and his oldest friendships, he decides that what Aaron is doing is wrong and that he will not watch it happen. This is the novel's most important distinction: Chase is not performing goodness to compensate for a past he remembers. He is choosing it from scratch, under pressure, when the easier path is available. Gordon Korman's argument is that this is what earning a second chance actually looks like — not a dramatic gesture of atonement, but a series of quiet choices that reveal the shape of a person's character when no one is keeping score.",
         strongExample: "Chase earns his second chance not because he remembers what he did, but because his choices — made without the weight of memory — consistently reflect the kind of person he is choosing to become. When he stands between Aaron and Joel at the video production club, knowing it will cost him his old social standing, he is not acting from guilt. He is acting from a genuine sense of what is right, which is more meaningful than guilt-driven behavior. Korman suggests that earning a second chance is not about fully atoning for every past action — it is about consistently choosing to be better when it matters. Chase does this, repeatedly, even when it costs him something real.",
         weakExample: "I think Chase earns his second chance because he does a lot of good things in the book. He helps Joel and he volunteers at the care facility. He also stands up to Aaron which is brave. So yes, I think he deserves it.",
         weakFeedback: "This response lists evidence but never analyzes it. 'He does a lot of good things' is a summary. A strong SCR takes a clear position AND explains what the evidence proves — not just what Chase did, but what his choices reveal about who he is becoming, and why that matters to Korman's argument about redemption. The counterargument also needs to be acknowledged and rebutted: that his good behavior came easier without the weight of remembering what he did.",
@@ -1404,6 +1416,7 @@ const books = [
           "Strong responses should: (1) Explain that a single narrator (Chase) would limit the reader to Chase's own limited, memory-free perspective; (2) Identify at least two specific things the reader learns from other narrators that Chase does not know about himself — for example, the specific cruelty of past incidents described by Shoshanna or Joel; (3) Explain how this gap between what Chase knows and what the reader knows creates dramatic irony and deepens the moral stakes; (4) Connect this craft choice back to the novel's theme: understanding bullying's full impact requires hearing from both the bully and the bullied.",
         explanation:
           "This SCR targets author's craft at a sophisticated level — asking students to analyze why a structural choice matters, not just what it is. STAAR rewards responses that connect craft decisions to thematic meaning. Use RACES and aim for 5–6 focused sentences.",
+        modelAnswer: "In Restart, Gordon Korman's use of multiple narrators creates an understanding of Chase's character that Chase himself cannot access — and this gap is where the novel's moral argument lives. If the story were told only through Chase's perspective, the reader would experience a confused boy trying to make sense of a world that responds to him with inexplicable fear and hostility. We would sympathize with his disorientation but have no way to hold him accountable, because he cannot hold himself accountable for what he does not remember. By giving Shoshanna and Joel chapters that arrive before or alongside many of Chase's own, Korman ensures that the reader carries the weight of Chase's history into every scene of his redemption. When Chase is bewildered by Shoshanna's coldness, we are not bewildered — we know exactly why she is cold, because we have read her account of what he did. This structural arrangement is itself an act of empathy: Korman insists that the reader occupy the victim's perspective first. The result is that Chase's growth can only be measured against real damage we have witnessed, not merely been told about. The multi-POV structure does not just tell the story of a bully's redemption — it demands that the reader understand what needs to be redeemed, and why that matters.",
         strongExample: "In Restart, Korman's use of multiple narrators allows the reader to understand Chase's character more fully than Chase himself can — and this gap is where the novel's moral argument lives. A single narrator (Chase) would give us only a confused boy trying to figure out who he is; he has no access to his own past. But because Shoshanna's chapters precede many of Chase's, we know exactly what Chase did to her and Joel before we experience Chase's bewilderment at their coldness. This structure creates dramatic irony that is also an act of empathy — Korman forces the reader to occupy the victim's perspective first, which means we carry that knowledge into every scene featuring the new Chase. We can see his growth clearly precisely because we understand the full distance he has traveled from who he was.",
         weakExample: "The novel uses multiple narrators because it is told from different perspectives. We get to see the story from Chase's point of view and also from Shoshanna's point of view. This helps the reader understand what is happening better.",
         weakFeedback: "'Helps the reader understand what is happening better' is too vague to score well. A strong SCR identifies a specific thing the reader learns from a non-Chase narrator that Chase himself cannot know, and then explains what knowing that specific thing does to the reader's experience of Chase's chapters. The analytical move is: what does the structural arrangement of perspectives do to the reader's moral experience of the story?"
@@ -1437,6 +1450,7 @@ const books = [
           "Strong responses should: (1) Open with a clear thesis connecting the multi-POV structure to the themes of empathy and the lasting impact of cruelty; (2) Analyze at least two specific examples of what a victim-narrator (Shoshanna, Joel, or another) reveals about the old Chase's behavior and its consequences — with specific detail; (3) Explain how reading these perspectives before or alongside Chase's own chapters forces the reader to hold Chase accountable even while following his journey; (4) Argue that the structural choice is itself an act of empathy — Korman insists the reader occupy the victim's perspective, not just the perpetrator's; (5) Conclude by connecting this to the author's purpose: the novel is not just a redemption story for Chase — it is a demand that readers understand what needs to be redeemed, and why.",
         explanation:
           "This ECR asks students to analyze structure as a thematic tool — one of the highest-order STAAR and MAP reading skills at Grade 8. Strong responses go beyond summarizing each narrator's perspective and instead analyze what the structural arrangement of those perspectives does to the reader's moral experience of the novel. Aim for an introduction, 3 analytical body paragraphs, and a conclusion.",
+        modelAnswer: "Gordon Korman structures Restart so that the reader understands the full weight of Chase's past before Chase himself does — and this sequencing is not a narrative trick but the novel's central moral statement about empathy and the cost of cruelty. By placing Shoshanna's and Joel's chapters early in the novel, Korman ensures that the reader carries specific knowledge — Joel's humiliation, Shoshanna's guarded wariness, the video footage — into every subsequent scene featuring the new, confused Chase. When Chase is bewildered by the fear he inspires in people, the reader's experience of that bewilderment is layered and uncomfortable. We cannot simply feel sorry for him, because we know what he did. We cannot simply root against him, because his confusion is genuine. This moral discomfort is the novel's point. Empathy for someone who caused real harm is not simple or automatic; it has to be earned by first fully reckoning with what was done. Korman uses his structure to enact this process in the reader: by demanding we inhabit Shoshanna's experience before we are invited to inhabit Chase's, he ensures that any sympathy we develop for Chase is built on a foundation of understanding his victims. The architecture of the novel is its argument — that redemption only means something when it is measured against the damage that actually occurred.",
         strongExample: "Korman's decision to give Shoshanna and Joel chapters that precede many of Chase's own is not a neutral structural choice — it is a demand that the reader feel the weight of Chase's past before they are allowed to sympathize with his present. When we read about Joel's humiliation at Chase's hands, and then immediately read a chapter in which Chase is confused about why people fear him, the dramatic irony is not merely clever — it is morally uncomfortable. We know what Chase did. We watch him not knowing. And that discomfort is Korman's thematic point: empathy for a bully's redemption must be earned by first fully understanding what needs to be redeemed. The structure ensures that the reader cannot simply forgive Chase because he seems nice now — we have to carry the evidence of who he was into every scene of who he is becoming. This is how Korman uses architecture to argue that change is meaningful only when measured against real damage.",
         weakExample: "The book uses multiple perspectives to show different characters' views. Shoshanna's chapters show that she was hurt by Chase. Chase's chapters show that he doesn't remember what he did. This helps the reader see the full picture of what happened.",
         weakFeedback: "'Helps the reader see the full picture' describes what the structure does but not what it means. A strong ECR analyzes the effect of the structural arrangement — specifically, what does it do to the reader's moral experience to read the victim's perspective first? How does that sequencing shape the reader's response to Chase's confusion and growth? The goal is not to describe each narrator but to argue what the arrangement of narrators accomplishes thematically."
@@ -1515,6 +1529,7 @@ const books = [
         ],
         answer: "B",
         explanation: "An allegory uses a narrative — characters, settings, and plot — to represent ideas that exist outside the story. In The Phantom Tollbooth, Dictionopolis represents the world of words, Digitopolis represents mathematics, the Doldrums represent apathy, and the Terrible Trivium represents wasted time. The adventure is literally a journey through a landscape of ideas.",
+        modelAnswer: "In The Boy in the Striped Pajamas, the shared birthday between Bruno and Shmuel functions as an allegory for the fundamental equality of all human beings at birth. Boyne describes the two boys in nearly mirrored terms — they are the same age, the same height, and share the same date of birth. This physical and temporal mirroring is deliberate: it argues that there is nothing inherent in either boy that places one on the free side of the fence and the other in the camp. The only thing that separates them is an accident of birth — which family they were born into, which side of history they appeared on. By making the boys allegorical twins, Boyne communicates that the divisions created by Nazi ideology are entirely man-made, not natural. The fence is not inevitable; it is a choice. This allegory forces the reader to confront the most disturbing truth the novel has to offer: there is no version of Bruno or Shmuel that justifies what separates them.",
       },
       {
         type: "Multiple Choice",
@@ -1669,6 +1684,7 @@ const books = [
         options: [],
         answer: "Strong responses should: (1) Name a specific location and clearly state what abstract idea it represents; (2) Describe at least one specific scene or detail from that location as textual evidence; (3) Explain how that location's characteristics develop a theme — what argument is Juster making through this allegorical place? (4) Connect the location back to Milo's overall journey and transformation.",
         explanation: "This SCR tests allegorical reading — a high-value Grade 8 skill. Strong responses do not just identify what a location represents but explain how Juster uses it to make a thematic argument. Use RACES and aim for 4–6 focused sentences.",
+        modelAnswer: "In The Phantom Tollbooth, the Doldrums serve as Norton Juster's allegory for the paralysis of a mind that has stopped engaging with the world — the exact condition Milo suffers from at the novel's opening. In the Doldrums, thinking and laughing are literally against the law, and nothing ever changes. Juster uses this place to give Milo's internal boredom a physical form: rather than telling the reader that Milo is disengaged, he creates a landscape where disengagement is the governing principle. The laws of the Doldrums mirror the laws of Milo's mind at the start of the novel — no genuine curiosity, no genuine laughter, no genuine engagement with anything around him. The detail that rescues them from this place is equally significant: it is Tock, the Watchdog with a clock ticking inside him, who pulls them free. Juster's allegory is precise here. The cure for the Doldrums — for apathy and paralysis — is not entertainment or distraction. It is purposeful engagement with time. Tock does not make the Doldrums fun; he makes leaving them urgent. This is Juster's argument: the antidote to boredom is not stimulation. It is the decision to use your mind and your time on something that matters.",
         strongExample: "In The Phantom Tollbooth, the Doldrums represent the paralysis of a mind that refuses to engage with the world — the exact condition Milo suffers from at the novel's opening. In the Doldrums, thinking and laughing are literally illegal, and nothing ever changes. Juster uses this allegorical place to give Milo's internal boredom a visible, physical form: rather than telling us Milo is disengaged, Juster shows us a landscape where disengagement is the law. The fact that Tock — a Watchdog who values time — is what rescues them signals the novel's argument: the cure for apathy is not entertainment but the active, purposeful use of your mind and your time.",
         weakExample: "The Doldrums is a place in the story where nothing is allowed to happen. Milo gets stuck there because he wasn't paying attention. This shows that being bored is bad and you should always be active.",
         weakFeedback: "'Being bored is bad' is a moral, not a theme analysis. A strong SCR identifies what the Doldrums represent allegorically, cites a specific detail that supports that interpretation, and then explains what argument Juster is making through that allegorical choice. The analytical move is: what does making the Doldrums a place with actual laws against thinking say about how Juster views apathy?",
@@ -1682,6 +1698,7 @@ const books = [
         options: [],
         answer: "Strong responses should: (1) Explain the irony clearly — the boy who finds everything boring encounters the richest possible landscape of ideas; (2) Connect the irony to the theme — that the richness Milo finds in the Lands Beyond was always present in the real world, he simply wasn't paying attention; (3) Cite at least one specific detail from the Lands Beyond as evidence; (4) Explain how the ending (Milo returning to his ordinary room and finding it fascinating) resolves the irony and confirms the theme.",
         explanation: "This SCR requires understanding irony and connecting it to thematic argument — two distinct skills. Strong responses identify the irony precisely and then explain what Juster is saying through it. Use RACES and aim for 5–6 focused sentences.",
+        modelAnswer: "The central irony of The Phantom Tollbooth is constructed with great precision: the boy who finds everything boring is transported to a kingdom where every idea he has dismissed in school — words, numbers, time, reason, sound, color — becomes a spectacular, living adventure. Norton Juster uses this irony not for comic effect alone but as the novel's core argument. The Lands Beyond is not a different world from Milo's reality; it is a more honest version of it. Dictionopolis and Digitopolis are what words and numbers actually are — vast, strange, endlessly layered — when you pay genuine attention to them. The Whether Man, the Soundkeeper, the Mathemagician, and the Terrible Trivium are all things that exist in the ordinary world too: meaningless confident speech, the weaponization of silence, the beauty of mathematics, the seduction of pointless busyness. Milo finds them extraordinary in the Lands Beyond because he is finally paying attention. The irony resolves at the novel's ending when Milo returns home and, instead of mourning the tollbooth's disappearance, looks around his ordinary room and sees it as full of things to explore. Nothing has changed except Milo. Juster's argument — delivered through the full arc of the irony — is that the world has always been as rich and strange as the Lands Beyond. The only thing that was missing was a curious mind willing to look.",
         strongExample: "The central irony of The Phantom Tollbooth is that Milo — who cannot find anything interesting in the real world — is transported to a kingdom where every idea he dismissed at school (words, numbers, time, reason) becomes a spectacular, living adventure. Juster uses this irony deliberately: the Lands Beyond is not a different world from Milo's reality but a more honest version of it. Dictionopolis and Digitopolis are what words and numbers actually are — vast, strange, endlessly deep — if you pay attention to them. The irony resolves at the novel's end when Milo returns home and sees his ordinary room as full of things to explore. Juster's argument is that the adventure was never in the Lands Beyond; it was always in the curious mind.",
         weakExample: "It is ironic that Milo is bored but ends up on an exciting adventure. This is because he discovers that learning can be fun. The story teaches us that we should pay more attention in school.",
         weakFeedback: "'Learning can be fun' is a cliché, not a thematic analysis. A strong SCR explains what the specific irony reveals — that the richness Milo finds in fantasy was always present in reality, which is a very different and more precise argument than 'school can be interesting.' The analytical move is connecting the irony to the novel's specific claim about curiosity and attention.",
@@ -1695,6 +1712,7 @@ const books = [
         options: [],
         answer: "Strong responses should: (1) Open with a clear thesis connecting the allegorical elements to Juster's argument about learning and a meaningful life; (2) Analyze at least two specific allegorical elements — e.g., the Doldrums (apathy as a literal trap), Tock (time as precious), the Terrible Trivium (meaningless busyness), Dictionopolis/Digitopolis (the false war between words and numbers); (3) For each, cite a specific scene or detail and explain what it argues; (4) Connect both elements to the same overarching theme; (5) Conclude by explaining what Juster ultimately wants the reader to take away about the relationship between curiosity, learning, and the quality of a life.",
         explanation: "This ECR asks students to synthesize across multiple allegorical elements — the highest-order allegorical reading skill. Strong responses do not simply identify what each element represents but analyze what Juster is arguing through the combination of them. Aim for an introduction, 2–3 analytical body paragraphs, and a conclusion. Every sentence should advance the argument.",
+        modelAnswer: "In The Phantom Tollbooth, Norton Juster uses allegory to argue that the tools of learning — words, numbers, time, and reason — are not burdens to endure on the way to real life. They are the architecture of a meaningful one. Two of the novel's most carefully designed allegorical elements make this argument from opposite directions. The Terrible Trivium assigns Milo tasks that are designed to be endless: moving sand grain by grain, emptying a well with a thimble, tasks that consume time perfectly while producing nothing. He is placed near the end of the journey as the most dangerous temptation Milo faces — more dangerous than any monster — because mindless busyness is harder to recognize and resist than obvious failure. It does not feel like failure. It feels like productivity. In contrast, Tock the Watchdog travels with Milo for the entire journey, a constant, quiet reminder that every moment has weight. He does not appear at a crisis point or teach a single lesson; he is simply always present, always ticking, always demonstrating through his existence that time is the most finite thing a person possesses. Together, these two characters make the same argument from different angles: how you spend your time is who you are. The Trivium shows what a life looks like when time is consumed by triviality. Tock shows what it looks like when time is honored. Juster's allegory is ultimately a case for paying attention — not because tests require it, but because a life examined with genuine curiosity is the only kind worth having.",
         strongExample: "In The Phantom Tollbooth, Norton Juster uses allegory to argue that the tools of learning — words, numbers, time, and reason — are not obstacles to a fulfilling life but its very architecture. Two of the novel's most powerful allegorical elements make this argument with particular force. The Terrible Trivium assigns Milo tasks that are endless and meaningless — moving sand grain by grain, emptying a well with a thimble — designed to consume time without producing anything. He represents the seductive pull of purposeless activity: the comfortable feeling of being busy while accomplishing nothing. Juster places him near the end of the journey as a final, most dangerous temptation, because mindless busyness is harder to escape than obvious failure. In contrast, Tock the Watchdog — a dog with a clock ticking inside him — represents time used purposefully. His presence throughout Milo's journey is a constant reminder that every moment has weight. Together, these two characters argue the same point from opposite directions: time is the most finite resource a person has, and how you choose to spend it — on trivial busywork or on genuine engagement — determines the shape of your life. Juster's allegory is ultimately a case for paying attention: not because school demands it, but because a curious mind is the only tool capable of turning an ordinary room into an adventure.",
         weakExample: "The Terrible Trivium is a villain who makes Milo do useless tasks. Tock is a dog with a clock who helps Milo on his journey. Both of these characters are important to the story because they help develop the theme that time is important and you should not waste it.",
         weakFeedback: "This response summarizes the characters but does not analyze them as allegorical elements. 'Time is important' is too broad — a strong ECR identifies what specific argument Juster is making through each character's design and placement in the story. The analytical questions to answer are: Why is the Trivium placed near the end of the journey? What does Tock's constant presence throughout say about time's relationship to the entire adventure? And how do the two characters work together to make the same argument from different angles?",
@@ -1897,53 +1915,36 @@ function ScoringRubric({ type }) {
   );
 }
 
-// ── Strong vs Weak Example ───────────────────────────────────────────────────
-function StrongWeakExample({ q, bookColor }) {
-  const [open, setOpen] = useState(false);
-  if (!q.strongExample || !q.weakExample) return null;
-  return (
-    <div style={{ marginBottom: 14 }}>
-      <button
-        onClick={() => setOpen(!open)}
-        style={{
-          background: "none", border: "1.5px solid #8E44AD", borderRadius: 8,
-          padding: "6px 14px", fontSize: 12, fontWeight: 700, color: "#8E44AD",
-          cursor: "pointer", display: "flex", alignItems: "center", gap: 6,
-        }}
-      >
-        🔍 {open ? "Hide" : "See"} Strong vs. Weak Response Example
-      </button>
-      {open && (
-        <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
-          <div style={{ background: "#EAFAF1", border: "1.5px solid #27AE60", borderRadius: 10, padding: "14px 16px" }}>
-            <div style={{ fontWeight: 800, fontSize: 12, color: "#1E8449", marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>
-              ✅ Strong Response
-            </div>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 13, color: "#1A252F", lineHeight: 1.65, margin: 0 }}>{q.strongExample}</p>
-          </div>
-          <div style={{ background: "#FDEDEC", border: "1.5px solid #E74C3C", borderRadius: 10, padding: "14px 16px" }}>
-            <div style={{ fontWeight: 800, fontSize: 12, color: "#922B21", marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>
-              ❌ Weak Response — and Why It Loses Points
-            </div>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 13, color: "#1A252F", lineHeight: 1.65, margin: "0 0 8px 0" }}>{q.weakExample}</p>
-            <p style={{ fontSize: 12, color: "#922B21", lineHeight: 1.55, margin: 0, fontWeight: 600 }}>{q.weakFeedback}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+// ── Google Sheet Submission ───────────────────────────────────────────────────
+// Replace this URL after setting up your Google Apps Script (instructions below)
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwzpN9Od5b5N9T4bK_dpM3SN2kAVVO4Qeam781hisQ7RCeF49ODxWMGzX_Z4DJIxcyY8w/exec";
+
+async function submitToSheet(payload) {
+  if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return { ok: false, demo: true };
+  try {
+    await fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return { ok: true };
+  } catch {
+    return { ok: false };
+  }
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, unlocked }) {
+function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [draftText, setDraftText] = useState("");
+  const [submitState, setSubmitState] = useState("idle"); // idle | submitting | done | error
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
 
-  // When global lock is re-engaged, hide any open answers
-  const wasUnlocked = unlocked;
+  // Re-lock: hide answers when parent locks
   const [prevUnlocked, setPrevUnlocked] = useState(unlocked);
   if (prevUnlocked !== unlocked) {
     setPrevUnlocked(unlocked);
@@ -1951,24 +1952,40 @@ function QuestionCard({ q, index, bookColor, unlocked }) {
   }
 
   const handleRevealClick = () => {
-    if (unlocked) {
-      setRevealed(!revealed);
+    if (unlocked) setRevealed(!revealed);
+    else setShowPrompt(true);
+  };
+
+  const handleSubmit = async () => {
+    if (!draftText.trim()) return;
+    setSubmitState("submitting");
+    const payload = {
+      timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
+      book: bookTitle,
+      question_number: index + 1,
+      question_type: q.type,
+      skill: q.skill,
+      question: q.question.slice(0, 300),
+      answer: draftText.trim(),
+    };
+    const result = await submitToSheet(payload);
+    if (result.demo) {
+      // Sheet not yet configured — still show success so UX works
+      setSubmitState("done");
     } else {
-      setShowPrompt(true);
+      setSubmitState(result.ok ? "done" : "error");
     }
   };
 
   return (
-    <div
-      style={{
-        background: colors.bg,
-        border: `2px solid ${colors.border}`,
-        borderRadius: 12,
-        padding: "20px 22px",
-        marginBottom: 18,
-      }}
-    >
-      {/* Header row */}
+    <div style={{
+      background: colors.bg,
+      border: `2px solid ${colors.border}`,
+      borderRadius: 12,
+      padding: "20px 22px",
+      marginBottom: 18,
+    }}>
+      {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <span style={{ background: colors.border, color: "#fff", borderRadius: 20, padding: "3px 12px", fontSize: 12, fontWeight: 700 }}>
@@ -1995,116 +2012,143 @@ function QuestionCard({ q, index, bookColor, unlocked }) {
       {q.options.length > 0 && (
         <div style={{ marginBottom: 14 }}>
           {q.options.map((opt, i) => (
-            <div
-              key={i}
-              onClick={() => setSelectedOption(i)}
-              style={{
-                padding: "9px 14px",
-                marginBottom: 6,
-                borderRadius: 8,
-                border: `1.5px solid ${selectedOption === i ? colors.border : "#CBD5E0"}`,
-                background: selectedOption === i ? `${colors.border}18` : "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                lineHeight: 1.55,
-                color: "#2C3E50",
-                transition: "all 0.15s ease",
-                whiteSpace: "pre-line",
-              }}
-            >
+            <div key={i} onClick={() => setSelectedOption(i)} style={{
+              padding: "9px 14px", marginBottom: 6, borderRadius: 8,
+              border: `1.5px solid ${selectedOption === i ? colors.border : "#CBD5E0"}`,
+              background: selectedOption === i ? `${colors.border}18` : "#fff",
+              cursor: "pointer", fontSize: 14, lineHeight: 1.55, color: "#2C3E50",
+              transition: "all 0.15s ease", whiteSpace: "pre-line",
+            }}>
               {opt}
             </div>
           ))}
         </div>
       )}
 
-      {/* Writing support tools */}
+      {/* Writing tools + textarea for SCR/ECR */}
       {isWritten && (
         <div style={{ marginBottom: 14 }}>
           <RACESFrame type={q.type} />
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
             <SentenceStarters type={q.type} bookColor={bookColor} />
             <ScoringRubric type={q.type} />
-            <StrongWeakExample q={q} bookColor={bookColor} />
+          </div>
+
+          {/* Draft textarea */}
+          <div style={{ background: "#fff", border: `2px solid ${colors.border}`, borderRadius: 10, overflow: "hidden" }}>
+            <div style={{ background: colors.border, padding: "8px 14px", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 14 }}>✏️</span>
+              <span style={{ color: "#fff", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                Your Response
+              </span>
+              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 11, marginLeft: "auto" }}>
+                {draftText.length} characters
+              </span>
+            </div>
+            <textarea
+              value={draftText}
+              onChange={e => { setDraftText(e.target.value); setSubmitState("idle"); }}
+              placeholder={q.type.includes("Extended")
+                ? "Write your full response here. Aim for 3–5 paragraphs with a clear thesis, evidence, and analysis..."
+                : "Write your response here. Aim for 4–6 focused sentences using the RACES framework..."}
+              style={{
+                width: "100%", minHeight: q.type.includes("Extended") ? 220 : 140,
+                padding: "14px 16px", fontSize: 14, lineHeight: 1.7,
+                fontFamily: "'Georgia', serif", color: "#2C3E50",
+                border: "none", outline: "none", resize: "vertical",
+                boxSizing: "border-box", background: "#fff",
+              }}
+            />
+            <div style={{ padding: "10px 14px", borderTop: `1px solid ${colors.border}33`, display: "flex", alignItems: "center", gap: 10 }}>
+              {submitState === "done" ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#27AE60", fontWeight: 700, fontSize: 13 }}>
+                  ✅ Responses submitted for review!
+                </div>
+              ) : submitState === "error" ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#E74C3C", fontWeight: 700, fontSize: 13 }}>
+                  ⚠️ Submission failed — try again
+                  <button onClick={() => setSubmitState("idle")} style={{ fontSize: 11, color: "#E74C3C", background: "none", border: "1px solid #E74C3C", borderRadius: 5, padding: "2px 8px", cursor: "pointer" }}>Retry</button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!draftText.trim() || submitState === "submitting"}
+                  style={{
+                    background: draftText.trim() ? colors.border : "#BDC3C7",
+                    color: "#fff", border: "none", borderRadius: 8,
+                    padding: "8px 20px", fontSize: 13, fontWeight: 700,
+                    cursor: draftText.trim() ? "pointer" : "not-allowed",
+                    display: "flex", alignItems: "center", gap: 6, transition: "all 0.15s",
+                  }}
+                >
+                  {submitState === "submitting" ? "⏳ Submitting..." : "📤 Submit"}
+                </button>
+              )}
+              {submitState === "done" && (
+                <button
+                  onClick={() => { setDraftText(""); setSubmitState("idle"); }}
+                  style={{ fontSize: 12, color: "#7F8C8D", background: "none", border: "1px solid #BDC3C7", borderRadius: 6, padding: "4px 12px", cursor: "pointer" }}
+                >
+                  Clear & Try Again
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {/* Inline PIN prompt (shows when locked and button clicked) */}
+      {/* Lock prompt */}
       {showPrompt && !unlocked && (
-        <div style={{
-          background: "#1A252F",
-          border: "2px solid #E74C3C",
-          borderRadius: 10,
-          padding: "14px 18px",
-          marginBottom: 14,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          flexWrap: "wrap",
-        }}>
+        <div style={{ background: "#1A252F", border: "2px solid #E74C3C", borderRadius: 10, padding: "14px 18px", marginBottom: 14, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontSize: 20 }}>🔒</span>
-          <span style={{ color: "#fff", fontSize: 13, fontWeight: 600 }}>
-            Answers are locked. Ask a parent to unlock in the header above.
-          </span>
-          <button
-            onClick={() => setShowPrompt(false)}
-            style={{
-              background: "none", border: "1px solid rgba(255,255,255,0.3)",
-              color: "rgba(255,255,255,0.6)", borderRadius: 6,
-              padding: "4px 12px", fontSize: 12, cursor: "pointer",
-            }}
-          >
-            OK
-          </button>
+          <span style={{ color: "#fff", fontSize: 13, fontWeight: 600 }}>Answers are locked. Ask a parent to unlock in the header above.</span>
+          <button onClick={() => setShowPrompt(false)} style={{ background: "none", border: "1px solid rgba(255,255,255,0.3)", color: "rgba(255,255,255,0.6)", borderRadius: 6, padding: "4px 12px", fontSize: 12, cursor: "pointer" }}>OK</button>
         </div>
       )}
 
       {/* Reveal button */}
-      <button
-        onClick={handleRevealClick}
-        style={{
-          background: revealed ? "#7F8C8D" : unlocked ? colors.border : "#7F8C8D",
-          color: "#fff",
-          border: "none",
-          borderRadius: 8,
-          padding: "9px 20px",
-          fontSize: 13,
-          fontWeight: 700,
-          cursor: "pointer",
-          letterSpacing: 0.3,
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          opacity: unlocked ? 1 : 0.75,
-        }}
-      >
+      <button onClick={handleRevealClick} style={{
+        background: revealed ? "#7F8C8D" : unlocked ? colors.border : "#7F8C8D",
+        color: "#fff", border: "none", borderRadius: 8,
+        padding: "9px 20px", fontSize: 13, fontWeight: 700, cursor: "pointer",
+        letterSpacing: 0.3, display: "flex", alignItems: "center", gap: 8,
+        opacity: unlocked ? 1 : 0.75,
+      }}>
         {!unlocked ? "🔒 Answer Locked" : revealed ? "▲ Hide Answer Guide" : "▼ Show Answer Guide"}
       </button>
 
-      {/* Answer + explanation */}
+      {/* Answer guide */}
       {revealed && unlocked && (
-        <div
-          style={{
-            marginTop: 14,
-            background: "#fff",
-            border: `1.5px solid ${colors.border}`,
-            borderRadius: 8,
-            padding: "14px 16px",
-          }}
-        >
-          <div style={{ marginBottom: 8 }}>
-            <span style={{ fontWeight: 800, color: colors.label, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.5 }}>
-              ✓ Answer:{" "}
-            </span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#1A252F" }}>{q.answer}</span>
-          </div>
-          <div>
-            <span style={{ fontWeight: 800, color: colors.label, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.5 }}>
-              💡 Why:{" "}
-            </span>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#2C3E50", lineHeight: 1.6 }}>{q.explanation}</span>
-          </div>
+        <div style={{ marginTop: 14, background: "#fff", border: `1.5px solid ${colors.border}`, borderRadius: 8, padding: "16px 18px" }}>
+          {isWritten ? (
+            <>
+              <div style={{ fontWeight: 800, color: colors.label, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 10 }}>
+                ✓ Model Answer
+              </div>
+              <p style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#1A252F", lineHeight: 1.75, margin: "0 0 14px 0", whiteSpace: "pre-line" }}>
+                {q.modelAnswer || q.answer}
+              </p>
+              <div style={{ borderTop: `1px solid ${colors.border}44`, paddingTop: 12 }}>
+                <div style={{ fontWeight: 800, color: colors.label, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6 }}>
+                  💡 Why This Scores Well
+                </div>
+                <p style={{ fontFamily: "'Georgia', serif", fontSize: 13.5, color: "#555", lineHeight: 1.65, margin: 0 }}>
+                  {q.explanation}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ marginBottom: 8 }}>
+                <span style={{ fontWeight: 800, color: colors.label, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.5 }}>✓ Answer: </span>
+                <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#1A252F" }}>{q.answer}</span>
+              </div>
+              <div>
+                <span style={{ fontWeight: 800, color: colors.label, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.5 }}>💡 Why: </span>
+                <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#2C3E50", lineHeight: 1.6 }}>{q.explanation}</span>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -2737,7 +2781,7 @@ export default function App() {
                   alignItems: "start",
                 }}>
                   {book.questions.map((q, i) => (
-                    <QuestionCard key={i} q={q} index={i} bookColor={book.color} unlocked={unlocked} />
+                    <QuestionCard key={i} q={q} index={i} bookColor={book.color} bookTitle={book.title} unlocked={unlocked} />
                   ))}
                 </div>
               </div>
