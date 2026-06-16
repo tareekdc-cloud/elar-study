@@ -10,6 +10,7 @@ const books = [
     color: "#2C3E50",
     accent: "#E8C547",
     emoji: "📖",
+    isbn: "9780385751063",
     summary: {
       overview:
         "Set during World War II, this novel follows nine-year-old Bruno, the son of a Nazi commandant who has been assigned to oversee a concentration camp. After his family relocates from their comfortable home in Berlin to a grim house near the camp — called 'Out-With' (Auschwitz) by Bruno — he is lonely and bored. Exploring forbidden territory, he befriends Shmuel, a Jewish boy his exact age who lives on the other side of a wire fence. Neither boy fully understands the horrific reality that separates them. The story builds to a devastating, ironic conclusion that reflects the senseless cruelty of hatred and genocide.",
@@ -292,6 +293,7 @@ const books = [
     color: "#4A235A",
     accent: "#A569BD",
     emoji: "🏰",
+    isbn: "9780062104939",
     summary: {
       overview:
         "Every four years, two children are stolen from the village of Gavaldon and taken to the School for Good and Evil — a mysterious institution where future fairy-tale heroes and villains are trained. Sophie, a beautiful girl who dreams of becoming a princess, is certain she belongs in the School for Good. Her best friend Agatha, dark and strange and misunderstood, seems destined for Evil. But when they arrive, everything is reversed: Sophie is placed in the School for Evil, and Agatha in the School for Good. As both girls struggle to switch schools and reclaim their 'rightful' places, they begin to question everything they thought they knew about good, evil, beauty, and belonging. The novel ultimately argues that the line between good and evil is far more complicated — and far more personal — than fairy tales suggest.",
@@ -581,6 +583,7 @@ const books = [
     color: "#1A3A5C",
     accent: "#3498DB",
     emoji: "⚡",
+    isbn: "9780786838653",
     summary: {
       overview:
         "Twelve-year-old Percy Jackson has always been different — he struggles in school, gets expelled repeatedly, and strange, dangerous things seem to follow him wherever he goes. When a math teacher transforms into a monster and attacks him on a class trip, Percy's world is turned upside down. He discovers he is a demigod: the son of a Greek god and a human mother. Taken to Camp Half-Blood — a training ground for children of the Olympians — Percy learns that the ancient Greek gods are very much alive and that their conflicts are tearing apart the modern world. He is accused of stealing Zeus's master lightning bolt, and if he can't return it before the summer solstice, a war among the gods will destroy civilization. With his best friend Grover (a satyr) and Annabeth (daughter of Athena), Percy races across the United States on a quest that tests every ounce of his courage, loyalty, and growing sense of who he truly is.",
@@ -871,6 +874,7 @@ const books = [
     color: "#1A5276",
     accent: "#F4D03F",
     emoji: "🎮",
+    isbn: "9780593482469",
     summary: {
       overview:
         "This is the origin story of the beloved Luigi Lemoncello — inventor of fantastical games and puzzles. As a twelve-year-old kid growing up in a large, chaotic Italian-American family in the 1970s, Luigi is dismissed by everyone around him as a dreamer with silly ideas. But when he invents an epic board game to impress the girl he has a crush on — and to compete in a contest — his creativity, persistence, and love of wordplay take center stage. The novel is a heartwarming, funny adventure about believing in yourself when no one else does, and how imagination can turn into something extraordinary.",
@@ -1157,6 +1161,7 @@ const books = [
     color: "#1B4F35",
     accent: "#58D68D",
     emoji: "🔄",
+    isbn: "9781338053777",
     summary: {
       overview:
         "Chase Ambrose falls off a roof and wakes up in the hospital with no memory of who he is. The problem — which Chase doesn't know yet — is that the person he was before the accident was the most feared and hated bully at Hiawassee Middle School. As Chase tries to figure out who he is through the eyes of classmates who either idolize him (his old crew of bullies) or despise him (nearly everyone else), he begins building a new identity rooted in kindness, courage, and genuine friendship. The novel is told from multiple perspectives — Chase, his victims, his teachers, and his family — which allows the reader to see the full picture of who Chase was, who he is now, and who he chooses to become. Restart is ultimately a story about whether people can truly change, and whether a second chance is something that must be earned.",
@@ -1447,6 +1452,7 @@ const books = [
     color: "#6E2C00",
     accent: "#F0A500",
     emoji: "🚗",
+    isbn: "9780394820378",
     summary: {
       overview:
         "Milo is a bored, listless boy who finds no meaning or excitement in anything — school, learning, or the world around him. One day a mysterious tollbooth appears in his room. He drives through it and enters the Lands Beyond, a fantastical kingdom where words and numbers are at war, Rhyme and Reason have been banished, and logic, language, and learning are literal places and characters. Accompanied by Tock the Watchdog and the Humbug, Milo embarks on a quest to rescue the princesses Rhyme and Reason from the Castle in the Air. Along the way he encounters the Whether Man, the Soundkeeper, the Mathemagician, the Terrible Trivium, and dozens of other characters who are each walking embodiments of ideas. The journey transforms Milo — he returns home as someone who has discovered that the world is endlessly interesting if you pay attention to it.",
@@ -2106,7 +2112,7 @@ function QuestionCard({ q, index, bookColor, unlocked }) {
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "1234"; // ← Change this to your preferred PIN
+const CORRECT_PIN = "0305"; // ← Change this to your preferred PIN
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
@@ -2241,7 +2247,8 @@ function PinModal({ onSuccess, onCancel }) {
 // ── Book Grid Card ────────────────────────────────────────────────────────────
 function BookGridCard({ book, active, onClick }) {
   const [hovered, setHovered] = useState(false);
-  const isActive = active;
+  const [imgError, setImgError] = useState(false);
+  const coverUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
 
   return (
     <div
@@ -2249,75 +2256,121 @@ function BookGridCard({ book, active, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: isActive
-          ? book.color
-          : hovered
-          ? `${book.color}22`
-          : "rgba(255,255,255,0.04)",
-        border: `2px solid ${isActive ? book.color : hovered ? `${book.color}88` : "rgba(255,255,255,0.1)"}`,
-        borderRadius: 16,
-        padding: "20px 16px",
         cursor: "pointer",
         transition: "all 0.2s ease",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        textAlign: "center",
-        gap: 10,
         position: "relative",
-        transform: isActive ? "translateY(-3px)" : hovered ? "translateY(-2px)" : "none",
-        boxShadow: isActive
-          ? `0 12px 32px ${book.color}55`
-          : hovered
-          ? `0 6px 20px rgba(0,0,0,0.3)`
-          : "none",
+        transform: active ? "translateY(-6px) scale(1.03)" : hovered ? "translateY(-3px) scale(1.01)" : "none",
       }}
     >
-      {isActive && (
-        <div style={{
-          position: "absolute", top: -1, left: "50%", transform: "translateX(-50%)",
-          background: book.accent, borderRadius: "0 0 8px 8px",
-          padding: "2px 12px", fontSize: 10, fontWeight: 900,
-          color: "#1a1a1a", letterSpacing: 0.5, textTransform: "uppercase",
-        }}>
-          Selected
-        </div>
-      )}
-      <span style={{ fontSize: 32, lineHeight: 1 }}>{book.emoji}</span>
-      <div>
+      {/* Cover image */}
+      <div style={{
+        width: "100%",
+        aspectRatio: "2/3",
+        borderRadius: 10,
+        overflow: "hidden",
+        boxShadow: active
+          ? `0 16px 40px ${book.color}88, 0 0 0 3px ${book.color}`
+          : hovered
+          ? "0 10px 30px rgba(0,0,0,0.6)"
+          : "0 4px 16px rgba(0,0,0,0.4)",
+        transition: "all 0.2s ease",
+        position: "relative",
+        background: book.color,
+      }}>
+        {!imgError ? (
+          <img
+            src={coverUrl}
+            alt={book.title}
+            onError={() => setImgError(true)}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              transition: "opacity 0.2s ease",
+              opacity: hovered ? 0.85 : 1,
+            }}
+          />
+        ) : (
+          /* Fallback if cover doesn't load */
+          <div style={{
+            width: "100%", height: "100%",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            padding: 16, textAlign: "center",
+            background: `linear-gradient(160deg, ${book.color} 0%, ${book.color}99 100%)`,
+          }}>
+            <span style={{ fontSize: 40, marginBottom: 12 }}>{book.emoji}</span>
+            <div style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 13, fontWeight: 800, lineHeight: 1.3 }}>
+              {book.title}
+            </div>
+          </div>
+        )}
+
+        {/* Active overlay indicator */}
+        {active && (
+          <div style={{
+            position: "absolute", inset: 0,
+            background: `${book.color}22`,
+            display: "flex", alignItems: "flex-start", justifyContent: "center",
+            paddingTop: 10,
+          }}>
+            <span style={{
+              background: book.accent, color: "#1a1a1a",
+              borderRadius: 6, padding: "3px 10px",
+              fontSize: 10, fontWeight: 900, letterSpacing: 0.5,
+              textTransform: "uppercase", boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            }}>
+              ✓ Selected
+            </span>
+          </div>
+        )}
+
+        {/* Hover overlay with quick info */}
+        {hovered && !active && (
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "rgba(0,0,0,0.55)",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 6, padding: 12,
+          }}>
+            <span style={{
+              background: book.color, color: "#fff",
+              borderRadius: 6, padding: "4px 12px",
+              fontSize: 11, fontWeight: 800,
+            }}>{book.lexile}</span>
+            <span style={{
+              background: "rgba(255,255,255,0.15)", color: "#fff",
+              borderRadius: 6, padding: "4px 12px",
+              fontSize: 11, fontWeight: 700,
+            }}>{book.questions.length} Questions</span>
+          </div>
+        )}
+      </div>
+
+      {/* Title below cover */}
+      <div style={{ marginTop: 10, textAlign: "center", width: "100%" }}>
         <div style={{
           fontFamily: "'Georgia', serif",
           fontWeight: 800,
-          fontSize: 13,
-          color: isActive ? "#fff" : "rgba(255,255,255,0.9)",
+          fontSize: 12.5,
+          color: active ? "#fff" : "rgba(255,255,255,0.88)",
           lineHeight: 1.3,
-          marginBottom: 4,
+          marginBottom: 3,
         }}>
           {book.title}
         </div>
         <div style={{
           fontSize: 11,
-          color: isActive ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.45)",
+          color: active ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.4)",
           fontWeight: 500,
         }}>
           {book.author}
         </div>
-      </div>
-      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", justifyContent: "center" }}>
-        <span style={{
-          background: isActive ? "rgba(255,255,255,0.2)" : `${book.color}44`,
-          color: isActive ? "#fff" : book.accent,
-          borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 700,
-        }}>
-          {book.lexile}
-        </span>
-        <span style={{
-          background: isActive ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)",
-          color: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)",
-          borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 600,
-        }}>
-          {book.questions.length} Qs
-        </span>
       </div>
     </div>
   );
@@ -2439,8 +2492,9 @@ export default function App() {
           </div>
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-            gap: 14,
+            gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+            gap: 20,
+            alignItems: "start",
           }}>
             {books.map((b, i) => (
               <BookGridCard
