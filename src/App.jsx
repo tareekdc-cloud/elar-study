@@ -2238,26 +2238,88 @@ function PinModal({ onSuccess, onCancel }) {
   );
 }
 
-function BookTab({ book, active, onClick }) {
+// ── Book Grid Card ────────────────────────────────────────────────────────────
+function BookGridCard({ book, active, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const isActive = active;
+
   return (
-    <button
+    <div
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        background: active ? book.color : "#ECF0F1",
-        color: active ? "#fff" : "#555",
-        border: `2px solid ${active ? book.color : "#BDC3C7"}`,
-        borderRadius: "10px 10px 0 0",
-        padding: "12px 22px",
-        fontSize: 14,
-        fontWeight: active ? 800 : 600,
+        background: isActive
+          ? book.color
+          : hovered
+          ? `${book.color}22`
+          : "rgba(255,255,255,0.04)",
+        border: `2px solid ${isActive ? book.color : hovered ? `${book.color}88` : "rgba(255,255,255,0.1)"}`,
+        borderRadius: 16,
+        padding: "20px 16px",
         cursor: "pointer",
         transition: "all 0.2s ease",
-        marginRight: 6,
-        fontFamily: "'Georgia', serif",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        gap: 10,
+        position: "relative",
+        transform: isActive ? "translateY(-3px)" : hovered ? "translateY(-2px)" : "none",
+        boxShadow: isActive
+          ? `0 12px 32px ${book.color}55`
+          : hovered
+          ? `0 6px 20px rgba(0,0,0,0.3)`
+          : "none",
       }}
     >
-      {book.emoji} {book.title.length > 28 ? book.title.slice(0, 26) + "…" : book.title}
-    </button>
+      {isActive && (
+        <div style={{
+          position: "absolute", top: -1, left: "50%", transform: "translateX(-50%)",
+          background: book.accent, borderRadius: "0 0 8px 8px",
+          padding: "2px 12px", fontSize: 10, fontWeight: 900,
+          color: "#1a1a1a", letterSpacing: 0.5, textTransform: "uppercase",
+        }}>
+          Selected
+        </div>
+      )}
+      <span style={{ fontSize: 32, lineHeight: 1 }}>{book.emoji}</span>
+      <div>
+        <div style={{
+          fontFamily: "'Georgia', serif",
+          fontWeight: 800,
+          fontSize: 13,
+          color: isActive ? "#fff" : "rgba(255,255,255,0.9)",
+          lineHeight: 1.3,
+          marginBottom: 4,
+        }}>
+          {book.title}
+        </div>
+        <div style={{
+          fontSize: 11,
+          color: isActive ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.45)",
+          fontWeight: 500,
+        }}>
+          {book.author}
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", justifyContent: "center" }}>
+        <span style={{
+          background: isActive ? "rgba(255,255,255,0.2)" : `${book.color}44`,
+          color: isActive ? "#fff" : book.accent,
+          borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 700,
+        }}>
+          {book.lexile}
+        </span>
+        <span style={{
+          background: isActive ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)",
+          color: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)",
+          borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 600,
+        }}>
+          {book.questions.length} Qs
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -2268,15 +2330,21 @@ export default function App() {
   const [showPin, setShowPin] = useState(false);
   const book = books[activeBook];
 
+  const handleSelectBook = (i) => {
+    setActiveBook(i);
+    setActiveTab("summary");
+    // Scroll content into view smoothly
+    setTimeout(() => {
+      document.getElementById("book-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
-        fontFamily: "'Segoe UI', sans-serif",
-        padding: "0 0 60px 0",
-      }}
-    >
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(160deg, #0d1117 0%, #161b22 40%, #0d1b2a 100%)",
+      fontFamily: "'Segoe UI', system-ui, sans-serif",
+    }}>
       {/* PIN Modal */}
       {showPin && (
         <PinModal
@@ -2285,180 +2353,173 @@ export default function App() {
         />
       )}
 
-      {/* Header */}
-      <div
-        style={{
-          background: "rgba(255,255,255,0.05)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
-          padding: "24px 32px",
-          marginBottom: 32,
-        }}
-      >
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ fontSize: 36 }}>📚</span>
-              <div>
-                <h1
-                  style={{
-                    color: "#fff",
-                    margin: 0,
-                    fontSize: 26,
-                    fontFamily: "'Georgia', serif",
-                    fontWeight: 800,
-                    letterSpacing: -0.5,
-                  }}
-                >
-                  Grade 8 ELAR Summer Study Guide
-                </h1>
-                <p style={{ color: "rgba(255,255,255,0.6)", margin: "4px 0 0 0", fontSize: 13, letterSpacing: 0.3 }}>
-                  Aligned to Texas STAAR &amp; NWEA MAP Assessments · Rising 8th Grade
-                </p>
+      {/* ── Header ── */}
+      <header style={{
+        background: "rgba(255,255,255,0.03)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        padding: "0 40px",
+        position: "sticky", top: 0, zIndex: 100,
+        backdropFilter: "blur(16px)",
+      }}>
+        <div style={{
+          maxWidth: 1400, margin: "0 auto",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          height: 64, gap: 16,
+        }}>
+          {/* Logo + title */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ fontSize: 26 }}>📚</span>
+            <div>
+              <div style={{ color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "'Georgia', serif", lineHeight: 1.2 }}>
+                Grade 8 ELAR Summer Study Guide
               </div>
-            </div>
-
-            {/* Lock / Unlock control */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              {unlocked ? (
-                <>
-                  <div style={{
-                    background: "rgba(39,174,96,0.2)", border: "1px solid #27AE60",
-                    borderRadius: 8, padding: "6px 14px",
-                    display: "flex", alignItems: "center", gap: 8,
-                  }}>
-                    <span style={{ fontSize: 14 }}>🔓</span>
-                    <span style={{ color: "#27AE60", fontSize: 12, fontWeight: 700 }}>Answers Unlocked</span>
-                  </div>
-                  <button
-                    onClick={() => setUnlocked(false)}
-                    style={{
-                      background: "rgba(231,76,60,0.2)", border: "1px solid #E74C3C",
-                      color: "#E74C3C", borderRadius: 8, padding: "6px 16px",
-                      fontSize: 12, fontWeight: 700, cursor: "pointer",
-                      display: "flex", alignItems: "center", gap: 6,
-                    }}
-                  >
-                    🔒 Lock Answers
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div style={{
-                    background: "rgba(231,76,60,0.15)", border: "1px solid rgba(231,76,60,0.4)",
-                    borderRadius: 8, padding: "6px 14px",
-                    display: "flex", alignItems: "center", gap: 8,
-                  }}>
-                    <span style={{ fontSize: 14 }}>🔒</span>
-                    <span style={{ color: "rgba(231,76,60,0.9)", fontSize: 12, fontWeight: 700 }}>Answers Locked</span>
-                  </div>
-                  <button
-                    onClick={() => setShowPin(true)}
-                    style={{
-                      background: "rgba(39,174,96,0.2)", border: "1px solid #27AE60",
-                      color: "#27AE60", borderRadius: 8, padding: "6px 16px",
-                      fontSize: 12, fontWeight: 700, cursor: "pointer",
-                      display: "flex", alignItems: "center", gap: 6,
-                    }}
-                  >
-                    🔑 Unlock (Parent)
-                  </button>
-                </>
-              )}
+              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, marginTop: 1 }}>
+                Texas STAAR &amp; NWEA MAP · Rising 8th Grade
+              </div>
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+          {/* Center badges */}
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {[
-              { label: "STAAR", color: "#C0392B", desc: "Multiple Choice · Part A/B · SCR · ECR" },
-              { label: "MAP", color: "#1F618D", desc: "Literary Analysis · Vocabulary · Inference" },
-            ].map((b) => (
-              <div
-                key={b.label}
-                style={{
-                  background: `${b.color}22`,
-                  border: `1px solid ${b.color}55`,
-                  borderRadius: 8,
-                  padding: "6px 14px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <span style={{ background: b.color, color: "#fff", borderRadius: 4, padding: "1px 7px", fontSize: 11, fontWeight: 800 }}>{b.label}</span>
-                <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 12 }}>{b.desc}</span>
-              </div>
+              { label: "STAAR", color: "#C0392B" },
+              { label: "MAP", color: "#1F618D" },
+            ].map(b => (
+              <span key={b.label} style={{
+                background: `${b.color}33`, border: `1px solid ${b.color}66`,
+                color: "#fff", borderRadius: 6, padding: "3px 10px",
+                fontSize: 11, fontWeight: 800, letterSpacing: 0.5,
+              }}>{b.label}</span>
+            ))}
+          </div>
+
+          {/* Lock control */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {unlocked ? (
+              <>
+                <span style={{
+                  background: "rgba(39,174,96,0.15)", border: "1px solid #27AE6066",
+                  color: "#27AE60", borderRadius: 8, padding: "5px 12px",
+                  fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 6,
+                }}>🔓 Unlocked</span>
+                <button onClick={() => setUnlocked(false)} style={{
+                  background: "rgba(231,76,60,0.15)", border: "1px solid #E74C3C66",
+                  color: "#E74C3C", borderRadius: 8, padding: "5px 14px",
+                  fontSize: 12, fontWeight: 700, cursor: "pointer",
+                }}>🔒 Lock</button>
+              </>
+            ) : (
+              <>
+                <span style={{
+                  background: "rgba(231,76,60,0.12)", border: "1px solid rgba(231,76,60,0.35)",
+                  color: "rgba(231,76,60,0.85)", borderRadius: 8, padding: "5px 12px",
+                  fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 6,
+                }}>🔒 Locked</span>
+                <button onClick={() => setShowPin(true)} style={{
+                  background: "rgba(39,174,96,0.15)", border: "1px solid #27AE6066",
+                  color: "#27AE60", borderRadius: 8, padding: "5px 14px",
+                  fontSize: 12, fontWeight: 700, cursor: "pointer",
+                }}>🔑 Unlock</button>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* ── Book Grid ── */}
+      <section style={{ padding: "40px 40px 32px" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+          <div style={{ marginBottom: 20, display: "flex", alignItems: "baseline", gap: 12 }}>
+            <h2 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 20, fontWeight: 800, margin: 0 }}>
+              Select a Book
+            </h2>
+            <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
+              {books.length} books · click any card to open
+            </span>
+          </div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+            gap: 14,
+          }}>
+            {books.map((b, i) => (
+              <BookGridCard
+                key={b.id}
+                book={b}
+                active={activeBook === i}
+                onClick={() => handleSelectBook(i)}
+              />
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px" }}>
-        {/* Book Selector */}
-        <div style={{ marginBottom: 0 }}>
-          {books.map((b, i) => (
-            <BookTab key={b.id} book={b} active={activeBook === i} onClick={() => { setActiveBook(i); setActiveTab("summary"); }} />
-          ))}
-        </div>
+      {/* ── Book Content ── */}
+      <main id="book-content" style={{ padding: "0 40px 80px" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
 
-        {/* Main Card */}
-        <div
-          style={{
-            background: "#FDFEFE",
-            borderRadius: "0 12px 12px 12px",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
-            overflow: "hidden",
-          }}
-        >
-          {/* Book Header */}
-          <div
-            style={{
-              background: book.color,
-              padding: "24px 30px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            <div>
-              <h2 style={{ color: "#fff", margin: "0 0 4px 0", fontSize: 22, fontFamily: "'Georgia', serif" }}>
-                {book.title}
-              </h2>
-              <p style={{ color: "rgba(255,255,255,0.75)", margin: 0, fontSize: 14 }}>
-                by {book.author}
-              </p>
+          {/* Colored book banner */}
+          <div style={{
+            background: `linear-gradient(135deg, ${book.color} 0%, ${book.color}cc 100%)`,
+            borderRadius: "16px 16px 0 0",
+            padding: "28px 36px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <span style={{ fontSize: 44, lineHeight: 1 }}>{book.emoji}</span>
+              <div>
+                <h1 style={{
+                  color: "#fff", margin: "0 0 4px 0",
+                  fontSize: 26, fontFamily: "'Georgia', serif", fontWeight: 800,
+                }}>
+                  {book.title}
+                </h1>
+                <p style={{ color: "rgba(255,255,255,0.7)", margin: 0, fontSize: 15 }}>
+                  by {book.author}
+                </p>
+              </div>
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ background: book.accent, color: "#1a1a1a", borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 800 }}>
-                {book.genre}
-              </span>
-              <span style={{ background: "rgba(255,255,255,0.2)", color: "#fff", borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700 }}>
-                Lexile {book.lexile}
-              </span>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+              <span style={{
+                background: book.accent, color: "#1a1a1a",
+                borderRadius: 8, padding: "6px 14px", fontSize: 12, fontWeight: 800,
+              }}>{book.genre}</span>
+              <span style={{
+                background: "rgba(255,255,255,0.18)", color: "#fff",
+                borderRadius: 8, padding: "6px 14px", fontSize: 12, fontWeight: 700,
+              }}>Lexile {book.lexile}</span>
+              <span style={{
+                background: "rgba(255,255,255,0.18)", color: "#fff",
+                borderRadius: 8, padding: "6px 14px", fontSize: 12, fontWeight: 700,
+              }}>{book.questions.length} Questions</span>
             </div>
           </div>
 
-          {/* Tab Nav */}
-          <div style={{ display: "flex", borderBottom: "2px solid #EAF0F6", background: "#F7F9FA" }}>
+          {/* Tab nav */}
+          <div style={{
+            background: "#fff",
+            borderBottom: "2px solid #EAF0F6",
+            display: "flex",
+            gap: 0,
+          }}>
             {[
               { id: "summary", label: "📖 Book Summary" },
               { id: "questions", label: `❓ Practice Questions (${book.questions.length})` },
-            ].map((t) => (
+            ].map(t => (
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id)}
                 style={{
-                  background: "none",
-                  border: "none",
+                  background: "none", border: "none",
                   borderBottom: activeTab === t.id ? `3px solid ${book.color}` : "3px solid transparent",
-                  padding: "14px 22px",
-                  fontSize: 14,
-                  fontWeight: activeTab === t.id ? 800 : 500,
+                  padding: "16px 28px",
+                  fontSize: 14, fontWeight: activeTab === t.id ? 800 : 500,
                   color: activeTab === t.id ? book.color : "#7F8C8D",
-                  cursor: "pointer",
-                  transition: "all 0.15s ease",
+                  cursor: "pointer", transition: "all 0.15s ease",
                   marginBottom: -2,
                 }}
               >
@@ -2467,135 +2528,173 @@ export default function App() {
             ))}
           </div>
 
-          <div style={{ padding: "28px 30px" }}>
+          {/* Content panel */}
+          <div style={{
+            background: "#fff",
+            borderRadius: "0 0 16px 16px",
+            padding: "36px 40px",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
+          }}>
+
+            {/* ── SUMMARY TAB ── */}
             {activeTab === "summary" && (
-              <div>
-                {/* Overview */}
-                <section style={{ marginBottom: 28 }}>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "36px 48px",
+              }}>
+                {/* Overview — full width */}
+                <section style={{ gridColumn: "1 / -1" }}>
+                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
                     What Is This Book About?
                   </h3>
-                  <p style={{ fontFamily: "'Georgia', serif", fontSize: 15.5, lineHeight: 1.75, color: "#2C3E50" }}>
+                  <p style={{ fontFamily: "'Georgia', serif", fontSize: 15.5, lineHeight: 1.8, color: "#2C3E50", margin: 0 }}>
                     {book.summary.overview}
                   </p>
                 </section>
 
                 {/* Themes */}
-                <section style={{ marginBottom: 28 }}>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
+                <section>
+                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 14, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
                     Key Themes
                   </h3>
-                  <div style={{ display: "grid", gap: 8 }}>
+                  <div style={{ display: "grid", gap: 10 }}>
                     {book.summary.themes.map((t, i) => (
-                      <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                        <span style={{ color: book.accent === "#E8C547" ? "#B7950B" : book.accent, fontSize: 18, marginTop: 1 }}>◆</span>
-                        <span style={{ fontFamily: "'Georgia', serif", fontSize: 14.5, color: "#2C3E50", lineHeight: 1.55 }}>{t}</span>
+                      <div key={i} style={{
+                        display: "flex", gap: 10, alignItems: "flex-start",
+                        background: "#F8F9FA", borderRadius: 8, padding: "10px 14px",
+                      }}>
+                        <span style={{ color: book.color, fontSize: 16, marginTop: 1, flexShrink: 0 }}>◆</span>
+                        <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#2C3E50", lineHeight: 1.55 }}>{t}</span>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                {/* Characters */}
-                <section style={{ marginBottom: 28 }}>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
+                {/* Setting + Author's Purpose stacked */}
+                <div style={{ display: "grid", gap: 28 }}>
+                  <section>
+                    <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
+                      Setting
+                    </h3>
+                    <p style={{ fontFamily: "'Georgia', serif", fontSize: 14.5, lineHeight: 1.7, color: "#2C3E50", background: "#F8F9FA", padding: "14px 16px", borderRadius: 8, margin: 0 }}>
+                      {book.summary.setting}
+                    </p>
+                  </section>
+                  <section>
+                    <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
+                      Author's Purpose
+                    </h3>
+                    <p style={{ fontFamily: "'Georgia', serif", fontSize: 14.5, lineHeight: 1.75, color: "#2C3E50", fontStyle: "italic", background: "#F8F9FA", padding: "14px 18px", borderRadius: 8, borderLeft: `4px solid ${book.color}`, margin: 0 }}>
+                      {book.summary.authorPurpose}
+                    </p>
+                  </section>
+                </div>
+
+                {/* Characters — full width */}
+                <section style={{ gridColumn: "1 / -1" }}>
+                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 14, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
                     Key Characters
                   </h3>
-                  <div style={{ display: "grid", gap: 10 }}>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+                    gap: 10,
+                  }}>
                     {book.summary.characters.map((c, i) => (
-                      <div key={i} style={{ background: "#F7F9FA", borderRadius: 8, padding: "12px 16px", display: "flex", gap: 12, alignItems: "flex-start" }}>
-                        <span style={{ fontWeight: 800, color: book.color, minWidth: 110, fontSize: 14 }}>{c.name}</span>
-                        <span style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#555", lineHeight: 1.55 }}>{c.role}</span>
+                      <div key={i} style={{
+                        background: "#F8F9FA", borderRadius: 8, padding: "12px 16px",
+                        display: "flex", gap: 14, alignItems: "flex-start",
+                        borderLeft: `3px solid ${book.color}44`,
+                      }}>
+                        <span style={{ fontWeight: 800, color: book.color, minWidth: 120, fontSize: 13.5 }}>{c.name}</span>
+                        <span style={{ fontFamily: "'Georgia', serif", fontSize: 13.5, color: "#555", lineHeight: 1.55 }}>{c.role}</span>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                {/* Setting */}
-                <section style={{ marginBottom: 28 }}>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
-                    Setting
-                  </h3>
-                  <p style={{ fontFamily: "'Georgia', serif", fontSize: 15, lineHeight: 1.7, color: "#2C3E50", background: "#F7F9FA", padding: "12px 16px", borderRadius: 8 }}>
-                    {book.summary.setting}
-                  </p>
-                </section>
-
-                {/* Literary Devices */}
-                <section style={{ marginBottom: 28 }}>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
+                {/* Literary Devices — full width */}
+                <section style={{ gridColumn: "1 / -1" }}>
+                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 19, marginBottom: 14, borderLeft: `4px solid ${book.color}`, paddingLeft: 14 }}>
                     Literary Devices to Know
                   </h3>
-                  <div style={{ display: "grid", gap: 10 }}>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+                    gap: 10,
+                  }}>
                     {book.summary.literaryDevices.map((d, i) => (
-                      <div key={i} style={{ background: "#F7F9FA", borderRadius: 8, padding: "14px 16px" }}>
-                        <div style={{ fontWeight: 800, color: book.color, fontSize: 14, marginBottom: 5 }}>{d.device}</div>
-                        <div style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: "#555", lineHeight: 1.55 }}>{d.example}</div>
+                      <div key={i} style={{ background: "#F8F9FA", borderRadius: 8, padding: "14px 16px", borderTop: `3px solid ${book.color}` }}>
+                        <div style={{ fontWeight: 800, color: book.color, fontSize: 13.5, marginBottom: 6 }}>{d.device}</div>
+                        <div style={{ fontFamily: "'Georgia', serif", fontSize: 13.5, color: "#555", lineHeight: 1.55 }}>{d.example}</div>
                       </div>
                     ))}
                   </div>
-                </section>
-
-                {/* Author's Purpose */}
-                <section>
-                  <h3 style={{ color: book.color, fontFamily: "'Georgia', serif", fontSize: 18, marginBottom: 12, borderLeft: `4px solid ${book.color}`, paddingLeft: 12 }}>
-                    Author's Purpose
-                  </h3>
-                  <p style={{ fontFamily: "'Georgia', serif", fontSize: 15, lineHeight: 1.75, color: "#2C3E50", fontStyle: "italic", background: "#F7F9FA", padding: "14px 18px", borderRadius: 8, borderLeft: `4px solid ${book.color}` }}>
-                    {book.summary.authorPurpose}
-                  </p>
                 </section>
               </div>
             )}
 
+            {/* ── QUESTIONS TAB ── */}
             {activeTab === "questions" && (
               <div>
-                {/* Score context + instructions banner */}
-                <div style={{ marginBottom: 20 }}>
-                  <div style={{
-                    background: "linear-gradient(135deg, #1B2A4A 0%, #1F3C6B 100%)",
-                    borderRadius: 10, padding: "14px 18px", marginBottom: 10,
-                    display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center",
-                  }}>
-                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                      {[
-                        { label: "STAAR Score", val: "1769", sub: "Meets Grade Level" },
-                        { label: "Reading", val: "23/29", sub: "79% — Strong" },
-                        { label: "Writing", val: "19/27", sub: "70% — Focus Area ⬆️" },
-                        { label: "Lexile", val: "1155L", sub: "Above Grade 8 range" },
-                      ].map((s) => (
-                        <div key={s.label} style={{ background: "rgba(255,255,255,0.08)", borderRadius: 8, padding: "8px 14px", textAlign: "center", minWidth: 90 }}>
-                          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.55)", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 2 }}>{s.label}</div>
-                          <div style={{ fontSize: 16, fontWeight: 900, color: "#fff" }}>{s.val}</div>
-                          <div style={{ fontSize: 10, color: s.label === "Writing" ? "#F39C12" : "rgba(255,255,255,0.6)", fontWeight: 600 }}>{s.sub}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 200, borderLeft: "1px solid rgba(255,255,255,0.15)", paddingLeft: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: "#F39C12", marginBottom: 4 }}>🎯 Summer Focus: Writing (SCR & ECR)</div>
-                      <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.55 }}>
-                        Your Lexile score (1155L) shows strong reading comprehension — already above the Grade 8 range. The growth opportunity is in written responses. Every SCR and ECR question below includes a RACES framework, sentence starters, scoring rubric, and a strong vs. weak example.
+                {/* Score banner */}
+                <div style={{
+                  background: "linear-gradient(135deg, #1B2A4A 0%, #1F3C6B 100%)",
+                  borderRadius: 12, padding: "18px 24px", marginBottom: 12,
+                  display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center",
+                }}>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    {[
+                      { label: "STAAR Score", val: "1769", sub: "Meets Grade Level" },
+                      { label: "Reading", val: "23/29", sub: "79% — Strong" },
+                      { label: "Writing", val: "19/27", sub: "70% — Focus Area ⬆️" },
+                      { label: "Lexile", val: "1155L", sub: "Above Grade 8 range" },
+                    ].map(s => (
+                      <div key={s.label} style={{
+                        background: "rgba(255,255,255,0.08)", borderRadius: 8,
+                        padding: "8px 16px", textAlign: "center", minWidth: 96,
+                      }}>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 2 }}>{s.label}</div>
+                        <div style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}>{s.val}</div>
+                        <div style={{ fontSize: 10, color: s.label === "Writing" ? "#F39C12" : "rgba(255,255,255,0.55)", fontWeight: 600 }}>{s.sub}</div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  <div style={{
-                    background: "#EBF5FB", border: "1px solid #AED6F1", borderRadius: 10,
-                    padding: "12px 18px", fontSize: 13, color: "#1A5276", lineHeight: 1.6,
-                  }}>
-                    <strong>📋 How to use these questions:</strong> For MC questions, tap an answer then reveal the explanation. For <strong>✏️ Written Response</strong> questions, use the RACES framework and sentence starters to draft your answer on paper <em>before</em> clicking Show Answer Guide. Then compare your response to the scoring rubric and the strong/weak examples.
+                  <div style={{ flex: 1, minWidth: 220, borderLeft: "1px solid rgba(255,255,255,0.12)", paddingLeft: 20 }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#F39C12", marginBottom: 5 }}>🎯 Summer Focus: Writing (SCR & ECR)</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>
+                      Lexile 1155L is already above the Grade 8 range — reading comprehension is strong. Every SCR and ECR includes a RACES framework, sentence starters, scoring rubric, and strong vs. weak examples.
+                    </div>
                   </div>
                 </div>
-                {book.questions.map((q, i) => (
-                  <QuestionCard key={i} q={q} index={i} bookColor={book.color} unlocked={unlocked} />
-                ))}
+                <div style={{
+                  background: "#EBF5FB", border: "1px solid #AED6F1", borderRadius: 10,
+                  padding: "12px 18px", fontSize: 13, color: "#1A5276", lineHeight: 1.6, marginBottom: 24,
+                }}>
+                  <strong>📋 How to use:</strong> For MC questions, tap an answer then reveal the explanation. For <strong>✏️ Written Response</strong> questions, draft your answer on paper first using the RACES framework, then compare to the answer guide.
+                </div>
+
+                {/* Questions grid — two columns on wide screens */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))",
+                  gap: 18,
+                  alignItems: "start",
+                }}>
+                  {book.questions.map((q, i) => (
+                    <QuestionCard key={i} q={q} index={i} bookColor={book.color} unlocked={unlocked} />
+                  ))}
+                </div>
               </div>
             )}
           </div>
         </div>
+      </main>
 
-        {/* Footer */}
-        <div style={{ textAlign: "center", marginTop: 30, color: "rgba(255,255,255,0.4)", fontSize: 12 }}>
-          Aligned to Texas TEKS · STAAR Grade 8 RLA Blueprint · NWEA MAP Growth Reading Skills
-        </div>
+      {/* Footer */}
+      <div style={{ textAlign: "center", paddingBottom: 32, color: "rgba(255,255,255,0.25)", fontSize: 11 }}>
+        Aligned to Texas TEKS · STAAR Grade 8 RLA Blueprint · NWEA MAP Growth Reading Skills
       </div>
     </div>
   );
