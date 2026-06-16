@@ -874,7 +874,7 @@ const books = [
     color: "#1A5276",
     accent: "#F4D03F",
     emoji: "🎮",
-    isbn: "9780593482469",
+    isbn: "9780593480830",
     summary: {
       overview:
         "This is the origin story of the beloved Luigi Lemoncello — inventor of fantastical games and puzzles. As a twelve-year-old kid growing up in a large, chaotic Italian-American family in the 1970s, Luigi is dismissed by everyone around him as a dreamer with silly ideas. But when he invents an epic board game to impress the girl he has a crush on — and to compete in a contest — his creativity, persistence, and love of wordplay take center stage. The novel is a heartwarming, funny adventure about believing in yourself when no one else does, and how imagination can turn into something extraordinary.",
