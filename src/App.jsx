@@ -2925,11 +2925,8 @@ export default function App() {
       };
     });
 
-    let allOk = true;
-    for (const row of rows) {
-      const result = await submitToSheet(row);
-      if (!result.ok && !result.demo) allOk = false;
-    }
+    const result = await submitToSheet(rows);
+    const allOk = result.ok || result.demo;
     setSubmitState(allOk ? "done" : "error");
 
     // Save to session history on success
