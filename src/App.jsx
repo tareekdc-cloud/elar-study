@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const books = [
   {
@@ -40,6 +40,21 @@ const books = [
       authorPurpose:
         "John Boyne uses a child narrator to make the horrors of the Holocaust accessible, while also critiquing how ordinary people — even children — can be shaped by their environment. The story forces readers to consider the consequences of complicity, silence, and blind obedience.",
     },
+
+    vocab: [
+      { word: "Fanatical", definition: "Extremely and unreasonably devoted to a belief or cause, to the point of danger.", context: "Lieutenant Kotler was fanatical in his devotion to Nazi ideology, carrying out orders without hesitation or moral reflection.", staarNote: "STAAR tests this word by showing Kotler's behavior and asking what 'fanatical' reveals about his character. Look for context clues that show extreme, unquestioning devotion." },
+      { word: "Prestige", definition: "High status and the respect or admiration that comes from an important position.", context: "The Commandant's transfer to Out-With was presented by the Nazi regime as a position of great prestige — a sign of their trust in him.", staarNote: "When you see 'prestige,' look for surrounding clues about status, honor, or importance. The irony in this novel is that the 'prestigious' post is overseeing a death camp." },
+      { word: "Desolate", definition: "Completely empty, bleak, and without comfort or hope.", context: "Bruno found the landscape around Out-With desolate compared to the lively streets of Berlin — grey, flat, and offering nothing to explore.", staarNote: "Context clues like descriptions of emptiness, greyness, or absence of life point to 'desolate.' It describes both physical places and emotional states." },
+      { word: "Ignorance", definition: "Lack of knowledge or awareness about something, especially something important.", context: "Bruno's ignorance of the Holocaust's true nature was both a result of his age and the deliberate silence of the adults around him.", staarNote: "STAAR distinguishes between ignorance (not knowing) and indifference (not caring). Bruno's ignorance is enforced from outside; the adults' silence is a choice." },
+      { word: "Complicit", definition: "Involved in or sharing responsibility for something wrong, even without directly doing it.", context: "The Mother became increasingly complicit in the camp's operation simply by staying — her silence made her part of what was happening.", staarNote: "This is a critical word for the novel's theme. Being complicit doesn't require direct action — choosing silence or comfort when you know something is wrong counts." },
+      { word: "Melancholy", definition: "A deep, persistent feeling of sadness and hopelessness.", context: "Shmuel's eyes held a melancholy that Bruno couldn't fully understand — a sadness far too heavy for a boy his age.", staarNote: "Context clues like heavy sadness, silence, thin appearance, and eyes that don't smile all point to 'melancholy.' It suggests sadness that doesn't go away." },
+      { word: "Propaganda", definition: "Information, especially biased or misleading, used to promote a particular political cause or point of view.", context: "Gretel's bedroom walls filled with maps and Nazi imagery — she had absorbed the propaganda around her without questioning it.", staarNote: "Look for context clues showing one-sided, emotionally charged information designed to make people believe or do something." },
+    
+      { word: "Naive", definition: "Showing a lack of experience or judgment; innocent to the point of being unaware of danger or complexity.", context: "Bruno's naive questions about the people in striped pajamas revealed how completely he had been shielded from the truth of what the camp was.", staarNote: "Context clues for 'naive' include a character asking innocent questions others find shocking, misunderstanding obvious situations, or being protected from hard truths." },
+      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "Lieutenant Kotler had a sinister quality that Bruno couldn't name — something about his presence made Bruno uneasy even before he understood why.", staarNote: "STAAR tests 'sinister' by surrounding it with unease, dread, or a sense of hidden menace. It differs from 'evil' — sinister implies threat that hasn't fully shown itself yet." },
+      { word: "Atrocity", definition: "An extremely wicked or cruel act, especially one that shocks the conscience.", context: "The novel builds slowly toward the revelation of the atrocity being committed at Out-With — the Holocaust as experienced through a child's innocent eyes.", staarNote: "Context clues for 'atrocity' include descriptions of mass suffering, moral outrage, and acts so severe they are considered crimes against humanity." },
+      { word: "Oblivious", definition: "Not aware of or concerned about what is happening around one.", context: "Bruno remained oblivious to the true nature of Out-With far longer than any adult would — his ignorance was both a shield and a tragedy.", staarNote: "STAAR tests 'oblivious' by showing a character who fails to notice what is obvious to others. Look for context clues of dramatic irony — the reader knows what the character doesn't." },
+      { word: "Ideology", definition: "A system of ideas and ideals, especially one that forms the basis of political or economic theory and policy.", context: "The Nazi ideology that consumed Gretel and shaped Lieutenant Kotler's behavior was accepted by them as truth rather than examined as belief.", staarNote: "Context clues for 'ideology' include a rigid set of beliefs used to justify actions, groupthink, and characters following rules without questioning where they came from." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -249,6 +264,9 @@ const books = [
           "SCR responses should use the RACES strategy and run 4–6 focused sentences. The key analytical move here is connecting a specific detail (shared birthday) to a larger thematic idea (the artificial nature of racial and social division).",
         strongExample: "In The Boy in the Striped Pajamas, Boyne uses the detail that Bruno and Shmuel share the same birthday as an allegory for the idea that no child is born deserving imprisonment or freedom — those fates are imposed by the society around them. The two boys are described in nearly identical terms: same age, same size, same sense of curiosity. This mirroring argues that the only thing separating Bruno from Shmuel is an accident of birth — which family they were born into, which side of the fence they appeared on. Boyne uses this allegory to show that the fence between them is not natural or inevitable; it is man-made, and therefore it is a moral choice, not a fact of nature.",
         weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
+        weakFeedback: "This response identifies the detail but does not explain what it means allegorically. 'Life is not fair' is too vague — it is a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
+        modelAnswer: "In The Boy in the Striped Pajamas, Boyne uses the shared birthday between Bruno and Shmuel as an allegory for the fundamental equality of all human beings at birth. The two boys are described in nearly identical terms — same age, same height, and born on the same day. This physical and temporal mirroring is deliberate: it argues that nothing inherent separates them. The only thing that places one boy on the free side of the fence and the other in the camp is an accident of birth — which family they were born into, which side of history they appeared on. By making the boys allegorical twins, Boyne communicates that the divisions created by Nazi ideology are entirely man-made, not natural or inevitable. The fence is a choice, not a fact, and that is the most disturbing truth the allegory communicates.",
+        weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
         weakFeedback: "This response identifies the detail but doesn't explain what it means allegorically. 'Life is not fair' is too vague to score well — it's a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
       },
       {
@@ -328,6 +346,21 @@ const books = [
       authorPurpose:
         "Soman Chainani uses the structure of classic fairy tales to challenge their most dangerous messages — that beauty equals goodness, that princesses need rescuing, and that heroes and villains are born, not made. He wants readers to question inherited stories and think critically about what they truly value in themselves and others.",
     },
+
+    vocab: [
+      { word: "Subvert", definition: "To undermine or overturn something established or assumed, especially a belief or expectation.", context: "Agatha subverted every expectation placed on her — the girl who looked like a villain turned out to be the most genuinely good person in the story.", staarNote: "STAAR often pairs 'subvert' with descriptions of things turning out opposite to expectations. Look for reversal clues in the surrounding sentences." },
+      { word: "Enigmatic", definition: "Mysterious and difficult to understand or predict.", context: "The School Master remained enigmatic throughout — neither students nor teachers could fully predict his motives or loyalties.", staarNote: "Context clues for 'enigmatic' include characters speaking in hushed tones, uncertainty, unanswered questions, and descriptions of mystery." },
+      { word: "Vanity", definition: "Excessive pride in one's appearance or achievements; placing too much value on how others see you.", context: "Sophie's vanity was her defining flaw — she cared far more about being seen as good than about actually being good.", staarNote: "When a character constantly checks mirrors, seeks approval, or performs kindness for an audience, that's vanity. STAAR tests this as a character motivation." },
+      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "The School Master's tower cast a sinister shadow over both schools — something about his presence made even the bravest students uneasy.", staarNote: "Look for context clues involving darkness, unease, hidden menace, or things that feel wrong without being openly threatening." },
+      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause.", context: "As the story progressed, Agatha's allegiance to Sophie was tested repeatedly — and each time, she chose her friend over her own comfort.", staarNote: "STAAR tests 'allegiance' by showing a character making a choice that costs them something. True allegiance is shown under pressure, not in easy situations." },
+      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature.", context: "Lady Lesso appeared malevolent on the surface, but the novel gradually revealed a more complicated character beneath her cruelty.", staarNote: "Context clues for 'malevolent' include harmful actions, cruel words, and a character who seems to want others to suffer. Contrast with 'sinister,' which implies hidden threat." },
+      { word: "Foil", definition: "A character whose contrasting traits highlight the qualities of another character.", context: "Sophie and Agatha are classic foils — Sophie's vanity makes Agatha's selflessness more visible, and vice versa.", staarNote: "This is a literary term STAAR tests directly. A foil doesn't have to be a villain — they just have to contrast with another character to make that character's traits clearer." },
+    
+      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature or intent.", context: "Lady Lesso appeared malevolent on the surface — cruel, sharp, and demanding — but the novel gradually revealed a character more complicated than pure evil.", staarNote: "STAAR pairs 'malevolent' with visible cruelty and harmful intent. It differs from 'sinister,' which implies hidden threat. Malevolent intent is usually visible in actions and words." },
+      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause, especially under pressure.", context: "Agatha's allegiance to Sophie was tested repeatedly — every time Sophie pushed her away, Agatha had to choose whether to stay or go.", staarNote: "STAAR tests 'allegiance' by showing a character making costly choices out of loyalty. True allegiance is demonstrated under pressure, not in easy circumstances." },
+      { word: "Pretense", definition: "An attempt to make something that is not the case appear true; a false display.", context: "Sophie's acts of kindness in the School for Evil were a pretense — performances designed to prove she didn't belong there, not genuine expressions of care.", staarNote: "Context clues for 'pretense' include characters performing behavior for an audience, actions that contradict inner motivations, and a gap between appearance and reality." },
+      { word: "Superficial", definition: "Existing or occurring at or on the surface; not thorough or deep; concerned only with appearance.", context: "The sorting system's criteria were superficial — beauty and appearance were treated as reliable indicators of goodness, which the novel systematically disproves.", staarNote: "STAAR uses 'superficial' to contrast with deeper or more meaningful qualities. Look for context clues about surface appearances being valued over substance." },
+      { word: "Redemption", definition: "The act of being saved or making up for past failings; gaining something of value through effort or sacrifice.", context: "Whether Sophie achieves true redemption by the novel's end is left deliberately ambiguous — she changes, but not completely, and not without cost.", staarNote: "STAAR tests 'redemption' as a theme word. It implies both past failings and present effort to make things right. Look for evidence of genuine change, not just changed circumstances." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -622,6 +655,21 @@ const books = [
       authorPurpose:
         "Rick Riordan originally invented Percy Jackson to help his son — who has ADHD and dyslexia — feel heroic rather than broken. The novel reframes those 'differences' as divine gifts (ADHD = battlefield instincts; dyslexia = a brain wired for Ancient Greek). More broadly, Riordan uses Greek mythology to make readers curious about the ancient world while exploring timeless questions about identity, family, and what it means to be a hero.",
     },
+
+    vocab: [
+      { word: "Impulsive", definition: "Acting quickly on instinct or feeling without fully thinking through the consequences.", context: "Percy's impulsive nature — charging into situations before thinking — was both his greatest danger and, in battle, his greatest asset.", staarNote: "Context clues for 'impulsive' include acting before thinking, surprising others with sudden moves, and getting into trouble because of quick decisions." },
+      { word: "Formidable", definition: "Inspiring fear or respect because of great power, strength, or ability.", context: "Being the son of Poseidon made Percy formidable to other demigods — his power was impressive, but it also made him a target.", staarNote: "STAAR pairs 'formidable' with both respect and danger — something formidable is impressive enough to be feared. Look for clues about power and the reactions it produces." },
+      { word: "Prophecy", definition: "A prediction of future events, especially one believed to come from a divine or supernatural source.", context: "The Oracle's prophecy about Percy's quest was maddeningly vague — true enough to matter, but unclear enough to mislead.", staarNote: "In context, a prophecy is identified by its source (oracle, god, seer), its vague or symbolic language, and the weight characters give it." },
+      { word: "Treachery", definition: "Betrayal of trust, especially by someone who appeared loyal.", context: "Luke's treachery shocked Percy — someone he had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for clues of hidden loyalty, secret plans, or sudden reveals." },
+      { word: "Mythological", definition: "Relating to myths — traditional stories about gods, heroes, and supernatural events that explain natural phenomena or human behavior.", context: "The mythological world Percy entered was not ancient and distant — it was layered beneath the surface of modern America.", staarNote: "Context clues for 'mythological' include references to gods, ancient stories, supernatural beings, and events that defy natural explanation." },
+      { word: "Labyrinth", definition: "A complicated irregular network of passages or paths in which it is difficult to find one's way; a maze.", context: "The path to the Underworld felt like a labyrinth — every turn revealed a new obstacle, and doubling back was not an option.", staarNote: "Both a literal place (maze) and a metaphor for any confusing situation with no clear path forward. Context clues include confusion, wrong turns, and difficulty navigating." },
+      { word: "Presumptuous", definition: "Failing to observe the limits of what is permitted or appropriate; overstepping.", context: "It was presumptuous of Zeus to assume Percy had stolen the bolt without any evidence — but gods rarely questioned their own conclusions.", staarNote: "Context clues for 'presumptuous' include someone acting with unearned confidence, overstepping their authority, or assuming too much without proof." },
+    
+      { word: "Treachery", definition: "Betrayal of trust by someone who appeared loyal; deceptive action against those who trusted you.", context: "Luke's treachery was the novel's most shocking revelation — someone Percy had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for hidden loyalty, secret plans, or sudden betrayal reveals." },
+      { word: "Labyrinthine", definition: "Resembling a labyrinth in being intricate and difficult to navigate; complicated and confusing.", context: "The path to the Underworld was labyrinthine — every solution created a new obstacle, and no direction felt safe or clear.", staarNote: "Context clues for 'labyrinthine' include confusion, multiple wrong turns, difficulty finding the right path, and an overwhelming sense of complexity." },
+      { word: "Oracle", definition: "A person or thing regarded as a source of wise counsel or prophetic opinion; a pronouncement considered authoritative.", context: "The Oracle's prophecy was both a guide and a trap — true enough to matter but vague enough to be misunderstood until it was too late to change course.", staarNote: "In context, an oracle is identified by its prophetic authority, its often-ambiguous language, and the weight characters give its words. STAAR tests whether students understand prophecy as a literary device." },
+      { word: "Hubris", definition: "Excessive pride or self-confidence, especially when it leads to a downfall.", context: "Ares embodied hubris — his arrogance and certainty in his own power made him careless, which Percy used to his advantage in their confrontation.", staarNote: "Hubris is a key literary term from Greek tragedy. STAAR tests it by showing a character whose excessive pride causes them to make mistakes. Look for overconfidence followed by failure." },
+      { word: "Mortal", definition: "Subject to death; relating to human beings as opposed to divine or immortal beings.", context: "Percy's mortal half made him vulnerable in ways a pure god would not be — he could be hurt, exhausted, and frightened, which the novel treats as a strength, not a weakness.", staarNote: "In mythology contexts, 'mortal' contrasts with 'immortal' or 'divine.' STAAR tests whether students understand this as a thematic distinction, not just a factual one." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -911,6 +959,20 @@ const books = [
       authorPurpose:
         "Grabenstein wrote this as an origin story to show that creativity and persistence matter more than instant recognition. He wants readers — especially those who feel overlooked — to see that having a big imagination is a gift, not a flaw.",
     },
+
+    vocab: [
+      { word: "Tenacious", definition: "Holding firmly to a goal or position and refusing to give up, even when things are difficult.", context: "Luigi was tenacious in his pursuit of the perfect game design — setback after setback only made him more determined to get it right.", staarNote: "Context clues for 'tenacious' include persistence through failure, refusal to quit, and continuing despite discouragement from others." },
+      { word: "Whimsical", definition: "Playfully imaginative in a way that is spontaneous, unpredictable, and creative.", context: "Luigi's game ideas were whimsical — full of unexpected twists, wordplay, and surprises that defied the boring conventions of ordinary games.", staarNote: "STAAR tests 'whimsical' by surrounding it with examples of playfulness, imagination, and unpredictability. It is different from 'silly' — whimsical things are creative, not just funny." },
+      { word: "Ingenious", definition: "Clever, original, and inventive in a way that solves a problem in an unexpected way.", context: "The hidden puzzle inside Luigi's game was ingenious — it could only be solved if you paid attention to clues scattered across the entire experience.", staarNote: "Context clues for 'ingenious' include cleverness, surprise, and an elegant solution to a difficult problem. It praises creativity that others didn't see coming." },
+      { word: "Perseverance", definition: "Continued effort to achieve something despite difficulty, failure, or opposition.", context: "Luigi's perseverance was the quality that set him apart — while others gave up when their ideas failed, he treated failure as a lesson.", staarNote: "STAAR uses 'perseverance' to test understanding of a character trait. Look for evidence of continued effort after failure, not just initial enthusiasm." },
+      { word: "Eccentric", definition: "Unconventional and slightly strange in behavior or appearance, departing from what is expected.", context: "Luigi was considered eccentric by his large family — his obsession with games and puzzles made little sense in a household focused on practical things.", staarNote: "Context clues for 'eccentric' include others finding a character strange or unusual, behavior that doesn't fit social norms, and unconventional interests or habits." },
+      { word: "Innovative", definition: "Introducing new ideas, methods, or products; original and creative in thinking.", context: "Professor Marvelmous recognized something innovative in Luigi's thinking — the boy didn't just follow the rules of existing games, he invented new ones.", staarNote: "STAAR tests 'innovative' by contrasting it with conventional or expected approaches. Look for clues about newness, originality, and departure from what came before." },
+    
+      { word: "Innovative", definition: "Introducing new ideas or methods; original and creative in thinking in ways that depart from convention.", context: "Professor Marvelmous recognized something innovative in Luigi's approach — he didn't just follow the rules of existing games, he invented entirely new ones.", staarNote: "STAAR tests 'innovative' by contrasting it with conventional or expected approaches. Context clues include newness, originality, and doing something no one has done before." },
+      { word: "Eccentric", definition: "Unconventional and slightly strange in behavior or appearance, departing noticeably from what is considered normal.", context: "Luigi was considered eccentric by his large family — his obsession with games and puzzles seemed impractical in a household focused on ordinary things.", staarNote: "Context clues for 'eccentric' include others finding a character strange, behavior that doesn't fit social norms, and unconventional interests others don't understand." },
+      { word: "Vindication", definition: "The action of clearing someone of blame or suspicion; proof that someone was right all along.", context: "Winning the contest was Luigi's vindication — every person who had dismissed his ideas was forced to reckon with what he had actually built.", staarNote: "STAAR tests 'vindication' in contexts where a character has been doubted or dismissed. Look for a moment where events prove the character right, often after difficulty." },
+      { word: "Nostalgia", definition: "A sentimental longing or wistful affection for a period in the past.", context: "The adult Mr. Lemoncello narrates his childhood with nostalgia — warmth and affection for a time that was difficult but ultimately formative.", staarNote: "Context clues for 'nostalgia' include a narrator looking back warmly on the past, descriptions tinged with both happiness and longing, and affection for things that are gone." },
+      { word: "Adversity", definition: "Difficult or unpleasant circumstances; a condition of hardship or misfortune.", context: "Luigi's greatest quality was his response to adversity — setback after setback only sharpened his focus rather than breaking his resolve.", staarNote: "STAAR frequently tests 'adversity' as a theme word. It signals that a character's true qualities are revealed through hardship. Look for context clues of difficulty followed by a character's response." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -1205,6 +1267,21 @@ const books = [
       authorPurpose:
         "Gordon Korman uses the premise of amnesia not as a gimmick but as a philosophical tool: if you stripped away everything a person has been told about who they are, what kind of person would they choose to become? The novel challenges both its characters and its readers to think seriously about whether identity is fixed or fluid, and whether redemption requires more than just stopping the harmful behavior — it requires actively repairing the damage done.",
     },
+
+    vocab: [
+      { word: "Predatory", definition: "Deliberately targeting those who are weaker or more vulnerable in order to dominate or exploit them.", context: "Chase's former behavior was described as predatory — he didn't pick on people randomly, but selected specific victims and used specific tactics to control them.", staarNote: "STAAR tests 'predatory' by distinguishing calculated, targeted behavior from impulsive meanness. Context clues include selection of victims, repeated targeting, and deliberate strategy." },
+      { word: "Reprehensible", definition: "Deserving strong moral condemnation; clearly and seriously wrong.", context: "A teacher described Chase's pre-amnesia behavior as reprehensible — not just unkind, but morally indefensible in every way.", staarNote: "Context clues for 'reprehensible' include strong moral judgment, condemnation without qualification, and language suggesting the behavior goes beyond ordinary rudeness." },
+      { word: "Redemption", definition: "The act of being saved from sin, error, or evil; making up for past wrongdoing.", context: "The novel raises the question of whether Chase's amnesia makes his redemption easier or less meaningful — can you redeem yourself for things you don't remember?", staarNote: "STAAR tests 'redemption' as a theme word. It implies both past wrongdoing and present effort to make things right. Look for context clues about change, forgiveness, and making amends." },
+      { word: "Empathy", definition: "The ability to understand and share the feelings of another person.", context: "The new Chase showed genuine empathy that the old Chase never had — he noticed when people were struggling and actually cared about helping.", staarNote: "STAAR distinguishes empathy (understanding and sharing feelings) from sympathy (feeling sorry for someone). Context clues include a character imagining another's perspective." },
+      { word: "Accountability", definition: "The fact or condition of being responsible for one's actions and accepting the consequences.", context: "Shoshanna wanted accountability from Chase — not just a changed personality, but some acknowledgment of the real harm his past self had caused.", staarNote: "Context clues for 'accountability' include demands for acknowledgment of past wrongs, acceptance of consequences, and the idea that change alone is not enough." },
+      { word: "Remorse", definition: "Deep regret or guilt for a wrong that has been committed.", context: "Chase couldn't feel remorse for things he didn't remember — which raised uncomfortable questions about whether his goodness was truly earned.", staarNote: "STAAR tests 'remorse' by placing it in situations where a character has done wrong. It is stronger than regret — it involves guilt and a recognition of moral failure." },
+      { word: "Ostracize", definition: "To exclude someone from a group or from social acceptance.", context: "Joel had been ostracized by many students after Chase's bullying — the damage to his social standing lasted long after the bullying stopped.", staarNote: "Context clues for 'ostracize' include exclusion from groups, social isolation, and others refusing to interact with someone. It describes the social consequence of being rejected." },
+    
+      { word: "Amnesia", definition: "A partial or total loss of memory, usually caused by brain injury, shock, or illness.", context: "Chase's amnesia was total — he woke up with no memory of his name, his family, or the person he had been before the accident.", staarNote: "In context, amnesia is established through a character's inability to recognize people or places they should know. STAAR uses it as a plot device — ask what the amnesia reveals thematically, not just what it causes." },
+      { word: "Redemption", definition: "The act of making up for past wrongdoing; being saved from error or failure through changed behavior.", context: "Chase's redemption arc raises a harder question than most: can you truly redeem yourself for things you don't remember doing?", staarNote: "STAAR tests 'redemption' as a theme word. It implies both past wrongdoing AND present effort to change. The novel asks whether Chase's redemption is complete without memory of what he's redeeming." },
+      { word: "Culpable", definition: "Deserving blame for a fault or wrong; responsible for wrongdoing.", context: "The question of whether Chase is still culpable for things his former self did haunts the novel — and different characters answer it differently.", staarNote: "Context clues for 'culpable' include blame, moral responsibility, and debate about who deserves punishment. It goes beyond 'guilty' — culpable implies deserving of judgment." },
+      { word: "Integrity", definition: "The quality of being honest and having strong moral principles; moral uprightness.", context: "Mr. Solway's stories about wartime taught Chase that integrity meant doing the right thing even when no one was watching and nothing forced you to.", staarNote: "STAAR tests 'integrity' by showing a character who acts rightly without external reward or pressure. Context clues include honesty, consistency between private and public behavior, and moral steadiness." },
+      { word: "Confront", definition: "To face up to and deal with a problem, difficult situation, or person; to challenge someone directly.", context: "Chase had to confront not just Aaron's hostility but the evidence on that video — the undeniable record of who he had been.", staarNote: "Context clues for 'confront' include a character facing something difficult they would rather avoid. In literary analysis, confronting evidence or truth is often a turning point in a character's arc." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -1499,6 +1576,21 @@ const books = [
       authorPurpose:
         "Norton Juster wrote The Phantom Tollbooth to celebrate the joy of learning, language, and thinking — and to challenge the idea that education is dull. By turning words and numbers into a fantastical landscape, he argues that the tools of the mind are not obstacles to adventure but the source of it. The novel is a love letter to curiosity itself.",
     },
+
+    vocab: [
+      { word: "Lethargy", definition: "A state of sluggish disinterest, lack of energy, and absence of enthusiasm for anything.", context: "Milo approached everything with lethargy — not because he disliked anything in particular, but because he couldn't find the energy to care about anything at all.", staarNote: "STAAR tests 'lethargy' by surrounding it with descriptions of inaction, disinterest, and passive behavior. It is different from laziness — lethargy implies a deeper, more pervasive lack of energy." },
+      { word: "Superfluous", definition: "More than what is needed or wanted; unnecessary and excessive.", context: "The Whether Man spoke in superfluous circles — every sentence contained more words than necessary and arrived at no useful conclusion.", staarNote: "Context clues for 'superfluous' include excessive amounts of something, repetition, and the sense that things could be removed without any loss." },
+      { word: "Pedantic", definition: "Overly concerned with minor details or rules, especially in teaching; excessively focused on formal correctness.", context: "The inhabitants of Digitopolis could be pedantic about numbers — insisting on precise calculations even when a rough estimate would have worked perfectly well.", staarNote: "STAAR tests 'pedantic' by showing a character who corrects others unnecessarily, focuses on trivial details, or prioritizes rules over understanding." },
+      { word: "Absurd", definition: "Wildly unreasonable, illogical, or inappropriate in a way that seems laughable.", context: "The laws of the Lands Beyond were delightfully absurd — jumping to conclusions was an actual island, and half-baked ideas were served as literal food.", staarNote: "Context clues for 'absurd' include situations that defy logic, things that shouldn't be possible treated as normal, and a mix of humor and impossibility." },
+      { word: "Trivial", definition: "Of little value or importance; not worth serious attention.", context: "The Terrible Trivium specialized in trivial tasks — jobs that felt purposeful but produced nothing and consumed enormous amounts of time.", staarNote: "STAAR tests 'trivial' by contrasting it with things that are meaningful or significant. Context clues include wasted time, pointless activity, and things that don't lead anywhere." },
+      { word: "Daunting", definition: "Seeming difficult to deal with in a way that causes hesitation or discouragement.", context: "The quest to rescue Rhyme and Reason seemed daunting at first — the obstacles were enormous and the path was completely unclear.", staarNote: "Context clues for 'daunting' include hesitation, descriptions of difficulty, and a character feeling uncertain about whether they can succeed." },
+      { word: "Illuminate", definition: "To light up; also, to help clarify or explain something that was previously unclear.", context: "Every encounter on Milo's journey seemed to illuminate something — not just facts, but a new way of looking at the world around him.", staarNote: "STAAR uses 'illuminate' in both its literal sense (light) and its figurative sense (making something clear). Context determines which meaning applies." },
+    
+      { word: "Superfluous", definition: "More than what is needed or wanted; unnecessary and excessive in amount.", context: "The Whether Man spoke in superfluous circles — every sentence contained far more words than necessary and arrived at no useful conclusion whatsoever.", staarNote: "Context clues for 'superfluous' include excessive amounts of something, repetition that adds nothing, and the sense that things could be removed without any loss of meaning." },
+      { word: "Pedantic", definition: "Overly concerned with minor details, rules, or correctness, especially in a way that misses the larger point.", context: "The inhabitants of Digitopolis could be pedantic about precise calculations — insisting on exact numbers even when an estimate would have served perfectly well.", staarNote: "STAAR tests 'pedantic' by showing a character who corrects others unnecessarily, focuses on trivial details, or prioritizes formal rules over understanding and judgment." },
+      { word: "Sanctuary", definition: "A place of refuge or safety; a place where one is protected from pursuit or danger.", context: "For Milo, the Lands Beyond became a kind of sanctuary — a place where curiosity was rewarded rather than dismissed as impractical or strange.", staarNote: "Context clues for 'sanctuary' include safety, refuge, a place distinct from the troubles of ordinary life, and a character finding peace or protection they couldn't find elsewhere." },
+      { word: "Ephemeral", definition: "Lasting for a very short time; passing quickly and not permanent.", context: "The Soundkeeper warned Milo that sound, like all beautiful things, was ephemeral — it had to be experienced in the moment or it would be lost forever.", staarNote: "Context clues for 'ephemeral' include descriptions of things fading, not lasting, needing to be experienced now, and the sadness of beauty that passes quickly." },
+      { word: "Revelation", definition: "A surprising and previously unknown fact that is made known; the act of making something hidden visible.", context: "Each stop on Milo's journey brought a new revelation — not just about the Lands Beyond, but about the ordinary world he had left behind without truly seeing it.", staarNote: "STAAR uses 'revelation' both as a plot event (a character learns something new) and as a theme (a journey that changes how someone sees the world). Look for before-and-after contrasts in understanding." },    ],
     questions: [
       {
         type: "Multiple Choice",
@@ -1934,15 +2026,61 @@ async function submitToSheet(payload) {
   }
 }
 
+// ── Writing Timer Hook ────────────────────────────────────────────────────────
+function useWritingTimer(isECR) {
+  const LIMIT_SECS = isECR ? 20 * 60 : 8 * 60; // 20 min ECR, 8 min SCR
+
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (running) {
+      intervalRef.current = setInterval(() => {
+        setElapsed(e => {
+          if (e + 1 >= LIMIT_SECS) {
+            clearInterval(intervalRef.current);
+            return LIMIT_SECS;
+          }
+          return e + 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [running]);
+
+  const startIfNotStarted = () => { if (!running) setRunning(true); };
+
+  const remaining = LIMIT_SECS - elapsed;
+  const expired = remaining <= 0;
+
+  const mins = Math.floor(remaining / 60);
+  const secs = remaining % 60;
+  const display = `${mins}:${String(secs).padStart(2, "0")}`;
+
+  let color = "#27AE60";
+  if (remaining <= LIMIT_SECS * 0.5) color = "#F39C12";
+  if (remaining <= LIMIT_SECS * 0.25) color = "#E67E22";
+  if (remaining <= 2 * 60) color = "#E74C3C";
+  if (expired) color = "#7F8C8D";
+
+  const label = !running
+    ? `⏱ ${isECR ? "20:00" : "8:00"}`
+    : expired
+    ? "🔒 Time's Up"
+    : `⏱ ${display}`;
+
+  return { label, color, startIfNotStarted, running, expired };
+}
+
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
+function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [draftText, setDraftText] = useState("");
-  const [submitState, setSubmitState] = useState("idle"); // idle | submitting | done | error
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
+  const isECR = q.type.includes("Extended");
+  const timer = useWritingTimer(isECR);
 
   // Re-lock: hide answers when parent locks
   const [prevUnlocked, setPrevUnlocked] = useState(unlocked);
@@ -1954,27 +2092,6 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
   const handleRevealClick = () => {
     if (unlocked) setRevealed(!revealed);
     else setShowPrompt(true);
-  };
-
-  const handleSubmit = async () => {
-    if (!draftText.trim()) return;
-    setSubmitState("submitting");
-    const payload = {
-      timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
-      book: bookTitle,
-      question_number: index + 1,
-      question_type: q.type,
-      skill: q.skill,
-      question: q.question.slice(0, 300),
-      answer: draftText.trim(),
-    };
-    const result = await submitToSheet(payload);
-    if (result.demo) {
-      // Sheet not yet configured — still show success so UX works
-      setSubmitState("done");
-    } else {
-      setSubmitState(result.ok ? "done" : "error");
-    }
   };
 
   return (
@@ -2012,7 +2129,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
       {q.options.length > 0 && (
         <div style={{ marginBottom: 14 }}>
           {q.options.map((opt, i) => (
-            <div key={i} onClick={() => setSelectedOption(i)} style={{
+            <div key={i} onClick={() => onSelect(index, i)} style={{
               padding: "9px 14px", marginBottom: 6, borderRadius: 8,
               border: `1.5px solid ${selectedOption === i ? colors.border : "#CBD5E0"}`,
               background: selectedOption === i ? `${colors.border}18` : "#fff",
@@ -2034,66 +2151,91 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
             <ScoringRubric type={q.type} />
           </div>
 
-          {/* Draft textarea */}
-          <div style={{ background: "#fff", border: `2px solid ${colors.border}`, borderRadius: 10, overflow: "hidden" }}>
-            <div style={{ background: colors.border, padding: "8px 14px", display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 14 }}>✏️</span>
+          {/* Draft textarea with timer */}
+          <div style={{
+            background: "#fff",
+            border: `2px solid ${timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border}`,
+            borderRadius: 10, overflow: "hidden",
+            transition: "border-color 0.3s ease",
+            opacity: timer.expired ? 0.85 : 1,
+          }}>
+            {/* Textarea header with live timer */}
+            <div style={{
+              background: timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border,
+              padding: "8px 14px", display: "flex", alignItems: "center", gap: 8,
+              transition: "background 0.5s ease",
+            }}>
+              <span style={{ fontSize: 14 }}>{timer.expired ? "🔒" : "✏️"}</span>
               <span style={{ color: "#fff", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                Your Response
+                {timer.expired ? "Response Locked" : "Your Response"}
               </span>
-              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 11, marginLeft: "auto" }}>
-                {draftText.length} characters
+              <span style={{
+                marginLeft: "auto",
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 800,
+                fontFamily: "monospace",
+                letterSpacing: 1,
+                opacity: timer.running ? 1 : 0.7,
+              }}>
+                {timer.label}
               </span>
             </div>
+
+            {/* Locked banner */}
+            {timer.expired && (
+              <div style={{
+                background: "#F2F3F4", borderBottom: "1px solid #BDC3C7",
+                padding: "10px 14px", display: "flex", alignItems: "center", gap: 8,
+              }}>
+                <span style={{ fontSize: 16 }}>🔒</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#555" }}>
+                  Time's up — this response has been locked. Move on to the next question.
+                </span>
+              </div>
+            )}
+
             <textarea
-              value={draftText}
-              onChange={e => { setDraftText(e.target.value); setSubmitState("idle"); }}
-              placeholder={q.type.includes("Extended")
+              value={draftText || ""}
+              readOnly={timer.expired}
+              onChange={e => {
+                if (timer.expired) return;
+                onDraftChange(index, e.target.value);
+                timer.startIfNotStarted();
+              }}
+              placeholder={isECR
                 ? "Write your full response here. Aim for 3–5 paragraphs with a clear thesis, evidence, and analysis..."
                 : "Write your response here. Aim for 4–6 focused sentences using the RACES framework..."}
               style={{
-                width: "100%", minHeight: q.type.includes("Extended") ? 220 : 140,
+                width: "100%", minHeight: isECR ? 220 : 140,
                 padding: "14px 16px", fontSize: 14, lineHeight: 1.7,
-                fontFamily: "'Georgia', serif", color: "#2C3E50",
-                border: "none", outline: "none", resize: "vertical",
-                boxSizing: "border-box", background: "#fff",
+                fontFamily: "'Georgia', serif", color: timer.expired ? "#888" : "#2C3E50",
+                border: "none", outline: "none", resize: timer.expired ? "none" : "vertical",
+                boxSizing: "border-box",
+                background: timer.expired ? "#F8F9FA" : "#fff",
+                cursor: timer.expired ? "not-allowed" : "text",
               }}
             />
-            <div style={{ padding: "10px 14px", borderTop: `1px solid ${colors.border}33`, display: "flex", alignItems: "center", gap: 10 }}>
-              {submitState === "done" ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#27AE60", fontWeight: 700, fontSize: 13 }}>
-                  ✅ Responses submitted for review!
-                </div>
-              ) : submitState === "error" ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#E74C3C", fontWeight: 700, fontSize: 13 }}>
-                  ⚠️ Submission failed — try again
-                  <button onClick={() => setSubmitState("idle")} style={{ fontSize: 11, color: "#E74C3C", background: "none", border: "1px solid #E74C3C", borderRadius: 5, padding: "2px 8px", cursor: "pointer" }}>Retry</button>
-                </div>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={!draftText.trim() || submitState === "submitting"}
-                  style={{
-                    background: draftText.trim() ? colors.border : "#BDC3C7",
-                    color: "#fff", border: "none", borderRadius: 8,
-                    padding: "8px 20px", fontSize: 13, fontWeight: 700,
-                    cursor: draftText.trim() ? "pointer" : "not-allowed",
-                    display: "flex", alignItems: "center", gap: 6, transition: "all 0.15s",
-                  }}
-                >
-                  {submitState === "submitting" ? "⏳ Submitting..." : "📤 Submit"}
-                </button>
-              )}
-              {submitState === "done" && (
-                <button
-                  onClick={() => { setDraftText(""); setSubmitState("idle"); }}
-                  style={{ fontSize: 12, color: "#7F8C8D", background: "none", border: "1px solid #BDC3C7", borderRadius: 6, padding: "4px 12px", cursor: "pointer" }}
-                >
-                  Clear & Try Again
-                </button>
-              )}
+
+            {/* Footer: character count */}
+            <div style={{
+              padding: "6px 14px", borderTop: `1px solid ${colors.border}22`,
+              display: "flex", justifyContent: "flex-end",
+            }}>
+              <span style={{ color: "#999", fontSize: 11 }}>
+                {(draftText || "").length} characters
+              </span>
             </div>
           </div>
+
+          {/* Timer hint — shown before timer starts */}
+          {!timer.running && !timer.expired && (
+            <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 11, color: "#999" }}>
+                ⏱ Timer starts on first keystroke · {isECR ? "20 min" : "8 min"} · field locks when time is up
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -2156,7 +2298,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked }) {
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "0305"; // ← Change this to your preferred PIN
+const CORRECT_PIN = "8959";
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
@@ -2288,8 +2430,193 @@ function PinModal({ onSuccess, onCancel }) {
   );
 }
 
+// ── Flashcard Tab ─────────────────────────────────────────────────────────────
+function FlashcardTab({ book }) {
+  const [cardIndex, setCardIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const [mode, setMode] = useState("word"); // "word" | "sentence"
+  const [known, setKnown] = useState(new Set());
+  const [learning, setLearning] = useState(new Set());
+  const [order, setOrder] = useState(() => book.vocab.map((_, i) => i));
+  const [filterMode, setFilterMode] = useState("all");
+
+  const visibleOrder = filterMode === "learning"
+    ? order.filter(i => learning.has(i))
+    : order;
+
+  const totalCards = visibleOrder.length;
+  const currentIdx = visibleOrder[cardIndex] ?? 0;
+  const card = book.vocab[currentIdx];
+  const knownCount = known.size;
+
+  const shuffle = () => {
+    setOrder([...order].sort(() => Math.random() - 0.5));
+    setCardIndex(0);
+    setFlipped(false);
+  };
+
+  const reset = () => {
+    setKnown(new Set());
+    setLearning(new Set());
+    setOrder(book.vocab.map((_, i) => i));
+    setCardIndex(0);
+    setFlipped(false);
+    setFilterMode("all");
+  };
+
+  const goNext = () => {
+    setFlipped(false);
+    setTimeout(() => setCardIndex(i => Math.min(i + 1, totalCards - 1)), 150);
+  };
+
+  const goPrev = () => {
+    setFlipped(false);
+    setTimeout(() => setCardIndex(i => Math.max(i - 1, 0)), 150);
+  };
+
+  const markKnown = () => {
+    setKnown(prev => { const s = new Set(prev); s.add(currentIdx); return s; });
+    setLearning(prev => { const s = new Set(prev); s.delete(currentIdx); return s; });
+    goNext();
+  };
+
+  const markLearning = () => {
+    setLearning(prev => { const s = new Set(prev); s.add(currentIdx); return s; });
+    setKnown(prev => { const s = new Set(prev); s.delete(currentIdx); return s; });
+    goNext();
+  };
+
+  if (!card) return (
+    <div style={{ textAlign: "center", padding: "60px 20px" }}>
+      <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
+      <div style={{ fontSize: 18, fontWeight: 800, color: "#2C3E50", marginBottom: 8 }}>All cards reviewed!</div>
+      <button onClick={reset} style={{ background: book.color, color: "#fff", border: "none", borderRadius: 10, padding: "12px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", marginTop: 12 }}>Start Over</button>
+    </div>
+  );
+
+  const frontText = mode === "word"
+    ? card.word
+    : card.context.replace(new RegExp(`\\b${card.word}\\b`, "gi"), "▢▢▢▢▢▢");
+
+  const cardStatus = known.has(currentIdx) ? "known" : learning.has(currentIdx) ? "learning" : "unseen";
+
+  return (
+    <div style={{ maxWidth: 720, margin: "0 auto" }}>
+
+      {/* Controls bar */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 28 }}>
+        <div style={{ display: "flex", background: "#F0F0F0", borderRadius: 10, padding: 4, gap: 4 }}>
+          {[
+            { id: "word", label: "Word → Definition" },
+            { id: "sentence", label: "Sentence → Word" },
+          ].map(m => (
+            <button key={m.id} onClick={() => { setMode(m.id); setFlipped(false); }} style={{
+              background: mode === m.id ? book.color : "none",
+              color: mode === m.id ? "#fff" : "#555",
+              border: "none", borderRadius: 8, padding: "7px 14px",
+              fontSize: 12, fontWeight: 700, cursor: "pointer", transition: "all 0.15s",
+            }}>{m.label}</button>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {learning.size > 0 && (
+            <button onClick={() => { setFilterMode(f => f === "learning" ? "all" : "learning"); setCardIndex(0); setFlipped(false); }} style={{
+              background: filterMode === "learning" ? "#E74C3C" : "rgba(231,76,60,0.1)",
+              color: filterMode === "learning" ? "#fff" : "#E74C3C",
+              border: "1px solid #E74C3C44", borderRadius: 8,
+              padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer",
+            }}>🔁 Still Learning ({learning.size})</button>
+          )}
+          <button onClick={shuffle} style={{ background: "#F0F0F0", border: "none", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, color: "#555", cursor: "pointer" }}>🔀 Shuffle</button>
+          <button onClick={reset} style={{ background: "#F0F0F0", border: "none", borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 700, color: "#555", cursor: "pointer" }}>↺ Reset</button>
+        </div>
+      </div>
+
+      {/* Progress */}
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 12, color: "#7F8C8D", fontWeight: 600 }}>
+          <span>Card {Math.min(cardIndex + 1, totalCards)} of {totalCards}</span>
+          <span><span style={{ color: "#27AE60" }}>✓ {knownCount} known</span> · <span style={{ color: "#E74C3C" }}>↺ {learning.size} still learning</span></span>
+        </div>
+        <div style={{ background: "#ECF0F1", borderRadius: 8, height: 6 }}>
+          <div style={{ height: "100%", borderRadius: 8, background: book.color, width: `${totalCards > 0 ? (cardIndex / totalCards) * 100 : 0}%`, transition: "width 0.3s ease" }} />
+        </div>
+      </div>
+
+      {/* The Card */}
+      <div onClick={() => setFlipped(f => !f)} style={{
+        minHeight: 280, background: flipped ? "#1A252F" : "#fff",
+        border: `2px solid ${cardStatus === "known" ? "#27AE60" : cardStatus === "learning" ? "#E74C3C" : book.color}`,
+        borderRadius: 20, padding: "36px 40px", cursor: "pointer",
+        transition: "all 0.25s ease", boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+        position: "relative", marginBottom: 16,
+      }}>
+        {/* Book badge */}
+        <div style={{ position: "absolute", top: 16, left: 20, background: book.color, color: "#fff", borderRadius: 6, padding: "2px 10px", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5 }}>
+          {book.emoji} {book.title.length > 22 ? book.title.slice(0, 20) + "…" : book.title}
+        </div>
+        {cardStatus !== "unseen" && (
+          <div style={{ position: "absolute", top: 16, right: 20, background: cardStatus === "known" ? "#27AE60" : "#E74C3C", color: "#fff", borderRadius: 6, padding: "2px 10px", fontSize: 10, fontWeight: 800 }}>
+            {cardStatus === "known" ? "✓ Know it" : "↺ Still learning"}
+          </div>
+        )}
+
+        {!flipped ? (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: 180, textAlign: "center", paddingTop: 24 }}>
+            {mode === "word" ? (
+              <>
+                <div style={{ fontSize: 42, fontFamily: "'Georgia', serif", fontWeight: 900, color: book.color, marginBottom: 12, letterSpacing: -1 }}>{card.word}</div>
+                <div style={{ color: "#BDC3C7", fontSize: 13 }}>tap to see definition</div>
+              </>
+            ) : (
+              <>
+                <div style={{ fontFamily: "'Georgia', serif", fontSize: 17, color: "#2C3E50", lineHeight: 1.75, marginBottom: 12, paddingTop: 16 }}>"{frontText}"</div>
+                <div style={{ color: "#BDC3C7", fontSize: 13 }}>What word fills the blank? Tap to reveal.</div>
+              </>
+            )}
+          </div>
+        ) : (
+          <div style={{ paddingTop: 28 }}>
+            <div style={{ fontSize: 28, fontFamily: "'Georgia', serif", fontWeight: 900, color: "#fff", marginBottom: 10 }}>{card.word}</div>
+            <div style={{ fontSize: 16, color: "rgba(255,255,255,0.9)", lineHeight: 1.65, marginBottom: 18, fontFamily: "'Georgia', serif" }}>{card.definition}</div>
+            <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 10, padding: "12px 16px", marginBottom: 14 }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6 }}>In Context</div>
+              <div style={{ fontFamily: "'Georgia', serif", fontSize: 13.5, color: "rgba(255,255,255,0.8)", lineHeight: 1.65, fontStyle: "italic" }}>"{card.context}"</div>
+            </div>
+            <div style={{ background: `${book.color}44`, borderRadius: 10, padding: "10px 14px", borderLeft: `3px solid ${book.color}` }}>
+              <div style={{ fontSize: 10, color: "#F0A500", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>⭐ STAAR Tip</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", lineHeight: 1.6 }}>{card.staarNote}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Know it / Still learning buttons — after flip */}
+      {flipped && (
+        <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
+          <button onClick={markLearning} style={{ flex: 1, background: "#FDEDEC", border: "2px solid #E74C3C", color: "#E74C3C", borderRadius: 12, padding: "14px 0", fontSize: 14, fontWeight: 800, cursor: "pointer" }}>↺ Still Learning</button>
+          <button onClick={markKnown} style={{ flex: 1, background: "#EAFAF1", border: "2px solid #27AE60", color: "#27AE60", borderRadius: 12, padding: "14px 0", fontSize: 14, fontWeight: 800, cursor: "pointer" }}>✓ Know It</button>
+        </div>
+      )}
+
+      {/* Prev / Next */}
+      <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+        <button onClick={goPrev} disabled={cardIndex === 0} style={{ background: cardIndex === 0 ? "#F0F0F0" : "#ECF0F1", border: "none", borderRadius: 10, padding: "10px 24px", fontSize: 14, fontWeight: 700, color: cardIndex === 0 ? "#BDC3C7" : "#555", cursor: cardIndex === 0 ? "not-allowed" : "pointer" }}>← Prev</button>
+        <button onClick={goNext} disabled={cardIndex >= totalCards - 1} style={{ background: cardIndex >= totalCards - 1 ? "#F0F0F0" : book.color, border: "none", borderRadius: 10, padding: "10px 24px", fontSize: 14, fontWeight: 700, color: cardIndex >= totalCards - 1 ? "#BDC3C7" : "#fff", cursor: cardIndex >= totalCards - 1 ? "not-allowed" : "pointer" }}>Next →</button>
+      </div>
+
+      {knownCount === book.vocab.length && (
+        <div style={{ marginTop: 24, background: "#EAFAF1", border: "2px solid #27AE60", borderRadius: 14, padding: "18px 24px", textAlign: "center" }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
+          <div style={{ fontWeight: 800, color: "#1E8449", fontSize: 16 }}>You know all {book.vocab.length} words for this book!</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Book Grid Card ────────────────────────────────────────────────────────────
-function BookGridCard({ book, active, onClick }) {
+function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   const [hovered, setHovered] = useState(false);
   const [imgError, setImgError] = useState(false);
   const coverUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
@@ -2373,6 +2700,20 @@ function BookGridCard({ book, active, onClick }) {
           </div>
         )}
 
+        {/* Session completion badge */}
+        {sessionCount > 0 && !active && (
+          <div style={{
+            position: "absolute", bottom: 8, right: 8,
+            background: "#27AE60", color: "#fff",
+            borderRadius: 20, padding: "3px 8px",
+            fontSize: 10, fontWeight: 900,
+            boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+            display: "flex", alignItems: "center", gap: 4,
+          }}>
+            ✓ {sessionCount}
+          </div>
+        )}
+
         {/* Hover overlay with quick info */}
         {hovered && !active && (
           <div style={{
@@ -2425,12 +2766,121 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("summary");
   const [unlocked, setUnlocked] = useState(false);
   const [showPin, setShowPin] = useState(false);
+  const [drafts, setDrafts] = useState({});
+  const [selections, setSelections] = useState({});
+  const [submitState, setSubmitState] = useState("idle");
+  const [shuffled, setShuffled] = useState(false);
+  const [questionOrder, setQuestionOrder] = useState(null); // null = original order
+  const [sessionHistory, setSessionHistory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("elar_sessions") || "[]"); } catch { return []; }
+  });
   const book = books[activeBook];
+
+  // Derive displayed question list (shuffled or original)
+  const displayedQuestions = (() => {
+    if (!shuffled || !questionOrder) return book.questions.map((q, i) => ({ q, origIdx: i }));
+    return questionOrder.map(origIdx => ({ q: book.questions[origIdx], origIdx }));
+  })();
+
+  const handleToggleShuffle = () => {
+    if (!shuffled) {
+      const order = [...book.questions.map((_, i) => i)].sort(() => Math.random() - 0.5);
+      setQuestionOrder(order);
+      setShuffled(true);
+    } else {
+      setQuestionOrder(null);
+      setShuffled(false);
+    }
+    setSelections({});
+    setDrafts({});
+    setSubmitState("idle");
+  };
+
+  const draftKey = (qIndex) => `${book.id}-${qIndex}`;
+
+  const handleDraftChange = (qIndex, text) => {
+    setDrafts(prev => ({ ...prev, [draftKey(qIndex)]: text }));
+    setSubmitState("idle");
+  };
+
+  const handleSelect = (qIndex, optionIndex) => {
+    setSelections(prev => ({ ...prev, [draftKey(qIndex)]: optionIndex }));
+    setSubmitState("idle");
+  };
+
+  // Track ALL questions for progress
+  const totalQuestions = book.questions.length;
+  const answeredCount = displayedQuestions.filter(({ q, origIdx }) => {
+    if (isWrittenResponse(q.type)) {
+      return (drafts[draftKey(origIdx)] || "").trim().length > 0;
+    } else if (q.options.length > 0) {
+      return selections[draftKey(origIdx)] !== undefined;
+    }
+    return false;
+  }).length;
+
+  const writtenQuestions = displayedQuestions.filter(({ q }) => isWrittenResponse(q.type));
+  const writtenAnsweredCount = writtenQuestions.filter(({ i }) => (drafts[draftKey(i)] || "").trim()).length;
+
+  const allAnswered = answeredCount === totalQuestions;
+
+  const handleSubmitAll = async () => {
+    setSubmitState("submitting");
+
+    const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+
+    const rows = displayedQuestions.map(({ q, origIdx }, displayIdx) => {
+      const isWritten = isWrittenResponse(q.type);
+      let answerText = "";
+      if (isWritten) {
+        answerText = (drafts[draftKey(origIdx)] || "").trim();
+      } else if (q.options.length > 0) {
+        const sel = selections[draftKey(origIdx)];
+        if (sel !== undefined && q.options[sel]) answerText = q.options[sel];
+      }
+      return {
+        timestamp,
+        book: book.title,
+        question_number: origIdx + 1,
+        question_type: q.type,
+        skill: q.skill,
+        question: q.question.slice(0, 300),
+        answer: answerText,
+      };
+    });
+
+    let allOk = true;
+    for (const row of rows) {
+      const result = await submitToSheet(row);
+      if (!result.ok && !result.demo) allOk = false;
+    }
+    setSubmitState(allOk ? "done" : "error");
+
+    // Save to session history on success
+    if (allOk) {
+      const session = {
+        bookId: book.id,
+        bookTitle: book.title,
+        bookEmoji: book.emoji,
+        bookColor: book.color,
+        date: new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
+        questionsAnswered: totalQuestions,
+        writtenCount: writtenQuestions.length,
+      };
+      const updated = [session, ...sessionHistory].slice(0, 50);
+      setSessionHistory(updated);
+      try { localStorage.setItem("elar_sessions", JSON.stringify(updated)); } catch {}
+    }
+  };
 
   const handleSelectBook = (i) => {
     setActiveBook(i);
     setActiveTab("summary");
-    // Scroll content into view smoothly
+    setShuffled(false);
+    setQuestionOrder(null);
+    setDrafts({});
+    setSelections({});
+    setSubmitState("idle");
     setTimeout(() => {
       document.getElementById("book-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 50);
@@ -2540,17 +2990,70 @@ export default function App() {
             gap: 20,
             alignItems: "start",
           }}>
-            {books.map((b, i) => (
-              <BookGridCard
-                key={b.id}
-                book={b}
-                active={activeBook === i}
-                onClick={() => handleSelectBook(i)}
-              />
-            ))}
+            {books.map((b, i) => {
+              const bookSessions = sessionHistory.filter(s => s.bookId === b.id);
+              return (
+                <BookGridCard
+                  key={b.id}
+                  book={b}
+                  active={activeBook === i}
+                  onClick={() => handleSelectBook(i)}
+                  sessionCount={bookSessions.length}
+                  lastSession={bookSessions[0]?.date || null}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
+
+      {/* ── Session History ── */}
+      {sessionHistory.length > 0 && (
+        <section style={{ padding: "0 40px 32px" }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+            <div style={{ marginBottom: 16, display: "flex", alignItems: "baseline", gap: 12 }}>
+              <h2 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 800, margin: 0 }}>
+                📋 Past Sessions
+              </h2>
+              <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
+                {sessionHistory.length} session{sessionHistory.length !== 1 ? "s" : ""} completed
+              </span>
+              <button
+                onClick={() => { setSessionHistory([]); try { localStorage.removeItem("elar_sessions"); } catch {} }}
+                style={{ marginLeft: "auto", background: "none", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.3)", borderRadius: 6, padding: "3px 10px", fontSize: 11, cursor: "pointer" }}
+              >
+                Clear History
+              </button>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
+              {sessionHistory.slice(0, 12).map((s, i) => (
+                <div key={i} style={{
+                  background: "rgba(255,255,255,0.04)", border: `1px solid ${s.bookColor}44`,
+                  borderRadius: 12, padding: "14px 18px",
+                  display: "flex", alignItems: "center", gap: 14,
+                  borderLeft: `4px solid ${s.bookColor}`,
+                }}>
+                  <span style={{ fontSize: 28, flexShrink: 0 }}>{s.bookEmoji}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ color: "#fff", fontWeight: 700, fontSize: 13, fontFamily: "'Georgia', serif", marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {s.bookTitle}
+                    </div>
+                    <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>{s.date}</div>
+                    <div style={{ display: "flex", gap: 6, marginTop: 5 }}>
+                      <span style={{ background: "#27AE6033", color: "#27AE60", borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 700 }}>
+                        ✓ {s.questionsAnswered} questions
+                      </span>
+                      <span style={{ background: `${s.bookColor}33`, color: "#fff", borderRadius: 4, padding: "2px 7px", fontSize: 10, fontWeight: 700 }}>
+                        {s.writtenCount} written
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Book Content ── */}
       <main id="book-content" style={{ padding: "0 40px 80px" }}>
@@ -2605,7 +3108,8 @@ export default function App() {
             gap: 0,
           }}>
             {[
-              { id: "summary", label: "📖 Book Summary" },
+              { id: "summary", label: unlocked ? "📖 Book Summary" : "🔒 Book Summary" },
+              { id: "vocab", label: `🃏 Vocab Flashcards (${book.vocab.length})` },
               { id: "questions", label: `❓ Practice Questions (${book.questions.length})` },
             ].map(t => (
               <button
@@ -2636,6 +3140,30 @@ export default function App() {
 
             {/* ── SUMMARY TAB ── */}
             {activeTab === "summary" && (
+              !unlocked ? (
+                /* Locked state */
+                <div style={{ textAlign: "center", padding: "60px 20px" }}>
+                  <div style={{ fontSize: 64, marginBottom: 20 }}>🔒</div>
+                  <h3 style={{ fontFamily: "'Georgia', serif", fontSize: 22, fontWeight: 800, color: "#2C3E50", marginBottom: 12 }}>
+                    Book Summary is Locked
+                  </h3>
+                  <p style={{ fontFamily: "'Georgia', serif", fontSize: 15, color: "#7F8C8D", lineHeight: 1.7, maxWidth: 480, margin: "0 auto 28px" }}>
+                    The book summary — including themes, characters, literary devices, and author's purpose — is for parent review only. Complete the practice questions first, then ask a parent to unlock for a review session together.
+                  </p>
+                  <button
+                    onClick={() => setShowPin(true)}
+                    style={{
+                      background: book.color, color: "#fff", border: "none",
+                      borderRadius: 12, padding: "14px 32px",
+                      fontSize: 15, fontWeight: 800, cursor: "pointer",
+                      display: "inline-flex", alignItems: "center", gap: 10,
+                      boxShadow: `0 6px 20px ${book.color}55`,
+                    }}
+                  >
+                    🔑 Unlock (Parent)
+                  </button>
+                </div>
+              ) : (
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -2731,6 +3259,7 @@ export default function App() {
                   </div>
                 </section>
               </div>
+              ) /* end unlocked ternary */
             )}
 
             {/* ── QUESTIONS TAB ── */}
@@ -2769,23 +3298,130 @@ export default function App() {
                 <div style={{
                   background: "#EBF5FB", border: "1px solid #AED6F1", borderRadius: 10,
                   padding: "12px 18px", fontSize: 13, color: "#1A5276", lineHeight: 1.6, marginBottom: 24,
+                  display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
                 }}>
-                  <strong>📋 How to use:</strong> For MC questions, tap an answer then reveal the explanation. For <strong>✏️ Written Response</strong> questions, draft your answer on paper first using the RACES framework, then compare to the answer guide.
+                  <span><strong>📋 How to use:</strong> For MC questions, tap an answer then reveal the explanation. For <strong>✏️ Written Response</strong> questions, draft your answer using the RACES framework, then compare to the answer guide.</span>
+                  <button
+                    onClick={handleToggleShuffle}
+                    style={{
+                      background: shuffled ? "#1A5276" : "#fff",
+                      color: shuffled ? "#fff" : "#1A5276",
+                      border: "2px solid #1A5276", borderRadius: 8,
+                      padding: "6px 16px", fontSize: 12, fontWeight: 800,
+                      cursor: "pointer", display: "flex", alignItems: "center", gap: 6,
+                      whiteSpace: "nowrap", flexShrink: 0,
+                    }}
+                  >
+                    🔀 {shuffled ? "Shuffled — Click to Reset" : "Shuffle Questions"}
+                  </button>
                 </div>
 
-                {/* Questions grid — two columns on wide screens */}
+                {/* Questions grid */}
                 <div style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))",
                   gap: 18,
                   alignItems: "start",
                 }}>
-                  {book.questions.map((q, i) => (
-                    <QuestionCard key={i} q={q} index={i} bookColor={book.color} bookTitle={book.title} unlocked={unlocked} />
+                  {displayedQuestions.map(({ q, origIdx }, displayIdx) => (
+                    <QuestionCard
+                      key={`${book.id}-${origIdx}`}
+                      q={q}
+                      index={displayIdx}
+                      bookColor={book.color}
+                      bookTitle={book.title}
+                      unlocked={unlocked}
+                      draftText={drafts[draftKey(origIdx)] || ""}
+                      onDraftChange={(_, text) => handleDraftChange(origIdx, text)}
+                      selectedOption={selections[draftKey(origIdx)] ?? null}
+                      onSelect={(_, optIdx) => handleSelect(origIdx, optIdx)}
+                    />
                   ))}
                 </div>
+
+                {/* ── Submit All Panel ── */}
+                {writtenQuestions.length > 0 && (
+                  <div style={{
+                    marginTop: 32,
+                    background: "linear-gradient(135deg, #1B2A4A 0%, #1F3C6B 100%)",
+                    borderRadius: 16, padding: "28px 32px",
+                    border: "2px solid rgba(255,255,255,0.1)",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
+                      <div>
+                        <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.55 }}>
+                          {answeredCount === 0
+                            ? `Answer all ${totalQuestions} questions above to unlock submission.`
+                            : answeredCount < totalQuestions
+                            ? `${answeredCount} of ${totalQuestions} questions answered — finish the remaining ${totalQuestions - answeredCount} to submit.`
+                            : `All ${totalQuestions} questions answered — ready to submit!`}
+                        </div>
+
+                        {/* Progress bar */}
+                        <div style={{ marginTop: 12, background: "rgba(255,255,255,0.1)", borderRadius: 8, height: 8, width: 300, maxWidth: "100%" }}>
+                          <div style={{
+                            height: "100%", borderRadius: 8,
+                            background: allAnswered ? "#27AE60" : "#F39C12",
+                            width: `${totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0}%`,
+                            transition: "width 0.3s ease",
+                          }} />
+                        </div>
+                        <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, marginTop: 5 }}>
+                          {answeredCount}/{totalQuestions} questions answered
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
+                        {submitState === "done" ? (
+                          <div style={{ textAlign: "center" }}>
+                            <div style={{ fontSize: 36, marginBottom: 6 }}>✅</div>
+                            <div style={{ color: "#27AE60", fontWeight: 800, fontSize: 14 }}>Submitted successfully!</div>
+                            <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 4 }}>Dad can see your responses in the review sheet.</div>
+                            <button
+                              onClick={() => setSubmitState("idle")}
+                              style={{ marginTop: 10, background: "none", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.5)", borderRadius: 6, padding: "5px 14px", fontSize: 12, cursor: "pointer" }}
+                            >
+                              Submit Again
+                            </button>
+                          </div>
+                        ) : submitState === "error" ? (
+                          <div style={{ textAlign: "center" }}>
+                            <div style={{ color: "#E74C3C", fontWeight: 800, fontSize: 14, marginBottom: 8 }}>⚠️ Submission failed</div>
+                            <button
+                              onClick={handleSubmitAll}
+                              style={{ background: "#E74C3C", color: "#fff", border: "none", borderRadius: 10, padding: "12px 28px", fontSize: 14, fontWeight: 800, cursor: "pointer" }}
+                            >
+                              Try Again
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={handleSubmitAll}
+                            disabled={!allAnswered || submitState === "submitting"}
+                            style={{
+                              background: allAnswered ? "#27AE60" : "rgba(255,255,255,0.1)",
+                              color: allAnswered ? "#fff" : "rgba(255,255,255,0.3)",
+                              border: "none", borderRadius: 12,
+                              padding: "16px 36px", fontSize: 16, fontWeight: 800,
+                              cursor: allAnswered ? "pointer" : "not-allowed",
+                              display: "flex", alignItems: "center", gap: 10,
+                              boxShadow: allAnswered ? "0 6px 20px rgba(39,174,96,0.4)" : "none",
+                              transition: "all 0.2s ease",
+                            }}
+                          >
+                            {submitState === "submitting" ? "⏳ Submitting..." : "Submit All"}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+            {activeTab === "vocab" && (
+              <FlashcardTab book={book} />
+            )}
+
           </div>
         </div>
       </main>
