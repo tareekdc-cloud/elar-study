@@ -2125,22 +2125,81 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
         {q.question}
       </p>
 
-      {/* MC Options */}
-      {q.options.length > 0 && (
-        <div style={{ marginBottom: 14 }}>
-          {q.options.map((opt, i) => (
-            <div key={i} onClick={() => onSelect(index, i)} style={{
-              padding: "9px 14px", marginBottom: 6, borderRadius: 8,
-              border: `1.5px solid ${selectedOption === i ? colors.border : "#CBD5E0"}`,
-              background: selectedOption === i ? `${colors.border}18` : "#fff",
-              cursor: "pointer", fontSize: 14, lineHeight: 1.55, color: "#2C3E50",
-              transition: "all 0.15s ease", whiteSpace: "pre-line",
-            }}>
-              {opt}
+      {/* Options — split Part A/B or standard MC */}
+      {q.options.length > 0 && (() => {
+        const isPartAB = q.type.includes("Part A");
+
+        if (isPartAB) {
+          // Parse the single options string into Part A and Part B groups
+          const allOpts = q.options[0].split("\n").map(s => s.trim()).filter(Boolean);
+          const partAOpts = allOpts.filter(o => o.startsWith("Part A"));
+          const partBOpts = allOpts.filter(o => o.startsWith("Part B"));
+          const selA = selectedOption?.a ?? null;
+          const selB = selectedOption?.b ?? null;
+
+          const renderGroup = (label, opts, selKey) => (
+            <div style={{ marginBottom: 14 }}>
+              <div style={{
+                fontWeight: 800, fontSize: 12, color: colors.label,
+                textTransform: "uppercase", letterSpacing: 0.5,
+                marginBottom: 8, paddingBottom: 6,
+                borderBottom: `2px solid ${colors.border}`,
+              }}>
+                {label}
+              </div>
+              {opts.map((opt, i) => {
+                const letter = opt.match(/[A-D]\./)?.[0]?.replace(".", "") ?? i;
+                const isSelected = selKey === letter;
+                return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      const current = selectedOption || { a: null, b: null };
+                      const updated = label.includes("Part A")
+                        ? { ...current, a: isSelected ? null : letter }
+                        : { ...current, b: isSelected ? null : letter };
+                      onSelect(index, updated);
+                    }}
+                    style={{
+                      padding: "9px 14px", marginBottom: 6, borderRadius: 8,
+                      border: `1.5px solid ${isSelected ? colors.border : "#CBD5E0"}`,
+                      background: isSelected ? `${colors.border}18` : "#fff",
+                      cursor: "pointer", fontSize: 14, lineHeight: 1.55, color: "#2C3E50",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    {opt.replace(/^Part [AB] — /, "")}
+                  </div>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      )}
+          );
+
+          return (
+            <div style={{ marginBottom: 14 }}>
+              {renderGroup("Part A", partAOpts, selA)}
+              {renderGroup("Part B", partBOpts, selB)}
+            </div>
+          );
+        }
+
+        // Standard MC
+        return (
+          <div style={{ marginBottom: 14 }}>
+            {q.options.map((opt, i) => (
+              <div key={i} onClick={() => onSelect(index, i)} style={{
+                padding: "9px 14px", marginBottom: 6, borderRadius: 8,
+                border: `1.5px solid ${selectedOption === i ? colors.border : "#CBD5E0"}`,
+                background: selectedOption === i ? `${colors.border}18` : "#fff",
+                cursor: "pointer", fontSize: 14, lineHeight: 1.55, color: "#2C3E50",
+                transition: "all 0.15s ease", whiteSpace: "pre-line",
+              }}>
+                {opt}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Writing tools + textarea for SCR/ECR */}
       {isWritten && (
@@ -2813,8 +2872,12 @@ export default function App() {
   const answeredCount = displayedQuestions.filter(({ q, origIdx }) => {
     if (isWrittenResponse(q.type)) {
       return (drafts[draftKey(origIdx)] || "").trim().length > 0;
+    } else if (q.type.includes("Part A")) {
+      // Part A/B needs both parts answered
+      const sel = selections[draftKey(origIdx)];
+      return sel && sel.a !== null && sel.b !== null;
     } else if (q.options.length > 0) {
-      return selections[draftKey(origIdx)] !== undefined;
+      return selections[draftKey(origIdx)] !== undefined && selections[draftKey(origIdx)] !== null;
     }
     return false;
   }).length;
@@ -2834,9 +2897,14 @@ export default function App() {
       let answerText = "";
       if (isWritten) {
         answerText = (drafts[draftKey(origIdx)] || "").trim();
+      } else if (q.type.includes("Part A")) {
+        const sel = selections[draftKey(origIdx)];
+        if (sel) {
+          answerText = `Part A: ${sel.a || "—"} | Part B: ${sel.b || "—"}`;
+        }
       } else if (q.options.length > 0) {
         const sel = selections[draftKey(origIdx)];
-        if (sel !== undefined && q.options[sel]) answerText = q.options[sel];
+        if (sel !== undefined && sel !== null && q.options[sel]) answerText = q.options[sel];
       }
       return {
         timestamp,
