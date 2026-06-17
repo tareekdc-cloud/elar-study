@@ -2014,15 +2014,22 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbwzpN9Od5b5N9T4bK_dpM
 async function submitToSheet(payload) {
   if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return { ok: false, demo: true };
   try {
-    await fetch(SHEET_URL, {
+    const response = await fetch(SHEET_URL, {
       method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
+      // text/plain keeps this a CORS "simple request" so the browser doesn't
+      // send a preflight OPTIONS call, which Apps Script doesn't handle well.
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
     });
-    return { ok: true };
-  } catch {
-    return { ok: false };
+    const result = await response.json();
+    if (!result.ok) {
+      console.error("Sheet submission failed:", result.error);
+      return { ok: false, error: result.error };
+    }
+    return { ok: true, rowsWritten: result.rowsWritten };
+  } catch (err) {
+    console.error("Sheet submission error:", err);
+    return { ok: false, error: err.message };
   }
 }
 
@@ -2828,6 +2835,7 @@ export default function App() {
   const [drafts, setDrafts] = useState({});
   const [selections, setSelections] = useState({});
   const [submitState, setSubmitState] = useState("idle");
+  const [submitError, setSubmitError] = useState("");
   const [shuffled, setShuffled] = useState(false);
   const [questionOrder, setQuestionOrder] = useState(null); // null = original order
   const [sessionHistory, setSessionHistory] = useState(() => {
@@ -2889,6 +2897,7 @@ export default function App() {
 
   const handleSubmitAll = async () => {
     setSubmitState("submitting");
+    setSubmitError("");
 
     const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
 
@@ -2927,6 +2936,7 @@ export default function App() {
 
     const result = await submitToSheet(rows);
     const allOk = result.ok || result.demo;
+    setSubmitError(allOk ? "" : (result.error || "Couldn't reach the spreadsheet. Check your internet connection."));
     setSubmitState(allOk ? "done" : "error");
 
     // Save to session history on success
@@ -3459,7 +3469,12 @@ export default function App() {
                           </div>
                         ) : submitState === "error" ? (
                           <div style={{ textAlign: "center" }}>
-                            <div style={{ color: "#E74C3C", fontWeight: 800, fontSize: 14, marginBottom: 8 }}>⚠️ Submission failed</div>
+                            <div style={{ color: "#E74C3C", fontWeight: 800, fontSize: 14, marginBottom: 4 }}>⚠️ Submission failed</div>
+                            {submitError && (
+                              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, marginBottom: 8, maxWidth: 220 }}>
+                                {submitError}
+                              </div>
+                            )}
                             <button
                               onClick={handleSubmitAll}
                               style={{ background: "#E74C3C", color: "#fff", border: "none", borderRadius: 10, padding: "12px 28px", fontSize: 14, fontWeight: 800, cursor: "pointer" }}
