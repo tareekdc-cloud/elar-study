@@ -1811,6 +1811,313 @@ const books = [
       },
     ],
   },
+  {
+    id: "savvy",
+    title: "Savvy",
+    author: "Ingrid Law",
+    genre: "Magical Realism / Coming-of-Age",
+    lexile: "1070L",
+    color: "#7D3C98",
+    accent: "#BB8FCE",
+    emoji: "✨",
+    isbn: "9780142414330",
+    summary: {
+      overview:
+        "Mississippi 'Mibs' Beaumont is two days from her thirteenth birthday — the age when every Beaumont discovers their 'savvy,' a supernatural ability unique to that person. Her brother Fish can stir up storms (a hurricane on his thirteenth birthday forced the family to move inland, away from any coastline), and her brother Rocket channels electricity. Mibs is desperate for her own savvy to be something powerful and useful, and when her father is critically injured in a car accident just before her birthday, she becomes convinced her savvy must be the ability to save him. On the morning of her party, she sneaks aboard what she believes is a bus heading toward the hospital — accompanied by her brothers Fish and Samson, and the pastor's children, Bobbi and Will Junior. The bus is actually a traveling Bible salesman's delivery route heading the wrong direction, launching the group into an unplanned, day-long odyssey. Along the way, Mibs discovers her actual savvy: she can hear the 'voice' of any tattoo, which lets her perceive people's hidden fears, secrets, and inner lives. Through encounters with strangers, a kidnapping scare, and the breakdown of Bobbi's tough exterior, Mibs learns that a savvy — like growing up — isn't about gaining a power that solves every problem, but about learning to understand and control who you already are.",
+      themes: [
+        "Coming of age — adolescence as a process of discovering and learning to control who you already are",
+        "The difference between the power you wish for and the power you actually have",
+        "Empathy and perception — truly seeing other people requires looking past their surface",
+        "Family loyalty and the responsibility older siblings feel toward younger ones",
+        "Self-acceptance — every 'savvy,' like every person, has to be 'scumbled' (controlled and shaped), not hidden or wished away",
+        "The unpredictability of growing up — Mibs cannot control when or how her insight arrives, only how she responds to it",
+      ],
+      characters: [
+        { name: "Mississippi 'Mibs' Beaumont", role: "Protagonist — about to turn thirteen and anxious to discover her savvy; her fierce wish to save her injured father drives the novel's action and her own growth" },
+        { name: "Fish Beaumont", role: "Mibs's older brother, whose savvy is control over storms and water; still learning to 'scumble' (control) his power, he struggles with guilt over the hurricane that uprooted the family" },
+        { name: "Samson Beaumont", role: "Mibs's younger brother, who stows away on the bus; quiet and often overlooked, his loyalty to Mibs is steady throughout the journey" },
+        { name: "Rocket Beaumont", role: "Mibs's oldest brother, whose savvy is control over electricity; he stays behind with Momma at the hospital, representing the responsible, controlled sibling Mibs is not yet" },
+        { name: "Bobbi Meeks", role: "The pastor's daughter — initially cold and dismissive toward the Beaumonts; Mibs's savvy reveals through Bobbi's tattoo that she is lonelier and more frightened than her tough exterior suggests" },
+        { name: "Will Meeks Junior", role: "The pastor's son and Mibs's closest friend outside her family; kind, loyal, and the first person Mibs begins to see clearly — both with her ordinary perception and her new savvy" },
+        { name: "Lester", role: "The bus driver and traveling Bible salesman whose route the children unintentionally hijack; his own quiet arc involves finding the confidence to speak up for himself" },
+        { name: "Poppa Beaumont", role: "Mibs's father, the only family member without a savvy of his own; his car accident and coma set the novel's central crisis in motion" },
+      ],
+      setting: "Contemporary rural Kansaska-Nebransas (the family's name for the Kansas–Nebraska border town they moved to) and the open highway between there and Salina, Kansas — the bus journey itself becomes a transitional, in-between setting that mirrors Mibs's own transition out of childhood.",
+      literaryDevices: [
+        { device: "Magical Realism", example: "The Beaumonts' savvies are treated as an ordinary, accepted fact of family life rather than a fantastical spectacle — Law grounds the supernatural premise in everyday, realistic emotional struggles like sibling guilt and a parent's hospitalization." },
+        { device: "Symbolism — The Savvy as Metaphor", example: "Each character's savvy mirrors an aspect of their personality (Fish's stormy temper controls the weather; Rocket's intensity channels electricity), making the magic system a literal extension of the characters' inner lives." },
+        { device: "Symbolism — Tattoos as Hidden Truths", example: "Mibs's savvy — hearing the voices of tattoos — lets her perceive what people hide beneath their skin, literalizing the novel's theme that surface appearances rarely reveal a person's true feelings." },
+        { device: "First-Person Narration", example: "Mibs narrates her own thirteenth birthday in real time, allowing the reader to experience her shifting, uncertain understanding of her savvy exactly as she does, rather than from a removed or all-knowing perspective." },
+        { device: "Journey Motif", example: "The bus ride going the 'wrong way' becomes a literal and figurative journey: the characters do not reach the destination they intended, but each arrives somewhere they needed to go emotionally." },
+        { device: "Foil Characters", example: "Bobbi's guarded toughness and Mibs's open uncertainty contrast with each other, and the journey reveals that Bobbi's hardness is a defense rather than her true self — deepening Mibs's growing insight into other people." },
+      ],
+      authorPurpose:
+        "Ingrid Law uses the fantastical premise of a magical 'savvy' as an extended metaphor for the real, disorienting experience of early adolescence — when every middle schooler is, in their own way, waiting to discover who they are about to become. By making Mibs's wished-for power (the ability to save her father) different from her actual power (the ability to perceive hidden truths in others), Law argues that growing up means learning to accept and develop the self you actually have, not the self you wish you had. The novel's gentle insistence that every savvy must be 'scumbled,' or learned and controlled over time, mirrors the universal truth that maturity is a process, not a single transformative moment.",
+    },
+
+    vocab: [
+      { word: "Savvy", definition: "Practical knowledge or shrewd understanding; in this novel, a unique supernatural ability that manifests in each Beaumont at age thirteen.", context: "Mibs spends the whole novel anxious about what her savvy will turn out to be, certain that whatever it is will define who she becomes.", staarNote: "STAAR may test 'savvy' both as the novel's invented noun (a special power) and its real-world meaning (shrewd, practical understanding) — context clues distinguish the two uses." },
+      { word: "Scumble", definition: "In the novel, to practice and gradually gain control over a savvy; in real usage, to soften or blend an edge.", context: "Fish has not yet learned to scumble his storm-calling savvy, which is why the family fears what might happen if he loses his temper.", staarNote: "This is an invented-meaning word specific to the novel — context clues for 'scumble' include practice, gradual control, and characters learning to manage a power rather than be ruled by it." },
+      { word: "Perceptive", definition: "Having or showing keen insight or understanding; quick to notice and understand things.", context: "Even before her savvy fully emerges, Mibs is perceptive — she notices small details about Will and Bobbi that others overlook entirely.", staarNote: "Context clues for 'perceptive' include a character noticing subtle details, reading between the lines, or understanding something others miss." },
+      { word: "Apprehensive", definition: "Anxious or fearful about something that may happen.", context: "Mibs grows increasingly apprehensive as her birthday approaches, unsure whether her savvy will be something she can be proud of.", staarNote: "STAAR tests 'apprehensive' by placing it in situations involving uncertain future outcomes. Context clues include nervous anticipation and fear of an unknown result." },
+      { word: "Bewildered", definition: "Confused or perplexed, especially due to a complicated or unexpected situation.", context: "Mibs is bewildered when she first realizes her savvy is not the power to wake people, but something stranger and harder to control.", staarNote: "Context clues for 'bewildered' include confusion following a surprising revelation and a character needing time to process what has happened." },
+      { word: "Resilient", definition: "Able to recover quickly from difficulties; tough and adaptable.", context: "Despite the chaos of the journey — a kidnapping scare, a runaway bus, and her father's uncertain condition — Mibs proves resilient, adapting to each new challenge.", staarNote: "STAAR tests 'resilient' through a character's ability to keep functioning and growing despite repeated setbacks, not simply enduring one difficult moment." },
+      { word: "Insight", definition: "The capacity to gain an accurate and deep understanding of someone or something.", context: "Mibs's savvy gives her literal insight into people's hidden feelings, but the novel suggests she had a version of this insight even before her power emerged.", staarNote: "Context clues for 'insight' include sudden or deepened understanding of another character's inner life, often following careful observation." },
+      { word: "Vulnerable", definition: "Exposed to the possibility of being harmed, either physically or emotionally; open and unguarded.", context: "Bobbi's tattoo reveals a vulnerable, lonely side of her that her tough exterior was designed to hide from everyone, including herself.", staarNote: "STAAR tests 'vulnerable' by contrasting a character's outward behavior with an inner emotional state that the text reveals indirectly, often through symbolism or another character's perception." },
+    ],
+
+    questions: [
+      {
+        type: "Multiple Choice",
+        skill: "Theme — Coming of Age",
+        staar: true,
+        map: true,
+        question:
+          "Which statement BEST expresses a central theme of Savvy?",
+        options: [
+          "A. The most powerful savvies always belong to the oldest children in a family.",
+          "B. Growing up means learning to understand and control who you already are, not gaining the power you wished for.",
+          "C. A family's savvies should be hidden from the outside world at all costs.",
+          "D. Once a savvy appears, it cannot be changed or controlled in any way.",
+        ],
+        answer: "B",
+        explanation:
+          "Mibs spends the novel hoping for a savvy that can save her father, but discovers instead a power to perceive hidden truths in others — a power she did not ask for and initially does not want. The novel argues that maturity means accepting and developing the self you actually have, which is the heart of its coming-of-age theme.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Character Motivation",
+        staar: true,
+        map: true,
+        question:
+          "What is Mibs's primary motivation for sneaking onto the bus?",
+        options: [
+          "A. She wants to escape her family and see the world on her own.",
+          "B. She is convinced her new savvy must be the power to save her injured father, and she wants to reach the hospital.",
+          "C. She is curious about the Bible salesman's route and wants an adventure.",
+          "D. Will Junior convinces her it would be a fun way to spend her birthday.",
+        ],
+        answer: "B",
+        explanation:
+          "Mibs's father's accident reshapes her hopes for her savvy entirely — instead of wishing for something exciting, she becomes fixated on the idea that her power must be the ability to heal or wake him. This singular, urgent motivation is what drives her onto the bus in the first place.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Plot — Cause and Effect",
+        staar: true,
+        map: true,
+        question:
+          "Why did the Beaumont family move to the Kansas–Nebraska border in the first place?",
+        options: [
+          "A. Poppa's job required relocating away from the coast.",
+          "B. Fish accidentally caused a hurricane on his thirteenth birthday, so the family moved inland, away from large bodies of water.",
+          "C. Grandpa Bomba wanted to be closer to Salina, Kansas.",
+          "D. Rocket's electrical savvy made coastal living too dangerous.",
+        ],
+        answer: "B",
+        explanation:
+          "Fish's storm-calling savvy emerged violently on his thirteenth birthday, causing a hurricane. To protect Fish and the surrounding community from his still-unscumbled power, the family relocated far from any coastline, which is why they live in the landlocked Kansaska-Nebransas region.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Character Analysis — Bobbi",
+        staar: true,
+        map: true,
+        question:
+          "What does Mibs discover about Bobbi through her savvy that changes how the reader understands Bobbi's character?",
+        options: [
+          "A. Bobbi secretly has a savvy of her own that she has been hiding from everyone.",
+          "B. Bobbi's tattoo reveals that beneath her tough, dismissive exterior, she is deeply lonely.",
+          "C. Bobbi has been planning to run away from her family for months.",
+          "D. Bobbi does not actually like Will Junior and resents being his sister.",
+        ],
+        answer: "B",
+        explanation:
+          "When Mibs hears Bobbi's tattoo, she learns that Bobbi's coldness is a defense mechanism hiding real loneliness — not genuine dislike of the Beaumonts. This revelation is a turning point in how both Mibs and the reader understand Bobbi, and it sets up her gradual softening over the course of the novel.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Setting and Mood",
+        staar: true,
+        map: false,
+        question:
+          "How does the setting of the bus journey contribute to the novel's mood and meaning?",
+        options: [
+          "A. The cramped, ordinary bus makes the story feel mundane and disconnects it from the magical elements.",
+          "B. The bus heading in the 'wrong' direction mirrors the characters' own uncertain, unplanned paths toward growth and self-understanding.",
+          "C. The bus setting is only used for comic relief and has no thematic significance.",
+          "D. The bus journey is meant to feel frightening and dangerous from beginning to end.",
+        ],
+        answer: "B",
+        explanation:
+          "The bus's wrong-direction route is not just a plot complication — it functions symbolically. None of the characters reach the destination they originally intended, yet each ends the journey having arrived somewhere meaningful emotionally, reflecting the novel's theme that growth rarely follows a planned, direct path.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Theme — Wished-For vs. Actual Power",
+        staar: true,
+        map: false,
+        question:
+          "Part A: What does the difference between the savvy Mibs hopes for and the savvy she actually receives reveal about a central idea in the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Mibs's actual savvy proves that wishing hard enough for a specific outcome can make it come true.\nPart A — B. The gap between what Mibs wants and what she gets shows that growth means accepting and developing your real self rather than the self you imagined.\nPart A — C. Mibs's disappointment proves that some savvies are simply better and more useful than others.\nPart A — D. The difference shows that the Beaumont family's savvies are entirely random and have no connection to personality.\n\nPart B — A. Mibs initially believes her savvy might be the power to wake people, based on her little sister waking up unusually early.\nPart B — B. Fish causes a hurricane on his thirteenth birthday before learning to scumble his power.\nPart B — C. Rocket stays behind at the hospital with Momma instead of joining the bus journey.\nPart B — D. Lester eventually finds the confidence to speak up for himself by the end of the novel.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "Mibs's mistaken early belief that her savvy is the power to wake people (Part B option A) sets up the novel's central irony: her actual power, hearing tattoos, is not the dramatic, father-saving ability she hoped for. The novel uses this gap to argue that real growth means learning to work with who you actually are.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary — Invented and Figurative Language",
+        staar: true,
+        map: true,
+        question:
+          "In the sentence, 'Fish hadn't yet learned to scumble his savvy, and the family worried about what might happen if his temper flared near open water,' the word 'scumble' most likely means —",
+        options: [
+          "A. To make something completely disappear or vanish",
+          "B. To practice and gradually gain control over an ability",
+          "C. To share a secret with someone outside the family",
+          "D. To intensify or worsen an existing problem",
+        ],
+        answer: "B",
+        explanation:
+          "The context clue 'hadn't yet learned' signals an ongoing process of gaining control, and 'worried about what might happen' confirms that scumbling refers to managing or controlling a power, not eliminating, sharing, or worsening it. STAAR vocabulary questions reward identifying the verb's function within the surrounding action, not just its sound.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Genre — Magical Realism",
+        staar: true,
+        map: true,
+        question:
+          "Savvy is best classified as magical realism rather than pure fantasy because —",
+        options: [
+          "A. The story contains no magical or supernatural elements at all.",
+          "B. The supernatural savvies exist within an otherwise realistic, contemporary world, and the characters' emotional struggles remain grounded and true to life.",
+          "C. The novel takes place in an entirely invented fantasy world with its own geography and history.",
+          "D. Magical realism requires the story to be told from multiple narrators, which Savvy does not do.",
+        ],
+        answer: "B",
+        explanation:
+          "Magical realism blends a fantastical element — here, the Beaumonts' inherited savvies — into an otherwise ordinary, realistic setting and set of relationships. The novel's emotional core (sibling guilt, a parent's hospitalization, adolescent uncertainty) remains entirely grounded in real human experience, which is what distinguishes magical realism from a fully invented fantasy world.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Textual Evidence — Character Growth (Bobbi)",
+        staar: true,
+        map: false,
+        question:
+          "How does Bobbi change over the course of the novel, and what causes that change? Use evidence from the text to support your answer.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Identify that Bobbi moves from cold and dismissive toward more open and communicative; (2) Cite specific evidence, such as Mibs hearing the loneliness in Bobbi's tattoo, or Bobbi's behavior shifting after witnessing the Beaumonts' savvies during the storm; (3) Explain what causes the change — being truly seen and understood by Mibs, and the shared intensity of the bus journey; (4) Connect the change to the novel's broader theme about empathy and looking past someone's surface.",
+        explanation:
+          "This SCR asks students to trace character development and connect it to cause, a core STAAR/MAP skill. Strong responses move beyond 'Bobbi gets nicer' and explain specifically what triggers her change and why it matters to the novel's themes.",
+        modelAnswer: "Bobbi begins the novel as a guarded, dismissive presence who treats the Beaumonts — and Mibs in particular — with open scorn. This hardness, however, is revealed to be a defense rather than her true self. When Mibs's emerging savvy lets her hear the voice of Bobbi's tattoo, she discovers that Bobbi is in fact deeply lonely, a truth her tough exterior was built to conceal. From that point forward, the novel tracks a gradual softening in Bobbi, accelerated by the shared intensity of the bus journey and by witnessing Fish's storm-calling power firsthand, which forces her to see the Beaumonts as remarkable rather than merely strange. By the end of the novel, Bobbi has become more communicative and emotionally honest. Her transformation is caused not by a single dramatic event but by being truly perceived — first by Mibs's savvy, and then by the shared vulnerability of the journey itself, which mirrors the novel's larger argument that empathy requires looking past a person's guarded surface.",
+        strongExample: "Bobbi's arc moves from coldness to genuine connection, and the cause is being truly seen for the first time. Mibs's savvy reveals the loneliness hidden in Bobbi's tattoo, exposing that her toughness was a shield rather than her real personality. As the bus journey forces the group together through chaos and danger, Bobbi gradually drops that shield, becoming more open. Law uses this change to argue that real connection requires looking past someone's defensive exterior to understand what they are actually protecting.",
+        weakExample: "Bobbi starts out mean to everyone but by the end she is nicer. This happens because of the bus trip and because Mibs finds out she is lonely. The book shows that people can change.",
+        weakFeedback: "This response identifies the change but doesn't explain it with specific evidence or analyze why it matters. 'People can change' is too general — a strong SCR specifies what Mibs's savvy reveals about Bobbi, ties that revelation to a specific moment in the text, and explains what the change suggests about the novel's theme of empathy.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Author's Craft — Magical Realism",
+        staar: true,
+        map: false,
+        question:
+          "How does Ingrid Law use the Beaumont family's savvies to explore real, ordinary experiences of growing up? Use evidence from the text to support your answer.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Identify that each savvy functions as a metaphor for an aspect of personality or adolescent experience (e.g., Fish's storms reflecting an unscumbled temper, Mibs's tattoo-hearing reflecting growing empathy); (2) Cite at least one specific example connecting a savvy to a realistic emotional struggle; (3) Explain that the fantastical premise is grounded by realistic family dynamics, like sibling guilt or a parent's hospitalization; (4) Connect this craft choice to the novel's larger purpose of making an extraordinary premise feel emotionally true to ordinary adolescence.",
+        explanation:
+          "This SCR asks students to analyze magical realism as a deliberate craft choice rather than simply identifying it as a genre label. Strong responses explain what the device accomplishes thematically, not just what it is.",
+        modelAnswer: "Ingrid Law uses the Beaumonts' savvies as concrete, magical stand-ins for ordinary adolescent struggles, which is what allows the fantastical premise to feel emotionally real rather than purely escapist. Fish's storm-calling power, for instance, is not simply a cool ability — it is explicitly tied to his temper and his guilt over the hurricane he caused before learning to scumble it, making his magical power a direct extension of an internal struggle any teenager might recognize: learning to control strong emotions before they cause real damage. Similarly, Mibs's savvy for hearing hidden truths in tattoos is really a heightened version of the empathy and perceptiveness she already shows toward Will and Bobbi before her birthday even arrives. By grounding each fantastical power in a recognizable emotional reality, and by surrounding the magic with genuinely realistic family stakes — Poppa's accident, Momma's exhaustion, the children's fear — Law ensures that the novel's magic never distracts from its true subject: the disorienting, ordinary process of figuring out who you are at thirteen.",
+        strongExample: "Law's savvies work because each one is a literalized version of a real adolescent experience. Fish's unscumbled storm power mirrors a temper he has not yet learned to control, while Mibs's tattoo-hearing savvy is simply an intensified version of the empathy she already shows before her birthday. By tying the magic directly to recognizable emotional struggles, and by keeping the family stakes — Poppa's accident, the children's fear — entirely realistic, Law uses magical realism not as spectacle but as a tool for making adolescent uncertainty feel vivid and concrete.",
+        weakExample: "The book has magic powers but it also feels real because the family has real problems like the dad's accident. This makes the book interesting to read and not just a fantasy story.",
+        weakFeedback: "This response notices that the book mixes magic and realism but doesn't explain how each specific savvy connects to a specific emotional truth. A strong SCR picks one or two savvies, explains exactly what personality trait or struggle each one represents, and ties that connection back to the novel's purpose.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Conflict — Internal vs. External",
+        staar: true,
+        map: true,
+        question:
+          "Which type of conflict is MOST central to Mibs's experience throughout the novel?",
+        options: [
+          "A. Character vs. Nature — Mibs must survive a dangerous storm during the bus journey.",
+          "B. Character vs. Self — Mibs must come to terms with a savvy that is different from the one she hoped for.",
+          "C. Character vs. Character — Mibs is in constant conflict with her brother Fish.",
+          "D. Character vs. Society — Mibs fights against a town that rejects savvies entirely.",
+        ],
+        answer: "B",
+        explanation:
+          "While external events drive the plot — the accident, the bus journey, the kidnapping scare — the novel's emotional center is Mibs's internal struggle to accept a savvy that does not match her hopes. Her growth comes from resolving this internal conflict, not from defeating an external threat.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Author's Craft — Symbolism",
+        staar: true,
+        map: false,
+        question:
+          "Part A: What does the symbol of the bus traveling in the 'wrong' direction reveal about the novel's view of growing up?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Growing up is a precise, predictable process that always leads exactly where a person plans to go.\nPart A — B. Growing up often happens through unplanned detours, and meaningful change can occur even when things go differently than intended.\nPart A — C. The wrong-direction bus shows that adults cannot be trusted to guide children safely.\nPart A — D. The symbol suggests that mistakes during childhood can never be corrected.\n\nPart B — A. Lester realizes partway through the trip that he cannot turn the bus around without missing his deliveries, so he continues forward.\nPart B — B. Rocket stays behind at the hospital with Momma while Poppa recovers.\nPart B — C. Grandpa Bomba is mentioned as having created an entire landmass with his savvy.\nPart B — D. Will Junior is revealed to live with his grandparents rather than his parents.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "Lester's decision to keep driving in the wrong direction (Part B option A) because turning back is no longer practical becomes the novel's central symbol: the journey cannot be redirected to its original plan, yet every character grows from where it actually leads. This supports the idea that meaningful change often happens off the intended path, not despite the detour but because of it.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary — Character Description",
+        staar: true,
+        map: true,
+        question:
+          "In the sentence, 'Bobbi's tattoo revealed a vulnerable side of her that she had spent years hiding behind a tough exterior,' the word 'vulnerable' most likely means —",
+        options: [
+          "A. Confident and entirely self-assured",
+          "B. Open to being hurt; emotionally exposed and unguarded",
+          "C. Angry and quick to lash out at others",
+          "D. Completely indifferent to what other people think",
+        ],
+        answer: "B",
+        explanation:
+          "The contrast between 'vulnerable side' and 'tough exterior she had spent years hiding behind' signals that vulnerable describes an exposed, unguarded emotional state — the opposite of the toughness Bobbi displays outwardly. STAAR vocabulary questions often test words through this kind of internal/external contrast.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Theme — Perception and Empathy",
+        staar: true,
+        map: true,
+        question:
+          "What does Mibs's savvy — the ability to hear the voices of tattoos — suggest about the novel's view of true understanding between people?",
+        options: [
+          "A. True understanding requires a magical power and is otherwise impossible.",
+          "B. People's outward appearances and behaviors often hide deeper truths that require careful attention to perceive.",
+          "C. Everyone's hidden feelings are identical once revealed.",
+          "D. Tattoos are the only reliable way to understand another person's character.",
+        ],
+        answer: "B",
+        explanation:
+          "Mibs's savvy is a literal, magical version of something the novel suggests anyone can do with enough attention: look past a person's guarded surface to understand what they are actually feeling. Bobbi's hidden loneliness and Will's hidden family situation both reinforce that appearances can conceal significant emotional truths.",
+      },
+      {
+        type: "Extended Constructed Response (ECR)",
+        skill: "Theme + Symbolism + Writing",
+        staar: true,
+        map: false,
+        question:
+          "Ingrid Law structures Savvy so that Mibs's actual savvy — the ability to perceive others' hidden truths — turns out to be entirely different from the power she hoped for. Write a response in which you analyze how this gap between expectation and reality develops the novel's central ideas about growing up. Use specific evidence from the text to support your analysis.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Open with a clear thesis connecting the gap between Mibs's wished-for and actual savvy to the novel's coming-of-age theme; (2) Analyze at least two specific examples of Mibs's actual savvy in action (e.g., perceiving Bobbi's loneliness, sensing details about Will's family) with specific textual detail; (3) Explain how Mibs's initial disappointment and eventual acceptance of her real savvy models a broader truth about adolescence — that growing up means developing your actual self rather than an imagined ideal; (4) Address the symbolic role of the bus journey going the 'wrong' direction as reinforcing this same idea; (5) Conclude by connecting this to the author's purpose — using a fantastical premise to explore a universal adolescent experience.",
+        explanation:
+          "This ECR asks students to analyze how a structural and thematic gap (expectation vs. reality) develops the novel's central meaning — a high-order STAAR and MAP reading skill at Grade 8. Strong responses move beyond plot summary and explain what the gap reveals about growing up. Aim for an introduction, three analytical body paragraphs, and a conclusion.",
+        modelAnswer: "Ingrid Law builds Savvy around a central gap between what Mibs wants her power to be and what it actually turns out to be, and this gap is the novel's clearest statement about what growing up actually requires. Mibs spends the days before her birthday convinced that her savvy must be something dramatic and useful enough to save her injured father — a power that would let her control the one crisis she cannot otherwise fix. What she receives instead is the ability to hear the hidden voices of tattoos, a power that reveals other people's inner lives rather than solving any single problem directly. This is not a lesser power, but it is a different kind of power than Mibs imagined, and her initial disappointment mirrors a universal adolescent experience: discovering that who you are turning into is not the person you pictured. The clearest evidence of this theme comes through Bobbi, whose guarded toughness Mibs's savvy reveals to be a mask for deep loneliness. Mibs cannot use this insight to rescue her father, but she can use it to understand and connect with the people around her in a way she could not before — a quieter, more durable form of usefulness than the dramatic rescue she originally wanted. The bus journey itself reinforces this same idea structurally: the characters never reach their intended destination, yet each arrives somewhere meaningful. Law's argument is that growing up is rarely the straightforward acquisition of the power or path you wished for. It is the slower, less dramatic process of learning to recognize, accept, and develop the self — and the savvy — you actually have.",
+        strongExample: "Law constructs Savvy around the gap between Mibs's wished-for savvy and her actual one, and this gap is the novel's central argument about adolescence. Mibs wants a power dramatic enough to save her father; instead she receives the ability to perceive hidden truths in others, beginning with the loneliness beneath Bobbi's tough exterior. This is not the rescue-oriented power Mibs hoped for, but it is a power that lets her connect with people more honestly than before. The bus journey's wrong-direction route reinforces the same idea on a structural level — the characters never reach their planned destination, yet each arrives somewhere emotionally significant. Law's point is that growing up rarely delivers the specific outcome a person wishes for; it delivers something real and useful, but only if the person learns to recognize and develop it rather than mourning what they expected instead.",
+        weakExample: "Mibs wanted her savvy to save her dad but instead she got the power to hear tattoos. This shows that you don't always get what you want. She learns to use her power to understand Bobbi better. The book teaches that growing up is hard.",
+        weakFeedback: "'You don't always get what you want' and 'growing up is hard' are too general to earn a high score. A strong ECR explains specifically what Mibs's actual savvy reveals about other people, connects that revelation to a clear claim about what growing up requires, and uses the bus journey's structure as additional evidence rather than treating it as a separate, unconnected detail.",
+      },
+    ],
+  },
 ];
 
 const questionTypeColors = {
