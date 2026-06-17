@@ -2357,7 +2357,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "0305";
+const CORRECT_PIN = "8959";
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
@@ -2900,7 +2900,15 @@ export default function App() {
       } else if (q.type.includes("Part A")) {
         const sel = selections[draftKey(origIdx)];
         if (sel) {
-          answerText = `Part A: ${sel.a || "—"} | Part B: ${sel.b || "—"}`;
+          const allOpts = (q.options[0] || "").split("\n").map(s => s.trim()).filter(Boolean);
+          const findOptText = (prefix, letter) => {
+            if (!letter) return null;
+            const match = allOpts.find(o => o.startsWith(prefix) && o.match(/[A-D]\./)?.[0]?.replace(".", "") === letter);
+            return match ? match.replace(/^Part [AB] — [A-D]\.\s*/, "") : null;
+          };
+          const aText = findOptText("Part A", sel.a);
+          const bText = findOptText("Part B", sel.b);
+          answerText = `Part A: ${sel.a ? `${sel.a}. ${aText}` : "—"} | Part B: ${sel.b ? `${sel.b}. ${bText}` : "—"}`;
         }
       } else if (q.options.length > 0) {
         const sel = selections[draftKey(origIdx)];
