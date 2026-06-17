@@ -2357,7 +2357,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "8959";
+const CORRECT_PIN = "0305";
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
