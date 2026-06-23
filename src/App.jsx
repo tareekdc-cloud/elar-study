@@ -2,6 +2,926 @@ import { useState, useEffect, useRef } from "react";
 
 const books = [
   {
+    id: "striped",
+    title: "The Boy in the Striped Pajamas",
+    author: "John Boyne",
+    genre: "Historical Fiction",
+    lexile: "1080L",
+    color: "#2C3E50",
+    accent: "#E8C547",
+    emoji: "📖",
+    isbn: "9780385751063",
+    summary: {
+      overview:
+        "Set during World War II, this novel follows nine-year-old Bruno, the son of a Nazi commandant who has been assigned to oversee a concentration camp. After his family relocates from their comfortable home in Berlin to a grim house near the camp — called 'Out-With' (Auschwitz) by Bruno — he is lonely and bored. Exploring forbidden territory, he befriends Shmuel, a Jewish boy his exact age who lives on the other side of a wire fence. Neither boy fully understands the horrific reality that separates them. The story builds to a devastating, ironic conclusion that reflects the senseless cruelty of hatred and genocide.",
+      themes: [
+        "Innocence and ignorance in the face of evil",
+        "The power and limits of friendship across difference",
+        "Prejudice, dehumanization, and their consequences",
+        "Identity — who we are vs. who we are told we are",
+        "The moral responsibility of ordinary people during atrocity",
+      ],
+      characters: [
+        { name: "Bruno", role: "Protagonist — a naïve, curious 9-year-old German boy who sees the world as an adventure" },
+        { name: "Shmuel", role: "Bruno's Jewish friend behind the fence — quiet, thin, and deeply sad, representing the victims of the Holocaust" },
+        { name: "Father (Ralf)", role: "The Commandant — a cold, ambitious Nazi officer who values duty over family" },
+        { name: "Mother", role: "Conflicted and increasingly disturbed by what she witnesses; represents moral unease" },
+        { name: "Gretel", role: "Bruno's older sister who is gradually indoctrinated by Nazi ideology" },
+        { name: "Lieutenant Kotler", role: "A cruel, fanatical young Nazi soldier who intimidates everyone, including Bruno" },
+      ],
+      setting: "Berlin and 'Out-With' (Auschwitz), Poland, during World War II, approximately 1942–1943.",
+      literaryDevices: [
+        { device: "Irony", example: "Bruno mispronounces names — 'Out-With' for Auschwitz, 'the Fury' for the Führer — showing his ignorance of the evil around him." },
+        { device: "Point of View (Limited 3rd Person)", example: "We only know what Bruno knows, which creates dramatic irony — the reader understands the Holocaust's horror while Bruno does not." },
+        { device: "Symbolism", example: "The fence represents the division between freedom and imprisonment, between the oppressor and the oppressed." },
+        { device: "Foreshadowing", example: "Bruno's fascination with the people in 'striped pajamas' and his dangerous plan to go under the fence hint at the tragic ending." },
+        { device: "Allegory", example: "The two boys — same birthday, same age — symbolize that children are born equal; it is society that creates division." },
+      ],
+      authorPurpose:
+        "John Boyne uses a child narrator to make the horrors of the Holocaust accessible, while also critiquing how ordinary people — even children — can be shaped by their environment. The story forces readers to consider the consequences of complicity, silence, and blind obedience.",
+    },
+
+    vocab: [
+      { word: "Fanatical", definition: "Extremely and unreasonably devoted to a belief or cause, to the point of danger.", context: "Lieutenant Kotler was fanatical in his devotion to Nazi ideology, carrying out orders without hesitation or moral reflection.", staarNote: "STAAR tests this word by showing Kotler's behavior and asking what 'fanatical' reveals about his character. Look for context clues that show extreme, unquestioning devotion." },
+      { word: "Prestige", definition: "High status and the respect or admiration that comes from an important position.", context: "The Commandant's transfer to Out-With was presented by the Nazi regime as a position of great prestige — a sign of their trust in him.", staarNote: "When you see 'prestige,' look for surrounding clues about status, honor, or importance. The irony in this novel is that the 'prestigious' post is overseeing a death camp." },
+      { word: "Desolate", definition: "Completely empty, bleak, and without comfort or hope.", context: "Bruno found the landscape around Out-With desolate compared to the lively streets of Berlin — grey, flat, and offering nothing to explore.", staarNote: "Context clues like descriptions of emptiness, greyness, or absence of life point to 'desolate.' It describes both physical places and emotional states." },
+      { word: "Ignorance", definition: "Lack of knowledge or awareness about something, especially something important.", context: "Bruno's ignorance of the Holocaust's true nature was both a result of his age and the deliberate silence of the adults around him.", staarNote: "STAAR distinguishes between ignorance (not knowing) and indifference (not caring). Bruno's ignorance is enforced from outside; the adults' silence is a choice." },
+      { word: "Complicit", definition: "Involved in or sharing responsibility for something wrong, even without directly doing it.", context: "The Mother became increasingly complicit in the camp's operation simply by staying — her silence made her part of what was happening.", staarNote: "This is a critical word for the novel's theme. Being complicit doesn't require direct action — choosing silence or comfort when you know something is wrong counts." },
+      { word: "Melancholy", definition: "A deep, persistent feeling of sadness and hopelessness.", context: "Shmuel's eyes held a melancholy that Bruno couldn't fully understand — a sadness far too heavy for a boy his age.", staarNote: "Context clues like heavy sadness, silence, thin appearance, and eyes that don't smile all point to 'melancholy.' It suggests sadness that doesn't go away." },
+      { word: "Propaganda", definition: "Information, especially biased or misleading, used to promote a particular political cause or point of view.", context: "Gretel's bedroom walls filled with maps and Nazi imagery — she had absorbed the propaganda around her without questioning it.", staarNote: "Look for context clues showing one-sided, emotionally charged information designed to make people believe or do something." },
+    
+      { word: "Naive", definition: "Showing a lack of experience or judgment; innocent to the point of being unaware of danger or complexity.", context: "Bruno's naive questions about the people in striped pajamas revealed how completely he had been shielded from the truth of what the camp was.", staarNote: "Context clues for 'naive' include a character asking innocent questions others find shocking, misunderstanding obvious situations, or being protected from hard truths." },
+      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "Lieutenant Kotler had a sinister quality that Bruno couldn't name — something about his presence made Bruno uneasy even before he understood why.", staarNote: "STAAR tests 'sinister' by surrounding it with unease, dread, or a sense of hidden menace. It differs from 'evil' — sinister implies threat that hasn't fully shown itself yet." },
+      { word: "Atrocity", definition: "An extremely wicked or cruel act, especially one that shocks the conscience.", context: "The novel builds slowly toward the revelation of the atrocity being committed at Out-With — the Holocaust as experienced through a child's innocent eyes.", staarNote: "Context clues for 'atrocity' include descriptions of mass suffering, moral outrage, and acts so severe they are considered crimes against humanity." },
+      { word: "Oblivious", definition: "Not aware of or concerned about what is happening around one.", context: "Bruno remained oblivious to the true nature of Out-With far longer than any adult would — his ignorance was both a shield and a tragedy.", staarNote: "STAAR tests 'oblivious' by showing a character who fails to notice what is obvious to others. Look for context clues of dramatic irony — the reader knows what the character doesn't." },
+      { word: "Ideology", definition: "A system of ideas and ideals, especially one that forms the basis of political or economic theory and policy.", context: "The Nazi ideology that consumed Gretel and shaped Lieutenant Kotler's behavior was accepted by them as truth rather than examined as belief.", staarNote: "Context clues for 'ideology' include a rigid set of beliefs used to justify actions, groupthink, and characters following rules without questioning where they came from." },    ],
+    questions: [
+      {
+        type: "Multiple Choice",
+        skill: "Theme",
+        staar: true,
+        map: true,
+        question:
+          "Which theme is MOST strongly developed throughout the novel?",
+        options: [
+          "A. War always produces heroes and villains in equal measure.",
+          "B. Friendship can exist even between people kept apart by hatred and injustice.",
+          "C. Children should always obey their parents, no matter the circumstance.",
+          "D. Adventure and exploration always lead to discovery.",
+        ],
+        answer: "B",
+        explanation:
+          "Bruno and Shmuel's friendship across the barbed wire fence is the novel's central relationship and drives its most important ideas about human connection despite systems of oppression.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Point of View & Dramatic Irony",
+        staar: true,
+        map: true,
+        question:
+          "The author tells the story through Bruno's limited perspective. How does this narrative choice affect the reader's experience?",
+        options: [
+          "A. It prevents the reader from understanding the seriousness of the Holocaust.",
+          "B. It allows the reader to know less than the characters in the story.",
+          "C. It creates dramatic irony — the reader understands the danger that Bruno does not.",
+          "D. It makes Bruno a more reliable narrator than an adult would be.",
+        ],
+        answer: "C",
+        explanation:
+          "Because we know what Auschwitz is while Bruno does not, Boyne creates dramatic irony — tension that comes from the gap between what the character knows and what the audience understands.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Character Analysis",
+        staar: true,
+        map: false,
+        question:
+          "Part A: What does Bruno's friendship with Shmuel reveal about his character?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Bruno is selfish and uses Shmuel for entertainment.\nPart A — B. Bruno has genuine empathy that his upbringing has not yet destroyed.\nPart A — C. Bruno understands the difference between Jews and Germans.\nPart A — D. Bruno is afraid of his father and rebels through the friendship.\n\nPart B — A. Bruno brings Shmuel food and risks punishment to maintain their friendship.\nPart B — B. Bruno tells Lieutenant Kotler that he has never met Shmuel.\nPart B — C. Bruno complains that Out-With is boring and he misses Berlin.\nPart B — D. Bruno wants to explore the other side of the fence out of curiosity.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "Bruno's consistent effort to bring Shmuel food and his emotional distress when he betrays him (Part B option B) both point toward genuine empathy. The BEST evidence is the food — a deliberate, repeated act of care.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Textual Evidence & Inference",
+        staar: true,
+        map: false,
+        question:
+          "How does the setting of 'Out-With' influence Bruno's understanding of the world around him? Use evidence from the text to support your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) identify that the isolated, unfamiliar setting limits Bruno's information, (2) note that he is told only what adults choose to share, and (3) use specific details — such as the fence, the striped pajamas, or what he observes from his bedroom window — as textual evidence.",
+        explanation:
+          "STAAR SCR responses are scored on clarity of claim, use of relevant textual evidence, and explanation of how the evidence supports the claim (RAC or RACES strategy).",
+        modelAnswer: "In The Boy in the Striped Pajamas, the setting of Out-With shapes Bruno's understanding of the world around him by controlling every piece of information he receives. Because Bruno is isolated — physically separated from the camp by distance, and socially separated from the truth by his father's authority and the adults' deliberate silence — he can only interpret what he sees through the limited lens of a child who has never been told the truth. When Bruno looks out his bedroom window and observes the people in striped pajamas on the other side of the fence, he describes them with genuine curiosity, noting that they all seem thin and unhappy but not understanding why. The fence itself is the setting's most powerful detail: it makes the horror of the camp invisible to Bruno even while it stands directly in front of him. Boyne uses this setting to argue that the environments we grow up in — the information we are given and withheld — shape what we are capable of understanding, for better or worse.",
+        strongExample: "In The Boy in the Striped Pajamas, Boyne uses the setting of Out-With to keep Bruno — and the reader — in a state of deliberate ignorance. Because Bruno is isolated from the outside world and told only what adults choose to share, he misinterprets everything he sees. For example, Bruno observes the people in 'striped pajamas' through his bedroom window and thinks they must live there by choice, never imagining the horror of what the camp actually is. This detail shows that the setting is not just a backdrop but a tool the author uses to control what Bruno — and through him, the reader — understands. The setting creates the novel's central dramatic irony: the reader slowly fills in the truth that Bruno can never quite see.",
+        weakExample: "The setting of Out-With affects Bruno's understanding because it is in a different place than Berlin. Bruno doesn't know a lot about what is happening around him. The setting is important to the story.",
+        weakFeedback: "This response loses points because it makes only vague, general claims with no specific textual evidence. Saying 'Bruno doesn't know a lot' restates the question without analyzing it. A strong response names a specific detail from the text and explains exactly how that detail reveals something about the setting's effect on Bruno's understanding.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Figurative Language / Symbolism",
+        staar: true,
+        map: true,
+        question:
+          "The fence in the novel serves as a symbol. What does it MOST likely represent?",
+        options: [
+          "A. The physical danger of exploring new places",
+          "B. The boundary between childhood and adulthood",
+          "C. The divisions created by prejudice, power, and hatred",
+          "D. Bruno's father's authority over the family",
+        ],
+        answer: "C",
+        explanation:
+          "The fence divides the free from the imprisoned, the oppressor from the oppressed. It is not just a physical barrier — it is the tangible form of Nazi ideology made real in Bruno's world.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Author's Purpose",
+        staar: true,
+        map: true,
+        question:
+          "Why did the author most likely choose a nine-year-old boy as the narrator of a story about the Holocaust?",
+        options: [
+          "A. To show that children during WWII were unaffected by the conflict",
+          "B. To use a child's innocent perspective to highlight the absurdity and horror of hatred",
+          "C. To argue that children are better observers of history than adults",
+          "D. To make the story appropriate for younger readers by avoiding difficult topics",
+        ],
+        answer: "B",
+        explanation:
+          "Boyne uses Bruno's innocence deliberately. A child who doesn't understand what he sees makes the horror more powerful, not less — because the reader fills in the gap between Bruno's confusion and the historical reality.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "In the novel, Lieutenant Kotler is described as 'fanatical' in his devotion to Nazi ideology. Based on context, what does 'fanatical' mean?",
+        options: [
+          "A. Reluctant and uncertain",
+          "B. Casually interested but not committed",
+          "C. Extremely and unreasonably devoted to a belief",
+          "D. Openly critical of rules and authority",
+        ],
+        answer: "C",
+        explanation:
+          "'Fanatical' comes from the Latin word for temple, suggesting someone driven by almost religious passion. In context, Kotler is shown to be dangerously extreme in his beliefs — making C the only accurate match.",
+      },
+      {
+        type: "Extended Constructed Response (ECR)",
+        skill: "Theme + Textual Evidence + Writing",
+        staar: true,
+        map: false,
+        question:
+          "The author of The Boy in the Striped Pajamas suggests that ordinary people who remain silent or ignorant during injustice share responsibility for its consequences. Write a response in which you analyze how the novel develops this idea. Use specific evidence from the text to support your analysis.",
+        options: [],
+        answer:
+          "Strong responses should: (1) State a clear, specific claim about the theme; (2) Identify at least two characters who represent silence/complicity (e.g., the Mother, Bruno himself when he denies knowing Shmuel); (3) Cite specific textual evidence for each; (4) Explain how each piece of evidence supports the claim; (5) Conclude with a statement about the broader significance of the theme.",
+        explanation:
+          "ECR responses are scored on thesis clarity, quality and integration of textual evidence, depth of analysis, and writing conventions. Aim for 3–5 developed paragraphs.",
+        modelAnswer: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who remain silent in the face of injustice bear moral responsibility for its consequences. This theme is developed most powerfully through two characters: Bruno's mother and Bruno himself. The Mother is aware enough of what the camp represents to be deeply disturbed by it — she begins drinking heavily and argues repeatedly with the Father about returning to Berlin. Yet she never acts. Her private moral discomfort never becomes public opposition. Boyne uses her deterioration not to excuse her but to indict her: knowing what is wrong and choosing comfort over action is its own form of complicity. Bruno, too, commits this failure in the scene where Lieutenant Kotler confronts Shmuel in the kitchen. When Bruno is asked if he knows Shmuel, he denies it — choosing self-preservation over loyalty. The betrayal is small in scale but enormous in meaning; Bruno has the opportunity to witness injustice and speak against it, and he chooses silence. Boyne's novel is ultimately a warning: the Holocaust was not only the work of fanatics like Kotler. It was sustained by the silence of ordinary people who knew something was wrong and did nothing.",
+        strongExample: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who choose comfort over conscience bear responsibility for the evil that results. This theme is developed most powerfully through the Mother and Bruno himself. The Mother knows enough about the camp to be disturbed — she begins drinking and argues with the Father about returning to Berlin — yet she never acts on her moral discomfort. Her inaction is not ignorance; it is a choice. Bruno, too, chooses his own comfort when he denies knowing Shmuel to Lieutenant Kotler, sacrificing his friend to avoid punishment. Both characters represent the moral failure Boyne is warning against: awareness without action. The novel suggests that silence in the face of injustice is not neutrality — it is a form of participation.",
+        weakExample: "The Boy in the Striped Pajamas shows that people should not be silent when bad things happen. Bruno and his family knew bad things were happening. They should have done something to help. This is why the theme of the book is about responsibility.",
+        weakFeedback: "This response has a theme but no textual evidence and no analysis. It tells the reader what to think without proving it. A strong ECR identifies specific characters, cites specific moments from the text, and then explains — in analytical sentences, not summary — what those moments prove about the theme. The claim 'they should have done something' needs to become 'the Mother's choice to drink and argue privately rather than act publicly represents Boyne's argument that private moral discomfort without action is its own form of complicity.'",
+        staar: true,
+        map: true,
+        question:
+          "How does Gretel change over the course of the novel, and what does her transformation represent?",
+        options: [
+          "A. She becomes kinder and more compassionate as she matures",
+          "B. She gradually adopts Nazi ideology, showing how propaganda shapes young minds",
+          "C. She grows distant from her family because she misses Berlin",
+          "D. She begins to question the war but keeps her doubts private",
+        ],
+        answer: "B",
+        explanation:
+          "Gretel begins as a typical older sister — bossy and self-absorbed — but progressively fills her bedroom walls with maps of Nazi territorial expansion and absorbs the ideology around her without question. Her transformation is not incidental; Boyne uses it to show how ordinary children become complicit in systems of hatred simply by absorbing what adults around them model and normalize.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Irony — Situational",
+        staar: true,
+        map: true,
+        question:
+          "At the novel's end, Bruno dresses in striped pajamas and crawls under the fence to help Shmuel find his father. What type of irony does this moment create?",
+        options: [
+          "A. Verbal irony — Bruno says one thing but means another",
+          "B. Situational irony — the outcome is the opposite of what Bruno and the reader hoped for",
+          "C. Dramatic irony — only the reader knows Bruno is about to be harmed",
+          "D. Comic irony — the situation is humorous despite seeming serious",
+        ],
+        answer: "B",
+        explanation:
+          "Situational irony occurs when events turn out opposite to what was expected or intended. Bruno's act of compassion — his most genuinely heroic moment — leads directly to his death. The boy whose innocence was meant to protect him is destroyed by the very system his father upholds. The outcome is the cruelest possible reversal of expectation.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "The novel describes the Commandant's new role at Out-With as one of great 'prestige.' Based on context, what does 'prestige' most likely mean?",
+        options: [
+          "A. Physical danger and personal sacrifice",
+          "B. High status and the respect or admiration of others",
+          "C. Financial reward given as payment for difficult work",
+          "D. Loneliness that comes from being far from home",
+        ],
+        answer: "B",
+        explanation:
+          "In context, the Father's transfer to Out-With is framed by the Nazi regime as an honor — a sign of their trust in him. 'Prestige' refers to the admiration and elevated status associated with an important position. The bitter irony is that this 'prestigious' post is overseeing a death camp.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Character Analysis — The Mother",
+        staar: true,
+        map: false,
+        question:
+          "Part A: How does the Mother's attitude toward living at Out-With change as the novel progresses?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. She becomes increasingly enthusiastic about her husband's important role.\nPart A — B. She grows more distressed and morally troubled by what she witnesses at the camp.\nPart A — C. She remains indifferent and focused entirely on maintaining the household.\nPart A — D. She tries to convince her husband to resign but accepts his refusal peacefully.\n\nPart B — A. The Mother begins drinking more heavily and argues with the Father about returning to Berlin.\nPart B — B. The Mother decorates the Out-With house to make it feel like their Berlin home.\nPart B — C. The Mother tells Bruno that the people behind the fence are not their concern.\nPart B — D. The Mother praises Lieutenant Kotler's dedication to his duties.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "The Mother's increasing despair — signaled by her drinking and arguments with the Father about leaving — marks her as the character most visibly corroded by proximity to the camp's horrors. Unlike the Father, she cannot maintain comfortable distance from what she knows is happening. Her deterioration is Boyne's signal that moral awareness, even without action, has a cost.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Author's Craft — Allegory",
+        staar: true,
+        map: false,
+        question:
+          "Bruno and Shmuel share the same birthday and are described as mirror images of each other. How does this detail function as an allegory, and what idea does it communicate about the children on either side of the fence? Use evidence from the novel in your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Define or explain allegory as using specific details to represent a broader truth; (2) Explain that the boys' shared birthday and mirrored descriptions suggest they were born equal — that nothing inherent separates them; (3) Connect this to the novel's larger argument that the division between prisoner and free person is entirely man-made, not natural; (4) Cite the shared birthday or physical mirroring as specific textual evidence.",
+        explanation:
+          "SCR responses should use the RACES strategy and run 4–6 focused sentences. The key analytical move here is connecting a specific detail (shared birthday) to a larger thematic idea (the artificial nature of racial and social division).",
+        strongExample: "In The Boy in the Striped Pajamas, Boyne uses the detail that Bruno and Shmuel share the same birthday as an allegory for the idea that no child is born deserving imprisonment or freedom — those fates are imposed by the society around them. The two boys are described in nearly identical terms: same age, same size, same sense of curiosity. This mirroring argues that the only thing separating Bruno from Shmuel is an accident of birth — which family they were born into, which side of the fence they appeared on. Boyne uses this allegory to show that the fence between them is not natural or inevitable; it is man-made, and therefore it is a moral choice, not a fact of nature.",
+        weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
+        weakFeedback: "This response identifies the detail but does not explain what it means allegorically. 'Life is not fair' is too vague — it is a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
+        modelAnswer: "In The Boy in the Striped Pajamas, Boyne uses the shared birthday between Bruno and Shmuel as an allegory for the fundamental equality of all human beings at birth. The two boys are described in nearly identical terms — same age, same height, and born on the same day. This physical and temporal mirroring is deliberate: it argues that nothing inherent separates them. The only thing that places one boy on the free side of the fence and the other in the camp is an accident of birth — which family they were born into, which side of history they appeared on. By making the boys allegorical twins, Boyne communicates that the divisions created by Nazi ideology are entirely man-made, not natural or inevitable. The fence is a choice, not a fact, and that is the most disturbing truth the allegory communicates.",
+        weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
+        weakFeedback: "This response identifies the detail but doesn't explain what it means allegorically. 'Life is not fair' is too vague to score well — it's a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Mood and Tone",
+        staar: true,
+        map: true,
+        question:
+          "How does the author establish a mood of unease and dread throughout the novel, even in scenes that appear calm?",
+        options: [
+          "A. By describing graphic scenes of violence at the concentration camp",
+          "B. By using Bruno's innocent misunderstandings to hint at a danger the reader recognizes but Bruno does not",
+          "C. By having adult characters openly discuss the horrors of the Holocaust with Bruno",
+          "D. By including detailed historical facts about World War II in each chapter",
+        ],
+        answer: "B",
+        explanation:
+          "Boyne maintains dread not through explicit description but through dramatic irony. When Bruno cheerfully describes the 'striped pajamas' or mispronounces 'Auschwitz,' the reader's knowledge of what those words actually mean creates a persistent, quiet horror. The calm surface of Bruno's observations makes the underlying reality more disturbing, not less.",
+      },
+      {
+        type: "Extended Constructed Response (ECR)",
+        skill: "Character + Theme + Writing",
+        staar: true,
+        map: false,
+        question:
+          "Through the character of Lieutenant Kotler, John Boyne explores how ideology can dehumanize both its victims and those who enforce it. Write a response in which you analyze how Kotler's characterization develops this idea. Use specific evidence from the novel to support your analysis.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Open with a clear thesis connecting Kotler's character to the theme of ideology and dehumanization; (2) Analyze specific scenes — such as Kotler's treatment of Pavel, his interactions with Shmuel, or his behavior toward the household — as evidence; (3) Argue that Kotler's cruelty is not personal but systemic — he is what the Nazi ideology produced; (4) Consider how Bruno's discomfort around Kotler functions as a moral signal even before Bruno fully understands why; (5) Conclude by connecting this character study to the novel's broader warning about systems that normalize cruelty.",
+        explanation:
+          "ECR responses are scored on thesis strength, analytical depth, evidence integration, and writing conventions. Avoid summarizing what Kotler does — analyze what his characterization means and how Boyne uses him to develop the novel's themes.",
+        modelAnswer: "John Boyne uses Lieutenant Kotler to demonstrate how ideology, when it replaces individual moral judgment, produces cruelty as a matter of policy rather than personal choice. Kotler is not portrayed as a psychologically complex character driven by personal hatred — he is defined by his function within the system. When he humiliates Pavel in the dining room, forcing an elderly man to serve at the table without acknowledgment of his humanity, he does so without visible emotion or hesitation. This absence of feeling is precisely Boyne's point. The most dangerous cruelty is not passionate and visible; it is routine and normalized. Kotler's treatment of Shmuel in the kitchen scene reinforces this: his interrogation of a nine-year-old child is conducted with the same bureaucratic calmness as any other duty. What makes Kotler powerful as a literary device is Bruno's response to him. Bruno — who is too young to articulate why — consistently feels something wrong in Kotler's presence. This discomfort is Boyne's signal that moral awareness does not require political sophistication; it requires only a willingness to listen to it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty and indifference is professionalism.",
+        strongExample: "Boyne uses Lieutenant Kotler to show that ideology, when it removes individual moral judgment, produces cruelty not as an exception but as a feature. Kotler does not appear cruel because of personal hatred — he is cruel because the system he serves demands and rewards it. When he humiliates Pavel or threatens Shmuel, he does so without visible emotion, as though it requires no thought. This is Boyne's point: the most dangerous evil is not passionate hatred but bureaucratic indifference. Even Bruno — a nine-year-old with no political understanding — feels something wrong about Kotler, and this discomfort is Boyne's signal that moral awareness is available even to children, if they choose to act on it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty.",
+        weakExample: "Lieutenant Kotler is a mean character in the story. He is cruel to the Jewish people and also to Pavel. He represents the Nazis. Boyne includes him to show that bad people existed during the Holocaust.",
+        weakFeedback: "This response summarizes Kotler's role but does not analyze it. Saying he 'represents the Nazis' is true but obvious — the analytical question is HOW and WHY Boyne characterizes him this specific way, and what that reveals about how ideology operates. A strong ECR moves from observation ('Kotler is cruel') to analysis ('Kotler's cruelty is effortless — which is Boyne's argument that systemic evil is most dangerous when it becomes routine and ordinary').",
+      },
+    ],
+  },
+  {
+    id: "sge",
+    title: "The School for Good and Evil",
+    author: "Soman Chainani",
+    genre: "Fantasy / Fairy Tale Retelling",
+    lexile: "770L",
+    color: "#4A235A",
+    accent: "#A569BD",
+    emoji: "🏰",
+    isbn: "9780062104939",
+    summary: {
+      overview:
+        "Every four years, two children are stolen from the village of Gavaldon and taken to the School for Good and Evil — a mysterious institution where future fairy-tale heroes and villains are trained. Sophie, a beautiful girl who dreams of becoming a princess, is certain she belongs in the School for Good. Her best friend Agatha, dark and strange and misunderstood, seems destined for Evil. But when they arrive, everything is reversed: Sophie is placed in the School for Evil, and Agatha in the School for Good. As both girls struggle to switch schools and reclaim their 'rightful' places, they begin to question everything they thought they knew about good, evil, beauty, and belonging. The novel ultimately argues that the line between good and evil is far more complicated — and far more personal — than fairy tales suggest.",
+      themes: [
+        "Appearances can be deceiving — true goodness and true evil are defined by choices, not looks",
+        "Friendship and loyalty as forces more powerful than rivalry or competition",
+        "The danger of vanity, selfishness, and the desire for power",
+        "Identity — who we believe we are vs. who we actually are",
+        "Subverting fairy-tale tropes: questioning 'happily ever after' and what it means to be a hero",
+        "Belonging, self-acceptance, and embracing what makes you different",
+      ],
+      characters: [
+        { name: "Sophie", role: "Co-protagonist — beautiful, vain, and obsessed with being a princess; placed in the School for Evil, which reveals uncomfortable truths about her true nature" },
+        { name: "Agatha", role: "Co-protagonist — plain, kind, and loyal; placed in the School for Good, where she proves that virtue is about character, not appearance" },
+        { name: "Tedros", role: "Prince Charming's son — handsome, proud, and conflicted; his evolving relationship with Agatha challenges his assumptions about what a hero should look like" },
+        { name: "Professor Dovey", role: "Head of the School for Good — proper and principled, she represents the traditional rules of fairy-tale morality" },
+        { name: "Lady Lesso", role: "Head of the School for Evil — sharp and ruthless, she sees something interesting in Sophie that others miss" },
+        { name: "The School Master", role: "The mysterious figure who controls both schools — his true motivations are the novel's central mystery" },
+      ],
+      setting: "The magical village of Gavaldon and the twin Schools for Good and Evil — one gleaming and golden, one dark and decayed — in a fairy-tale world where stories are literally written into history.",
+      literaryDevices: [
+        { device: "Subversion / Parody of Genre", example: "The novel deliberately flips fairy-tale expectations — the 'pretty' girl ends up in Evil and the 'ugly' girl in Good — forcing the reader to question the assumptions built into classic stories." },
+        { device: "Foil Characters", example: "Sophie and Agatha are foils: Sophie is beautiful but selfish; Agatha is plain but genuinely good. Their contrast drives every major conflict and theme." },
+        { device: "Symbolism", example: "The two schools represent not just good vs. evil, but also society's tendency to judge by appearance — the gleaming School for Good is built on shallow standards." },
+        { device: "Irony", example: "Sophie's desperate attempts to act 'good' often reveal her selfishness, while Agatha's instinct to help others shows real goodness without effort." },
+        { device: "Foreshadowing", example: "Early clues about Sophie's vanity and Agatha's loyalty hint at where each girl truly belongs long before either character accepts it." },
+        { device: "Motif", example: "Fairy-tale conventions (the prince, the princess, the wish, the test) appear throughout but are consistently twisted to challenge the reader's expectations." },
+      ],
+      authorPurpose:
+        "Soman Chainani uses the structure of classic fairy tales to challenge their most dangerous messages — that beauty equals goodness, that princesses need rescuing, and that heroes and villains are born, not made. He wants readers to question inherited stories and think critically about what they truly value in themselves and others.",
+    },
+
+    vocab: [
+      { word: "Subvert", definition: "To undermine or overturn something established or assumed, especially a belief or expectation.", context: "Agatha subverted every expectation placed on her — the girl who looked like a villain turned out to be the most genuinely good person in the story.", staarNote: "STAAR often pairs 'subvert' with descriptions of things turning out opposite to expectations. Look for reversal clues in the surrounding sentences." },
+      { word: "Enigmatic", definition: "Mysterious and difficult to understand or predict.", context: "The School Master remained enigmatic throughout — neither students nor teachers could fully predict his motives or loyalties.", staarNote: "Context clues for 'enigmatic' include characters speaking in hushed tones, uncertainty, unanswered questions, and descriptions of mystery." },
+      { word: "Vanity", definition: "Excessive pride in one's appearance or achievements; placing too much value on how others see you.", context: "Sophie's vanity was her defining flaw — she cared far more about being seen as good than about actually being good.", staarNote: "When a character constantly checks mirrors, seeks approval, or performs kindness for an audience, that's vanity. STAAR tests this as a character motivation." },
+      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "The School Master's tower cast a sinister shadow over both schools — something about his presence made even the bravest students uneasy.", staarNote: "Look for context clues involving darkness, unease, hidden menace, or things that feel wrong without being openly threatening." },
+      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause.", context: "As the story progressed, Agatha's allegiance to Sophie was tested repeatedly — and each time, she chose her friend over her own comfort.", staarNote: "STAAR tests 'allegiance' by showing a character making a choice that costs them something. True allegiance is shown under pressure, not in easy situations." },
+      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature.", context: "Lady Lesso appeared malevolent on the surface, but the novel gradually revealed a more complicated character beneath her cruelty.", staarNote: "Context clues for 'malevolent' include harmful actions, cruel words, and a character who seems to want others to suffer. Contrast with 'sinister,' which implies hidden threat." },
+      { word: "Foil", definition: "A character whose contrasting traits highlight the qualities of another character.", context: "Sophie and Agatha are classic foils — Sophie's vanity makes Agatha's selflessness more visible, and vice versa.", staarNote: "This is a literary term STAAR tests directly. A foil doesn't have to be a villain — they just have to contrast with another character to make that character's traits clearer." },
+    
+      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature or intent.", context: "Lady Lesso appeared malevolent on the surface — cruel, sharp, and demanding — but the novel gradually revealed a character more complicated than pure evil.", staarNote: "STAAR pairs 'malevolent' with visible cruelty and harmful intent. It differs from 'sinister,' which implies hidden threat. Malevolent intent is usually visible in actions and words." },
+      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause, especially under pressure.", context: "Agatha's allegiance to Sophie was tested repeatedly — every time Sophie pushed her away, Agatha had to choose whether to stay or go.", staarNote: "STAAR tests 'allegiance' by showing a character making costly choices out of loyalty. True allegiance is demonstrated under pressure, not in easy circumstances." },
+      { word: "Pretense", definition: "An attempt to make something that is not the case appear true; a false display.", context: "Sophie's acts of kindness in the School for Evil were a pretense — performances designed to prove she didn't belong there, not genuine expressions of care.", staarNote: "Context clues for 'pretense' include characters performing behavior for an audience, actions that contradict inner motivations, and a gap between appearance and reality." },
+      { word: "Superficial", definition: "Existing or occurring at or on the surface; not thorough or deep; concerned only with appearance.", context: "The sorting system's criteria were superficial — beauty and appearance were treated as reliable indicators of goodness, which the novel systematically disproves.", staarNote: "STAAR uses 'superficial' to contrast with deeper or more meaningful qualities. Look for context clues about surface appearances being valued over substance." },
+      { word: "Redemption", definition: "The act of being saved or making up for past failings; gaining something of value through effort or sacrifice.", context: "Whether Sophie achieves true redemption by the novel's end is left deliberately ambiguous — she changes, but not completely, and not without cost.", staarNote: "STAAR tests 'redemption' as a theme word. It implies both past failings and present effort to make things right. Look for evidence of genuine change, not just changed circumstances." },    ],
+    questions: [
+      {
+        type: "Multiple Choice",
+        skill: "Theme",
+        staar: true,
+        map: true,
+        question:
+          "Which statement BEST expresses a central theme of The School for Good and Evil?",
+        options: [
+          "A. Beauty and goodness always go together in the natural world.",
+          "B. True good and evil are determined by a person's choices, not their appearance.",
+          "C. Friendship is less important than following the rules of society.",
+          "D. Heroes are born with special qualities that cannot be learned.",
+        ],
+        answer: "B",
+        explanation:
+          "The novel's entire premise subverts the fairy-tale assumption that beautiful = good and ugly = evil. Sophie and Agatha's reversed placements force both characters — and the reader — to reckon with what actually makes someone good or evil: their choices and values, not their looks.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Character Analysis — Foil",
+        staar: true,
+        map: true,
+        question:
+          "Sophie and Agatha function as foil characters. What is the PRIMARY purpose of using foil characters in a story?",
+        options: [
+          "A. To give the protagonist a companion who agrees with all of their decisions",
+          "B. To create humor by making two characters act in identical ways",
+          "C. To highlight each character's contrasting traits, making both more clearly defined",
+          "D. To show that one character is superior to the other in every way",
+        ],
+        answer: "C",
+        explanation:
+          "A foil is a character whose contrasting traits highlight the qualities of another character. Sophie's vanity makes Agatha's selflessness stand out even more — and vice versa. Neither character would be as clearly defined without the contrast the other provides.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Author's Craft — Genre Subversion",
+        staar: true,
+        map: true,
+        question:
+          "The author places Sophie — who looks like a fairy-tale princess — in the School for Evil, and Agatha — who looks like a villain — in the School for Good. What is the MOST LIKELY reason Chainani makes this choice?",
+        options: [
+          "A. To show that fairy-tale schools make frequent sorting mistakes",
+          "B. To challenge the idea that appearance determines a person's character or worth",
+          "C. To suggest that beautiful people are secretly always evil",
+          "D. To make readers feel sorry for Sophie and root against Agatha",
+        ],
+        answer: "B",
+        explanation:
+          "This is the novel's central act of subversion. By reversing expectations from the very first chapter, Chainani signals to the reader that this story will question — not confirm — the shallow rules of traditional fairy tales. Appearance tells us nothing about character.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Character Motivation + Textual Evidence",
+        staar: true,
+        map: false,
+        question:
+          "Part A: What does Sophie's reaction to being placed in the School for Evil reveal about her character at the beginning of the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Sophie is humble and willing to learn from her mistakes.\nPart A — B. Sophie is self-aware and recognizes she has flaws to work on.\nPart A — C. Sophie is vain and concerned with how others perceive her rather than who she truly is.\nPart A — D. Sophie is brave and determined to prove the school wrong through hard work.\n\nPart B — A. Sophie immediately tries to understand the curriculum at the School for Evil.\nPart B — B. Sophie spends her early days at Evil obsessing over her appearance and insisting there has been a mistake.\nPart B — C. Sophie forms a genuine friendship with her Evil classmates to learn from them.\nPart B — D. Sophie accepts Lady Lesso's guidance and works to improve herself.",
+        ],
+        answer: "Part A: C | Part B: B",
+        explanation:
+          "Sophie's first instinct is not self-reflection — it is denial and image-management. She insists the sorting is wrong because she cannot imagine that her beautiful exterior could be hiding anything less than goodness. This is precisely what makes her a compelling character study in vanity.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "In the novel, Agatha is described as someone who 'subverts' expectations at every turn. Based on context clues, what does 'subvert' most likely mean?",
+        options: [
+          "A. To strengthen and reinforce what is already expected",
+          "B. To undermine or overturn something established or assumed",
+          "C. To carefully follow all rules and traditions",
+          "D. To ignore a situation completely without reacting",
+        ],
+        answer: "B",
+        explanation:
+          "'Subvert' comes from Latin meaning to overturn from below. In context, Agatha consistently acts in ways that contradict what people expect from someone who looks like her — she is kind when expected to be cruel, brave when expected to fail. This is confirmed by the surrounding text whenever her actions surprise other characters.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Symbolism",
+        staar: true,
+        map: true,
+        question:
+          "In the novel, the School for Good is described as gleaming and golden, while the School for Evil is dark and decayed. What do these contrasting descriptions MOST likely symbolize?",
+        options: [
+          "A. That good and evil are easy to identify in real life",
+          "B. Society's tendency to value surface beauty over inner character — and the novel's challenge to that belief",
+          "C. That students in the School for Good are always treated fairly",
+          "D. The different climates found in magical versus ordinary worlds",
+        ],
+        answer: "B",
+        explanation:
+          "The schools look exactly as society expects — beautiful = good, ugly = evil. But the novel systematically shows that these appearances are misleading. The gleaming School for Good enforces shallow standards; the dark School for Evil holds complex, interesting characters. The contrast is ironic, not literal.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Theme + Textual Evidence",
+        staar: true,
+        map: false,
+        question:
+          "How does the friendship between Sophie and Agatha develop a theme about what truly matters in a person? Use evidence from the novel to support your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) State a clear theme — e.g., true friendship is based on loyalty and genuine care, not shared beauty or social status; (2) Explain how Agatha's loyalty to Sophie (even when Sophie treats her poorly) and Sophie's eventual recognition of Agatha's value develops that theme; (3) Include at least one specific detail from the text as evidence; (4) Explain how the evidence connects back to the theme.",
+        explanation:
+          "Use the RACES strategy: Restate the question, Answer with your claim, Cite a specific detail, Explain how it supports your claim, and Summarize the connection to theme. SCR responses should be 4–6 focused sentences.",
+        modelAnswer: "In The School for Good and Evil, Soman Chainani develops the theme that true friendship is defined by loyalty and genuine care rather than by shared status, appearance, or mutual benefit. Agatha's relationship with Sophie embodies this theme through a pattern the novel repeats across every major conflict: Sophie dismisses, belittles, or outright betrays Agatha, and Agatha returns anyway — not because Sophie deserves it, but because Agatha's care is not conditional on being deserved. This distinction is crucial. Sophie's version of friendship is transactional: she values Agatha when Agatha is useful and discards her when she is not. Agatha's version is unconditional: she continues trying to help Sophie even after being humiliated by her in front of other students. Chainani uses this imbalance deliberately. By making the friendship so clearly one-sided, he forces the reader to ask what truly defines a bond between people — and to conclude that real friendship is not an equal exchange but a commitment that holds even when the other person fails you repeatedly.",
+        strongExample: "In The School for Good and Evil, Chainani develops the theme that true friendship is defined by loyalty regardless of circumstances, through Agatha's repeated choice to prioritize Sophie over her own comfort and social standing. Even after Sophie dismisses and belittles her, Agatha continues trying to help her — not because Sophie deserves it, but because Agatha's care is unconditional. This one-sided loyalty is the novel's most powerful argument about what friendship actually looks like: not a balanced transaction between equals, but a commitment that holds even when the other person fails you. Chainani uses Agatha's consistent returns to Sophie's side as evidence that real friendship is defined not by what you receive, but by what you choose to give.",
+        weakExample: "Agatha and Sophie have a strong friendship because Agatha always helps Sophie. This shows that true friends stick together no matter what. Their friendship is important to the story.",
+        weakFeedback: "'True friends stick together' is a cliché, not a theme analysis. A strong SCR names a specific moment of loyalty, explains what that moment demonstrates about the nature of real friendship, and connects it to an idea Chainani is developing — not just restating that friendship is good. The analytical move is: what does Agatha's unconditional loyalty cost her, and what does Chainani argue about friendship through that cost?",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Point of View & Narrative Structure",
+        staar: true,
+        map: true,
+        question:
+          "The novel is told in third-person limited perspective, following Sophie and Agatha in alternating sections. How does this narrative structure MOST affect the reader's understanding of the story?",
+        options: [
+          "A. It makes it impossible to understand either character's motivations",
+          "B. It allows the reader to see both girls' inner thoughts and sympathize with each of their struggles",
+          "C. It makes Sophie appear more sympathetic because her chapters come first",
+          "D. It prevents the reader from knowing what happens in each school",
+        ],
+        answer: "B",
+        explanation:
+          "By giving both Sophie and Agatha interior chapters, Chainani makes sure the reader understands each girl's fears, desires, and logic — even when they are wrong or selfish. This prevents the story from being a simple 'root for Agatha' experience and creates genuine complexity in both characters.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Conflict — Internal vs. External",
+        staar: true,
+        map: true,
+        question:
+          "Which statement BEST describes the relationship between Sophie's internal and external conflicts in the novel?",
+        options: [
+          "A. Sophie's external conflict with the School for Evil is entirely separate from any internal struggle she faces.",
+          "B. Sophie's internal conflict — her refusal to accept her true nature — drives and intensifies every external conflict she encounters.",
+          "C. Sophie's external conflict is resolved when she switches schools, ending her internal struggle as well.",
+          "D. Sophie's internal conflict is caused entirely by Agatha's presence at the school.",
+        ],
+        answer: "B",
+        explanation:
+          "Sophie's core internal conflict is her inability to acknowledge the selfish, vain person she actually is. This refusal to self-reflect is exactly what makes every external situation worse — she manipulates, lies, and schemes because she cannot accept that her placement in Evil might be correct. The internal and external conflicts are inseparable; resolving one requires resolving the other.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "The novel describes the School Master as 'enigmatic.' Based on context clues, what does 'enigmatic' most likely mean?",
+        options: [
+          "A. Friendly and approachable, putting others at ease",
+          "B. Cruel and openly threatening to everyone around him",
+          "C. Mysterious and difficult to understand or predict",
+          "D. Wise and all-knowing, with clear and stated intentions",
+        ],
+        answer: "C",
+        explanation:
+          "'Enigmatic' shares a root with 'enigma,' meaning a puzzle or mystery. In context, the School Master's true motivations and loyalties are never fully clear — students and teachers alike cannot predict or fully understand him. The surrounding scenes, in which characters speak about him in hushed, uncertain terms, confirm this meaning.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Setting — Function and Meaning",
+        staar: true,
+        map: true,
+        question:
+          "How does the setting of the two schools function beyond simply providing a physical location for the story?",
+        options: [
+          "A. The schools exist only to separate the main characters and create logistical conflict.",
+          "B. The schools embody the novel's central argument about how society sorts people into categories based on surface-level judgments.",
+          "C. The schools demonstrate that magical worlds operate by completely different rules than the real world.",
+          "D. The schools serve primarily to introduce a large number of supporting characters.",
+        ],
+        answer: "B",
+        explanation:
+          "The schools are not just locations — they are the novel's central symbol. The sorting system, the physical appearance of each campus, and the rules students must follow all externalize the way society categorizes people based on looks and assumptions. Chainani makes the setting do thematic work: every detail of the schools reinforces and then challenges the idea that good and evil are visible, sortable categories.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Theme — Friendship vs. Self-Interest",
+        staar: true,
+        map: false,
+        question:
+          "Part A: How does Agatha's loyalty to Sophie develop a theme about the nature of true friendship?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. True friendship requires both people to be equally talented and successful.\nPart A — B. True friendship means standing by someone even when they treat you poorly or take you for granted.\nPart A — C. True friendship only survives when both people share the same goals and values.\nPart A — D. True friendship requires the friends to be placed in the same school or social group.\n\nPart B — A. Agatha continues trying to help Sophie even after Sophie repeatedly dismisses, belittles, or betrays her trust.\nPart B — B. Agatha agrees with every decision Sophie makes because she values keeping the peace.\nPart B — C. Agatha leaves Sophie behind once she finds friends in the School for Good.\nPart B — D. Agatha only helps Sophie because she wants to return to Gavaldon herself.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "The novel consistently shows Agatha choosing Sophie's wellbeing over her own comfort or social standing — even when Sophie is at her most selfish and cruel. This one-sided loyalty is not presented as weakness; it is presented as the most powerful force in the story. The textual evidence is Agatha's repeated returns to Sophie's side after being pushed away.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Character Change — Sophie",
+        staar: true,
+        map: false,
+        question:
+          "How does Sophie change — or fail to change — over the course of the novel, and what does this reveal about the novel's message regarding self-awareness? Use evidence from the text in your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Acknowledge that Sophie undergoes some change — she glimpses moments of genuine connection and doubt — but largely resists full self-awareness throughout Book 1; (2) Explain that her resistance to change is itself a thematic statement: true growth requires honest self-reflection, which Sophie avoids; (3) Cite at least one specific moment where Sophie has the opportunity to change and chooses vanity or self-interest instead; (4) Connect this to the novel's larger theme about the relationship between self-knowledge and genuine goodness.",
+        explanation:
+          "This question targets character change — a high-frequency STAAR skill. Strong responses avoid simply summarizing what Sophie does and instead analyze what her behavior pattern reveals. Use RACES and aim for 4–6 sentences.",
+        modelAnswer: "In The School for Good and Evil, Sophie undergoes moments of genuine self-awareness but consistently retreats from them, revealing Chainani's argument that true change requires honesty about oneself that vanity will always resist. Throughout the novel, Sophie is placed in situations that should force her to reckon with her actual motivations: her repeated failures in the School for Evil, her inability to perform the kind of instinctive goodness that Agatha demonstrates effortlessly, and the moments when her so-called acts of kindness are exposed as self-serving calculations. In one revealing pattern, whenever Sophie acts in a way that resembles genuine care, she immediately frames it as evidence that she belongs in Good — turning even compassion into a performance for an audience. This pattern of awareness followed by reframing is itself the novel's thematic statement: Sophie cannot grow because she refuses to look at herself clearly. Chainani uses Sophie not as a villain but as a portrait of what unexamined vanity costs a person — the ability to know, and therefore to become, who you actually are.",
+        strongExample: "In The School for Good and Evil, Sophie's resistance to genuine self-awareness reveals Chainani's message that true growth requires honest self-reflection — and that some people choose comfort over truth. Though Sophie has moments where she glimpses the gap between who she believes she is and who she actually is, she consistently chooses to reframe those moments as injustice rather than insight. For example, when her Good-like instincts occasionally surface, she quickly redirects them toward self-interest, as if kindness is only valuable if it earns her the outcome she wants. This pattern — awareness followed by avoidance — is itself the novel's argument: Sophie cannot grow because she will not look at herself clearly.",
+        weakExample: "Sophie changes a little bit throughout the story but not very much. She still wants to be in the School for Good at the end. She is a complicated character because she does some good things and some bad things.",
+        weakFeedback: "This response describes Sophie without analyzing her. 'She does some good things and some bad things' is an observation, not a claim. A strong SCR makes a specific argument — for example, that Sophie's pattern of awareness-then-avoidance is itself the thematic statement — and supports it with a specific moment from the text."
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Foreshadowing",
+        staar: true,
+        map: true,
+        question:
+          "Early in the novel, Agatha instinctively acts to protect others — including Sophie — without being asked or rewarded. How does this pattern of behavior function as foreshadowing?",
+        options: [
+          "A. It foreshadows that Agatha will eventually become the head of the School for Evil.",
+          "B. It foreshadows that Agatha's natural instinct toward others is genuine goodness, making her placement in Good inevitable.",
+          "C. It foreshadows that Agatha will eventually betray Sophie when the pressure becomes too great.",
+          "D. It foreshadows that the School for Good will reject Agatha once they discover her background.",
+        ],
+        answer: "B",
+        explanation:
+          "Foreshadowing plants clues early that pay off later. Agatha's protective instincts — helping animals, defending the vulnerable, staying loyal without expectation of reward — are all early signals that she belongs in the School for Good, regardless of her appearance. The sorting system confirms what the reader already sensed from Agatha's established behavioral pattern.",
+      },
+      {
+        type: "Extended Constructed Response (ECR)",
+        skill: "Comparative Character Analysis + Writing",
+        staar: true,
+        map: false,
+        question:
+          "Compare how Sophie and Agatha each respond to being placed in an unexpected school. In a well-developed response, analyze what each character's reaction reveals about her true character, and explain how this contrast develops a central theme of the novel. Use specific evidence from the text to support your analysis.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Open with a thesis that identifies both the contrast and the theme it develops (e.g., true character is revealed by how we respond to adversity, not by how we appear); (2) Analyze Sophie's response — denial, obsession with appearance, scheming to switch schools — and what it reveals about her vanity and self-deception; (3) Analyze Agatha's response — discomfort but a willingness to engage, focus on Sophie's wellbeing over her own status — and what it reveals about her genuine goodness; (4) Explain how the contrast between the two responses is the engine that drives the novel's central theme; (5) Conclude by connecting the comparison to a broader idea about self-knowledge and moral character.",
+        explanation:
+          "Comparative ECR questions are among the most demanding STAAR writing tasks. Strong responses spend roughly equal time on each character and make sure every body paragraph contains a claim, textual evidence, and explicit analysis of what the evidence means. Avoid summarizing — every sentence should advance the argument.",
+        modelAnswer: "Soman Chainani reveals each character's true nature not through their self-descriptions but through how they respond when placed in circumstances that contradict their self-image. Sophie's response to the School for Evil is immediate denial, obsessive self-examination in mirrors, and a series of schemes designed to convince the school — and herself — that a mistake has been made. She cannot engage with the curriculum, cannot form genuine bonds with her classmates, and cannot stop performing goodness long enough to examine whether she actually possesses it. This response is itself the evidence. A person whose goodness is real does not need to audition for it. Agatha's response to the School for Good is more complex: she is uncomfortable, out of place, and unsure of herself — but her first instinct is not to improve her own position. It is to find Sophie. While Sophie schemes to switch schools, Agatha schemes to reach her friend. This contrast is Chainani's central argument: true character is not what you claim when things are easy; it is what you reach for instinctively when things are difficult. Sophie's disruption exposes vanity. Agatha's exposes loyalty. The two responses together define the novel's most important theme: goodness is not a quality you perform. It is a direction you consistently choose.",
+        strongExample: "Chainani reveals each character's true nature not by telling the reader who they are, but by showing how they respond when placed in an environment that contradicts their self-image. Sophie's response to Evil School — denial, obsession with her reflection, frantic scheming — is the behavior of someone who has built her identity on external validation. She cannot accept the placement because her entire sense of self depends on being seen as good, not on actually being good. Agatha's response, by contrast, is discomfort without performance — she is unsettled by Good School but her first instinct is to find Sophie, not to cultivate her own status. This contrast is Chainani's argument: true character is revealed not in moments of comfort, but in moments of disruption. Sophie's disruption exposes vanity; Agatha's exposes genuine loyalty.",
+        weakExample: "Sophie was upset when she was placed in the School for Evil because she thought she should be in Good. Agatha was placed in Good but she did not feel like she belonged there either. Both of them had trouble adjusting to their new schools.",
+        weakFeedback: "This response summarizes what happened but never analyzes what it means. 'Both had trouble adjusting' treats the characters as equivalent when the whole point of the comparison is that their responses are completely different in what they reveal. A strong comparative ECR explains specifically what each response reveals about each character's inner nature, and connects that to the theme being developed."
+      },
+    ],
+  },
+  {
+    id: "lightning",
+    title: "The Lightning Thief",
+    author: "Rick Riordan",
+    genre: "Fantasy / Mythology / Adventure",
+    lexile: "680L",
+    color: "#1A3A5C",
+    accent: "#3498DB",
+    emoji: "⚡",
+    isbn: "9780786838653",
+    summary: {
+      overview:
+        "Twelve-year-old Percy Jackson has always been different — he struggles in school, gets expelled repeatedly, and strange, dangerous things seem to follow him wherever he goes. When a math teacher transforms into a monster and attacks him on a class trip, Percy's world is turned upside down. He discovers he is a demigod: the son of a Greek god and a human mother. Taken to Camp Half-Blood — a training ground for children of the Olympians — Percy learns that the ancient Greek gods are very much alive and that their conflicts are tearing apart the modern world. He is accused of stealing Zeus's master lightning bolt, and if he can't return it before the summer solstice, a war among the gods will destroy civilization. With his best friend Grover (a satyr) and Annabeth (daughter of Athena), Percy races across the United States on a quest that tests every ounce of his courage, loyalty, and growing sense of who he truly is.",
+      themes: [
+        "Identity and self-discovery — learning who you are and what you are capable of",
+        "Loyalty and friendship as the foundations of true heroism",
+        "The relationship between fate and free will — are heroes born or made?",
+        "Family, belonging, and the pain of absent or neglectful parents",
+        "Appearance vs. reality — things in the modern world disguise their mythological nature",
+        "Courage in the face of the unknown — acting even when afraid",
+      ],
+      characters: [
+        { name: "Percy Jackson", role: "Protagonist — a dyslexic, ADHD 12-year-old who discovers he is the son of Poseidon; impulsive but deeply loyal and brave under pressure" },
+        { name: "Annabeth Chase", role: "Daughter of Athena — intelligent, strategic, and proud; Percy's most important ally and the brains of their quest" },
+        { name: "Grover Underwood", role: "Percy's best friend and a satyr — anxious but devoted; provides both comic relief and genuine emotional support" },
+        { name: "Poseidon", role: "Percy's divine father — powerful but largely absent; his distance reflects the complicated feelings Percy has about not being claimed sooner" },
+        { name: "Luke Castellan", role: "Son of Hermes — outwardly friendly but secretly resentful of the Olympian gods; represents what Percy could become if he surrenders to bitterness" },
+        { name: "Chiron", role: "Camp Half-Blood's trainer (disguised as a Latin teacher) — wise, patient, and deeply principled" },
+        { name: "Ares", role: "God of War — serves as an antagonist who manipulates Percy; represents brute force without wisdom or honor" },
+      ],
+      setting: "Modern-day United States — from New York City and Long Island (Camp Half-Blood) across the country to Los Angeles (the Underworld's entrance), with mythological locations layered beneath the surface of the everyday world.",
+      literaryDevices: [
+        { device: "First-Person Narrator", example: "Percy narrates in a direct, conversational voice that pulls the reader into his confusion and wonder — we discover the mythological world exactly as he does." },
+        { device: "Allusion", example: "The entire novel is built on allusions to Greek mythology — the Minotaur, Medusa, the Underworld, the Olympians — requiring the reader to connect modern events to ancient stories." },
+        { device: "Foreshadowing", example: "Percy's unexpected ability to survive in water and communicate with sea creatures hints at his parentage long before Poseidon claims him." },
+        { device: "Dramatic Irony", example: "The reader may recognize the identity of the true villain (Kronos's influence through Luke) before Percy does, creating suspense." },
+        { device: "Motif — Disguise / Appearance vs. Reality", example: "The Mist hides the mythological world from mortals; monsters appear as humans; gods disguise themselves. Nothing is what it seems on the surface." },
+        { device: "The Hero's Journey (Epic Structure)", example: "Percy follows the classic hero's journey: the call to adventure, crossing the threshold (entering Camp Half-Blood), trials, a descent (the Underworld), and a return transformed." },
+      ],
+      authorPurpose:
+        "Rick Riordan originally invented Percy Jackson to help his son — who has ADHD and dyslexia — feel heroic rather than broken. The novel reframes those 'differences' as divine gifts (ADHD = battlefield instincts; dyslexia = a brain wired for Ancient Greek). More broadly, Riordan uses Greek mythology to make readers curious about the ancient world while exploring timeless questions about identity, family, and what it means to be a hero.",
+    },
+
+    vocab: [
+      { word: "Impulsive", definition: "Acting quickly on instinct or feeling without fully thinking through the consequences.", context: "Percy's impulsive nature — charging into situations before thinking — was both his greatest danger and, in battle, his greatest asset.", staarNote: "Context clues for 'impulsive' include acting before thinking, surprising others with sudden moves, and getting into trouble because of quick decisions." },
+      { word: "Formidable", definition: "Inspiring fear or respect because of great power, strength, or ability.", context: "Being the son of Poseidon made Percy formidable to other demigods — his power was impressive, but it also made him a target.", staarNote: "STAAR pairs 'formidable' with both respect and danger — something formidable is impressive enough to be feared. Look for clues about power and the reactions it produces." },
+      { word: "Prophecy", definition: "A prediction of future events, especially one believed to come from a divine or supernatural source.", context: "The Oracle's prophecy about Percy's quest was maddeningly vague — true enough to matter, but unclear enough to mislead.", staarNote: "In context, a prophecy is identified by its source (oracle, god, seer), its vague or symbolic language, and the weight characters give it." },
+      { word: "Treachery", definition: "Betrayal of trust, especially by someone who appeared loyal.", context: "Luke's treachery shocked Percy — someone he had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for clues of hidden loyalty, secret plans, or sudden reveals." },
+      { word: "Mythological", definition: "Relating to myths — traditional stories about gods, heroes, and supernatural events that explain natural phenomena or human behavior.", context: "The mythological world Percy entered was not ancient and distant — it was layered beneath the surface of modern America.", staarNote: "Context clues for 'mythological' include references to gods, ancient stories, supernatural beings, and events that defy natural explanation." },
+      { word: "Labyrinth", definition: "A complicated irregular network of passages or paths in which it is difficult to find one's way; a maze.", context: "The path to the Underworld felt like a labyrinth — every turn revealed a new obstacle, and doubling back was not an option.", staarNote: "Both a literal place (maze) and a metaphor for any confusing situation with no clear path forward. Context clues include confusion, wrong turns, and difficulty navigating." },
+      { word: "Presumptuous", definition: "Failing to observe the limits of what is permitted or appropriate; overstepping.", context: "It was presumptuous of Zeus to assume Percy had stolen the bolt without any evidence — but gods rarely questioned their own conclusions.", staarNote: "Context clues for 'presumptuous' include someone acting with unearned confidence, overstepping their authority, or assuming too much without proof." },
+    
+      { word: "Treachery", definition: "Betrayal of trust by someone who appeared loyal; deceptive action against those who trusted you.", context: "Luke's treachery was the novel's most shocking revelation — someone Percy had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for hidden loyalty, secret plans, or sudden betrayal reveals." },
+      { word: "Labyrinthine", definition: "Resembling a labyrinth in being intricate and difficult to navigate; complicated and confusing.", context: "The path to the Underworld was labyrinthine — every solution created a new obstacle, and no direction felt safe or clear.", staarNote: "Context clues for 'labyrinthine' include confusion, multiple wrong turns, difficulty finding the right path, and an overwhelming sense of complexity." },
+      { word: "Oracle", definition: "A person or thing regarded as a source of wise counsel or prophetic opinion; a pronouncement considered authoritative.", context: "The Oracle's prophecy was both a guide and a trap — true enough to matter but vague enough to be misunderstood until it was too late to change course.", staarNote: "In context, an oracle is identified by its prophetic authority, its often-ambiguous language, and the weight characters give its words. STAAR tests whether students understand prophecy as a literary device." },
+      { word: "Hubris", definition: "Excessive pride or self-confidence, especially when it leads to a downfall.", context: "Ares embodied hubris — his arrogance and certainty in his own power made him careless, which Percy used to his advantage in their confrontation.", staarNote: "Hubris is a key literary term from Greek tragedy. STAAR tests it by showing a character whose excessive pride causes them to make mistakes. Look for overconfidence followed by failure." },
+      { word: "Mortal", definition: "Subject to death; relating to human beings as opposed to divine or immortal beings.", context: "Percy's mortal half made him vulnerable in ways a pure god would not be — he could be hurt, exhausted, and frightened, which the novel treats as a strength, not a weakness.", staarNote: "In mythology contexts, 'mortal' contrasts with 'immortal' or 'divine.' STAAR tests whether students understand this as a thematic distinction, not just a factual one." },    ],
+    questions: [
+      {
+        type: "Multiple Choice",
+        skill: "Theme",
+        staar: true,
+        map: true,
+        question:
+          "Which statement BEST expresses a central theme of The Lightning Thief?",
+        options: [
+          "A. Powerful families always protect their children from danger.",
+          "B. True heroism comes from loyalty, courage, and knowing who you are — not from power alone.",
+          "C. The gods of ancient Greece were more just than modern institutions.",
+          "D. Intelligence and planning are more important than any other quality in a hero.",
+        ],
+        answer: "B",
+        explanation:
+          "Percy defeats challenges not because he is the most powerful demigod, but because he acts out of loyalty to his friends and mother, faces his fears, and gradually accepts who he is. Ares, who has raw power, is defeated precisely because he lacks honor. The novel consistently rewards character over strength.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Character Analysis — Motivation",
+        staar: true,
+        map: true,
+        question:
+          "Which of the following BEST describes Percy's primary motivation throughout most of the novel?",
+        options: [
+          "A. To become the most respected hero at Camp Half-Blood",
+          "B. To prove to the Olympian gods that he is worthy of their attention",
+          "C. To rescue his mother from the Underworld and stop a war among the gods",
+          "D. To discover which Olympian is his parent before the summer solstice",
+        ],
+        answer: "C",
+        explanation:
+          "Percy's emotional core is his love for his mother. He accepts the dangerous quest not for glory, but to save her. Stopping the war is essential too, but the personal motivation — rescuing Sally Jackson — is what drives his courage in the darkest moments of the story.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Literary Device — Allusion",
+        staar: true,
+        map: true,
+        question:
+          "The novel makes frequent allusions to Greek mythology — Medusa, the Minotaur, the Underworld — embedded in the modern world. What is the MOST LIKELY purpose of these allusions?",
+        options: [
+          "A. To show that modern America is exactly like ancient Greece",
+          "B. To replace the need for a plot by relying on stories readers already know",
+          "C. To connect Percy's present-day journey to the ancient tradition of heroic quests, giving his struggles greater meaning",
+          "D. To suggest that Greek mythology is more accurate than modern science",
+        ],
+        answer: "C",
+        explanation:
+          "By embedding ancient myths into the modern world, Riordan places Percy within a long tradition of heroism. The allusions do more than entertain — they signal to the reader that Percy's journey is part of something much larger than one boy's adventure. They also reward readers who recognize the references.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Character Analysis + Textual Evidence",
+        staar: true,
+        map: false,
+        question:
+          "Part A: What does Luke Castellan's resentment toward the Olympian gods reveal about a theme in the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Luke shows that all demigods eventually turn evil.\nPart A — B. Luke illustrates how neglect and bitterness can corrupt even someone with heroic potential.\nPart A — C. Luke proves that children of minor gods are always less loyal than children of major gods.\nPart A — D. Luke demonstrates that the gods are right to keep their distance from their children.\n\nPart B — A. Luke was never a strong fighter, which made him feel overlooked at camp.\nPart B — B. Luke tells Percy that Hermes never visited or paid attention to him, fueling his anger and eventual betrayal.\nPart B — C. Luke loses a contest to Annabeth, which makes him resentful of Percy's friendship with her.\nPart B — D. Luke secretly worked with Ares to steal the lightning bolt for personal gain.",
+        ],
+        answer: "Part A: B | Part B: B",
+        explanation:
+          "Luke is a warning about what Percy could become. His father Hermes's absence created a wound that festered into betrayal. The novel uses this to explore how parental neglect — even divine neglect — has real consequences. Luke's explicit conversation with Percy about Hermes is the clearest textual evidence of this.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "In the novel, Percy is described as 'impulsive' in many of his decisions during the quest. Based on context clues, what does 'impulsive' most likely mean?",
+        options: [
+          "A. Acting only after careful planning and deliberation",
+          "B. Following the advice of others rather than thinking independently",
+          "C. Acting quickly on instinct without fully thinking through consequences",
+          "D. Moving slowly and cautiously to avoid making mistakes",
+        ],
+        answer: "C",
+        explanation:
+          "Throughout the novel, Percy repeatedly acts before thinking — charging into monster fights, making decisions without consulting Annabeth, diving into the ocean instinctively. Context clues reinforce that 'impulsive' describes someone driven by impulse (sudden feeling) rather than reason. Notably, the novel frames this trait as both a flaw and a strength.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Author's Craft — Point of View",
+        staar: true,
+        map: true,
+        question:
+          "The Lightning Thief is narrated in first person by Percy Jackson. How does this point of view MOST affect the reader's experience of the story?",
+        options: [
+          "A. It allows the reader to know more about the plot than Percy does",
+          "B. It creates a sense of suspense and discovery because the reader learns information exactly when Percy does",
+          "C. It makes Percy the least reliable narrator since he is only a child",
+          "D. It prevents the reader from understanding Annabeth's and Grover's motivations",
+        ],
+        answer: "B",
+        explanation:
+          "First-person narration limits the reader to Percy's perspective — we are surprised when he is surprised, confused when he is confused, and thrilled when he figures something out. This creates an immersive experience where the reader essentially lives the quest alongside Percy rather than watching from a distance.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Plot Structure — Hero's Journey",
+        staar: true,
+        map: true,
+        question:
+          "Percy's story follows the structure of a classic hero's journey. Which of the following story events represents the 'crossing the threshold' stage — the moment Percy fully commits to entering the new, dangerous world?",
+        options: [
+          "A. Percy's Latin teacher transforms into a Fury and attacks him",
+          "B. Percy arrives at Camp Half-Blood and learns the truth about demigods",
+          "C. Percy accepts the quest to retrieve Zeus's lightning bolt",
+          "D. Percy descends into the Underworld to confront Hades",
+        ],
+        answer: "C",
+        explanation:
+          "In the hero's journey, 'crossing the threshold' is the moment the hero chooses to fully commit to the adventure. Arriving at camp introduces Percy to the new world, but formally accepting the quest — with full knowledge of the danger — is the true threshold crossing. Everything before is preparation; everything after is the journey.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Theme + Textual Evidence",
+        staar: true,
+        map: false,
+        question:
+          "How does Rick Riordan use Percy's ADHD and dyslexia to develop a theme about identity and self-worth? Use evidence from the novel to support your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) State a clear theme — e.g., qualities that make someone feel 'broken' in one context can be powerful gifts in another; (2) Explain how Percy's learning differences are reframed in the novel (ADHD = battle instincts, dyslexia = brain wired for Ancient Greek); (3) Cite at least one specific moment where Percy's 'differences' help him succeed; (4) Connect back to the theme about identity and self-acceptance.",
+        explanation:
+          "STAAR SCR responses are scored on the clarity of the claim, quality of textual evidence, and explanation of how the evidence supports the claim. Use the RACES strategy and aim for 4–6 focused sentences.",
+        strongExample: "In The Lightning Thief, Riordan reframes Percy's ADHD and dyslexia as divine gifts rather than disabilities, developing the theme that what makes someone feel broken in one context may be exactly what makes them powerful in another. Percy's dyslexia — which has gotten him expelled from school after school — is revealed to be a brain wired for ancient Greek. His ADHD, labeled as inability to focus, is reframed as battle instincts that keep him alive during monster attacks. During the encounter with the Minotaur, Percy's impulsive, hyperactive response is precisely what saves him. Riordan uses this reframing to argue that identity and self-worth should not be measured by the standards of institutions that were never designed for you.",
+        weakExample: "Percy has ADHD and dyslexia which make school hard for him. But in the book they become his strengths. This shows that being different can be a strength.",
+        weakFeedback: "'Being different can be a strength' is a theme statement without analysis. A strong SCR connects a specific moment from the text to the theme and explains the connection — for example, citing the Minotaur encounter and analyzing what Percy's instinctive response demonstrates about how his 'flaw' functions as a gift in a context designed for who he actually is.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Character Analysis — Annabeth",
+        staar: true,
+        map: true,
+        question:
+          "How does Annabeth's characterization challenge traditional ideas about what a hero looks like?",
+        options: [
+          "A. Annabeth uses physical strength to defeat monsters, showing she is as powerful as Percy.",
+          "B. Annabeth leads through intelligence and strategy, demonstrating that heroism does not require brute force.",
+          "C. Annabeth's emotions make her unreliable in dangerous situations, which Percy must compensate for.",
+          "D. Annabeth is more heroic than Percy because she has been at camp longer.",
+        ],
+        answer: "B",
+        explanation:
+          "Annabeth repeatedly solves problems through planning, knowledge of mythology, and strategic thinking rather than combat. Her greatest contributions to the quest — knowing which monsters they face, how to navigate the Underworld, understanding the prophecy — all come from her mind. Riordan uses her to argue that intelligence is just as heroic as strength, expanding the traditional definition of what a hero can be.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Mood and Tone",
+        staar: true,
+        map: true,
+        question:
+          "How does Riordan establish a tone that is adventurous and humorous despite the life-threatening dangers Percy faces throughout the quest?",
+        options: [
+          "A. By minimizing the danger so that readers never feel Percy is truly at risk",
+          "B. By using Percy's first-person, conversational voice to narrate even terrifying events with wit and self-awareness",
+          "C. By having other characters reassure Percy that everything will be fine",
+          "D. By setting most dangerous scenes during the daytime so they feel less frightening",
+        ],
+        answer: "B",
+        explanation:
+          "Percy's narrating voice is the key to the novel's tone. He comments on monster attacks with sarcasm, describes his own near-death experiences with exasperation, and jokes even in crisis. This voice does not eliminate tension — it channels it. The humor is a coping mechanism that feels authentic to a twelve-year-old boy, and it keeps the novel propulsive and fun even when the stakes are high.",
+      },
+      {
+        type: "Vocabulary in Context",
+        skill: "Vocabulary",
+        staar: true,
+        map: true,
+        question:
+          "At Camp Half-Blood, Percy is told that being a demigod makes him 'formidable' but also dangerous to those around him. Based on context clues, what does 'formidable' most likely mean?",
+        options: [
+          "A. Clumsy and unpredictable in unfamiliar situations",
+          "B. Inspiring fear or respect because of great power or ability",
+          "C. Cautious and reluctant to take action",
+          "D. Friendly and approachable to both humans and monsters",
+        ],
+        answer: "B",
+        explanation:
+          "'Formidable' comes from the Latin formidare, meaning to fear. In context, being called formidable is both a compliment and a warning — Percy's power as a son of Poseidon commands respect but also attracts dangerous enemies. The pairing of 'formidable' with 'dangerous to those around him' confirms the meaning: his power is impressive and intimidating.",
+      },
+      {
+        type: "Part A / Part B (Evidence-Based)",
+        skill: "Theme — Belonging and Identity",
+        staar: true,
+        map: false,
+        question:
+          "Part A: How does Percy's experience at Camp Half-Blood develop the theme of belonging and identity?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
+        options: [
+          "Part A — A. Camp Half-Blood makes Percy feel completely at home immediately upon his arrival.\nPart A — B. Percy's struggle to be claimed and accepted at camp mirrors his lifelong feeling of not fitting in — and his journey toward understanding who he truly is.\nPart A — C. Camp Half-Blood shows Percy that identity is determined entirely by which god is your parent.\nPart A — D. Percy feels he belongs at camp only after he wins a capture-the-flag battle.\n\nPart B — A. Percy is not claimed by Poseidon for weeks after arriving at camp, leaving him without a cabin or a defined place among the demigods.\nPart B — B. Percy immediately wins the respect of all campers by defeating a Minotaur before he even arrives.\nPart B — C. The camp director assigns Percy a permanent cabin before his parentage is revealed.\nPart B — D. Percy decides he prefers his regular school to Camp Half-Blood after his first week.",
+        ],
+        answer: "Part A: B | Part B: A",
+        explanation:
+          "The delay in Percy being claimed is one of the novel's most pointed details. Just as he has always been the kid who doesn't fit in — expelled from schools, misunderstood by teachers — at camp he is literally unclaimed, without a place. The moment Poseidon's trident appears above his head is not just a plot reveal; it is Percy finally knowing, for the first time, exactly who he is and where he belongs.",
+      },
+      {
+        type: "Short Constructed Response (SCR)",
+        skill: "Conflict — Character vs. Society",
+        staar: true,
+        map: false,
+        question:
+          "Percy is accused of stealing Zeus's lightning bolt without any evidence against him. How does this conflict reflect a theme about justice, power, and how the powerful treat those with less power? Use evidence from the novel in your response.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Identify the theme — e.g., those with power often make assumptions about those without it, and the accused must prove innocence rather than guilt being proven; (2) Explain that Percy is presumed guilty by the Olympian gods simply because he is a son of Poseidon and was present; (3) Connect this to Percy's real-world experiences of being blamed and expelled from schools for things he did not fully control; (4) Cite at least one specific detail from the novel as evidence; (5) Explain what this pattern reveals about how power operates in both the mythological and human world.",
+        explanation:
+          "This SCR targets the higher-order skill of connecting a specific plot conflict to a broader theme. Strong responses make the thematic link explicit — they don't just describe what happened, they explain what it means. Use RACES and aim for 5–6 focused sentences.",
+        modelAnswer: "In The Lightning Thief, Rick Riordan uses the false accusation against Percy Jackson to develop the theme that power often operates by presuming the guilt of those who lack it, requiring the powerless to prove their innocence rather than allowing innocence to be assumed. Percy is accused of stealing Zeus's master lightning bolt with no evidence beyond his identity: he is the son of Poseidon, he was present near Olympus, and therefore he must be responsible. This logic — accusation as proof — mirrors Percy's experience in the mortal world with painful precision. He has been expelled from school after school for incidents that were not entirely his fault, disciplined by adults who assumed the worst before investigating, labeled a problem child by institutions that were not designed for someone like him. Riordan places these two worlds — the Olympian and the American middle school — in deliberate parallel to make a single argument: when institutions hold the power to punish, individuals without status or protection must spend their energy proving a negative. The accused is already guilty in the eyes of the powerful. Percy's quest is not just to find the lightning bolt; it is to exist in a world that assumed he had already failed.",
+        strongExample: "In The Lightning Thief, Riordan uses the false accusation against Percy to develop the theme that the powerful often treat the powerless as guilty by default. Percy is accused of stealing Zeus's lightning bolt with no evidence beyond his identity — he is Poseidon's son, he was present, and therefore he must be responsible. This mirrors Percy's experiences in the mortal world, where he is repeatedly expelled for incidents he did not fully control, and where teachers assume the worst before investigating. Riordan uses both contexts to argue the same point: when institutions hold power to punish, individuals with less power must prove their innocence rather than being presumed innocent. This parallel between Olympus and a public school is not accidental — it is the novel's quiet critique of how power operates in any institution.",
+        weakExample: "Percy is accused of stealing the lightning bolt even though he didn't do it. This is unfair because the gods just assumed he was guilty. This shows that the gods are not very just.",
+        weakFeedback: "'The gods are not very just' is a surface-level observation. A strong SCR connects the accusation to a specific theme about power — explaining that Percy's situation follows the same pattern as his school expulsions, and that Riordan uses this repeating pattern to argue something about how institutions treat those with less power. The connection between the mythological and real-world pattern is where the analysis lives.",
+      },
+      {
+        type: "Multiple Choice",
+        skill: "Figurative Language — Metaphor",
+        staar: true,
+        map: true,
+        question:
+          "Riordan describes the Mist as a force that causes mortals to see mythological creatures and events as ordinary, explainable things. What idea does the Mist function as a metaphor for?",
+        options: [
+          "A. The idea that magic is always invisible to people who do not believe in it",
+          "B. The way people rationalize or ignore extraordinary things happening around them that they are not prepared to see",
+          "C. The scientific explanation for why humans cannot see into other dimensions",
+          "D. The gods' deliberate cruelty in hiding the truth from ordinary people",
+        ],
+        answer: "B",
+        explanation:
+          "The Mist is a rich metaphor for how people filter reality through the lens of what they already believe or expect. When mortals see a monster, they perceive something ordinary — their minds construct a 'reasonable' explanation. Riordan uses this to comment on how humans often miss what is extraordinary or dangerous right in front of them because they are not looking for it, or because accepting the truth would be too disruptive.",
+      },
+      {
+        type: "Extended Constructed Response (ECR)",
+        skill: "Myth + Modern World + Theme Analysis",
+        staar: true,
+        map: false,
+        question:
+          "Rick Riordan deliberately sets an ancient mythological story in the modern United States. Write a response in which you analyze the effect of this setting choice. How does placing Greek gods and monsters in the contemporary world develop a theme or reinforce the novel's central ideas? Use specific evidence from the text to support your analysis.",
+        options: [],
+        answer:
+          "Strong responses should: (1) Open with a thesis about what the modern setting accomplishes thematically — e.g., it argues that ancient human struggles (pride, loyalty, jealousy, the search for identity) are timeless and still alive today; (2) Analyze two or more specific examples where a mythological element in a modern setting creates meaning — such as Olympus atop the Empire State Building, the Underworld beneath Los Angeles, or Medusa running a garden statue shop; (3) Explain what each example suggests about the modern world or human nature; (4) Connect the setting choices back to the novel's themes about heroism, identity, or belonging; (5) Conclude by arguing why this setting choice makes the mythology feel relevant rather than remote.",
+        explanation:
+          "This is a sophisticated ECR that asks students to analyze craft choices (setting) rather than just theme or character. Strong responses treat each modern-mythological pairing as evidence and explain its specific effect. Avoid simply listing locations — analyze what each pairing means.",
+        modelAnswer: "Rick Riordan's decision to embed Greek mythology in the contemporary United States is not a quirk of setting — it is the novel's central argument about human nature. By placing Olympus on the 600th floor of the Empire State Building, Riordan signals that the gods' hunger for power, status, and dominance did not belong to ancient Greece. It belongs to every era, including this one. The Empire State Building — a monument to American ambition, competition, and the desire to be tallest — is the natural home of gods who spend their immortality fighting over authority. The choice of Los Angeles as the entrance to the Underworld is equally precise. Hollywood is a city built on illusion, on the performance of life rather than its reality, on the worship of fame that outlasts the body. Placing the realm of the dead beneath a city devoted to manufactured immortality is not accidental — it is Riordan's argument that Americans, like the ancient Greeks, spend enormous energy denying and disguising mortality. Together, these settings make the same point: mythology has survived for three thousand years not because it describes ancient people but because it describes permanent ones. The gods are still alive because the drives they represent — jealousy, pride, the need for loyalty, the fear of being forgotten — never left.",
+        strongExample: "By placing Mount Olympus on the 600th floor of the Empire State Building and the Underworld beneath Los Angeles, Riordan argues that the ancient conflicts embodied in Greek mythology — ambition, jealousy, the hunger for power, the search for identity — are not relics of the past but living forces shaping the modern world. Each modern location is chosen with thematic precision: Olympus above the center of American ambition signals that the gods' hunger for power mirrors the most recognizable drives of contemporary society. The Underworld beneath Hollywood — a city built on illusion and the performance of fame — suggests that escapism and denial of mortality are as modern as they are ancient. Riordan's setting is not decoration; it is his argument that mythology survives because the human conditions it describes never went away.",
+        weakExample: "Riordan sets the story in modern America which makes it interesting because you can see places you recognize. Olympus is on top of the Empire State Building and the Underworld is in Los Angeles. This makes the mythology feel more real.",
+        weakFeedback: "'Makes it feel more real' describes an effect but doesn't analyze a meaning. A strong ECR explains WHY each specific location was chosen — what does the Empire State Building say about Olympus and the kind of power it represents? What does Los Angeles say about the Underworld? Every location choice should be analyzed as a deliberate argument about the modern world, not just noted as a detail."
+      },
+    ],
+  },
+  {
     id: "lemoncello",
     title: "Mr. Lemoncello's Very First Game",
     author: "Chris Grabenstein",
@@ -615,622 +1535,6 @@ const books = [
     ],
   },
   {
-    id: "lightning",
-    title: "The Lightning Thief",
-    author: "Rick Riordan",
-    genre: "Fantasy / Mythology / Adventure",
-    lexile: "680L",
-    color: "#1A3A5C",
-    accent: "#3498DB",
-    emoji: "⚡",
-    isbn: "9780786838653",
-    summary: {
-      overview:
-        "Twelve-year-old Percy Jackson has always been different — he struggles in school, gets expelled repeatedly, and strange, dangerous things seem to follow him wherever he goes. When a math teacher transforms into a monster and attacks him on a class trip, Percy's world is turned upside down. He discovers he is a demigod: the son of a Greek god and a human mother. Taken to Camp Half-Blood — a training ground for children of the Olympians — Percy learns that the ancient Greek gods are very much alive and that their conflicts are tearing apart the modern world. He is accused of stealing Zeus's master lightning bolt, and if he can't return it before the summer solstice, a war among the gods will destroy civilization. With his best friend Grover (a satyr) and Annabeth (daughter of Athena), Percy races across the United States on a quest that tests every ounce of his courage, loyalty, and growing sense of who he truly is.",
-      themes: [
-        "Identity and self-discovery — learning who you are and what you are capable of",
-        "Loyalty and friendship as the foundations of true heroism",
-        "The relationship between fate and free will — are heroes born or made?",
-        "Family, belonging, and the pain of absent or neglectful parents",
-        "Appearance vs. reality — things in the modern world disguise their mythological nature",
-        "Courage in the face of the unknown — acting even when afraid",
-      ],
-      characters: [
-        { name: "Percy Jackson", role: "Protagonist — a dyslexic, ADHD 12-year-old who discovers he is the son of Poseidon; impulsive but deeply loyal and brave under pressure" },
-        { name: "Annabeth Chase", role: "Daughter of Athena — intelligent, strategic, and proud; Percy's most important ally and the brains of their quest" },
-        { name: "Grover Underwood", role: "Percy's best friend and a satyr — anxious but devoted; provides both comic relief and genuine emotional support" },
-        { name: "Poseidon", role: "Percy's divine father — powerful but largely absent; his distance reflects the complicated feelings Percy has about not being claimed sooner" },
-        { name: "Luke Castellan", role: "Son of Hermes — outwardly friendly but secretly resentful of the Olympian gods; represents what Percy could become if he surrenders to bitterness" },
-        { name: "Chiron", role: "Camp Half-Blood's trainer (disguised as a Latin teacher) — wise, patient, and deeply principled" },
-        { name: "Ares", role: "God of War — serves as an antagonist who manipulates Percy; represents brute force without wisdom or honor" },
-      ],
-      setting: "Modern-day United States — from New York City and Long Island (Camp Half-Blood) across the country to Los Angeles (the Underworld's entrance), with mythological locations layered beneath the surface of the everyday world.",
-      literaryDevices: [
-        { device: "First-Person Narrator", example: "Percy narrates in a direct, conversational voice that pulls the reader into his confusion and wonder — we discover the mythological world exactly as he does." },
-        { device: "Allusion", example: "The entire novel is built on allusions to Greek mythology — the Minotaur, Medusa, the Underworld, the Olympians — requiring the reader to connect modern events to ancient stories." },
-        { device: "Foreshadowing", example: "Percy's unexpected ability to survive in water and communicate with sea creatures hints at his parentage long before Poseidon claims him." },
-        { device: "Dramatic Irony", example: "The reader may recognize the identity of the true villain (Kronos's influence through Luke) before Percy does, creating suspense." },
-        { device: "Motif — Disguise / Appearance vs. Reality", example: "The Mist hides the mythological world from mortals; monsters appear as humans; gods disguise themselves. Nothing is what it seems on the surface." },
-        { device: "The Hero's Journey (Epic Structure)", example: "Percy follows the classic hero's journey: the call to adventure, crossing the threshold (entering Camp Half-Blood), trials, a descent (the Underworld), and a return transformed." },
-      ],
-      authorPurpose:
-        "Rick Riordan originally invented Percy Jackson to help his son — who has ADHD and dyslexia — feel heroic rather than broken. The novel reframes those 'differences' as divine gifts (ADHD = battlefield instincts; dyslexia = a brain wired for Ancient Greek). More broadly, Riordan uses Greek mythology to make readers curious about the ancient world while exploring timeless questions about identity, family, and what it means to be a hero.",
-    },
-
-    vocab: [
-      { word: "Impulsive", definition: "Acting quickly on instinct or feeling without fully thinking through the consequences.", context: "Percy's impulsive nature — charging into situations before thinking — was both his greatest danger and, in battle, his greatest asset.", staarNote: "Context clues for 'impulsive' include acting before thinking, surprising others with sudden moves, and getting into trouble because of quick decisions." },
-      { word: "Formidable", definition: "Inspiring fear or respect because of great power, strength, or ability.", context: "Being the son of Poseidon made Percy formidable to other demigods — his power was impressive, but it also made him a target.", staarNote: "STAAR pairs 'formidable' with both respect and danger — something formidable is impressive enough to be feared. Look for clues about power and the reactions it produces." },
-      { word: "Prophecy", definition: "A prediction of future events, especially one believed to come from a divine or supernatural source.", context: "The Oracle's prophecy about Percy's quest was maddeningly vague — true enough to matter, but unclear enough to mislead.", staarNote: "In context, a prophecy is identified by its source (oracle, god, seer), its vague or symbolic language, and the weight characters give it." },
-      { word: "Treachery", definition: "Betrayal of trust, especially by someone who appeared loyal.", context: "Luke's treachery shocked Percy — someone he had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for clues of hidden loyalty, secret plans, or sudden reveals." },
-      { word: "Mythological", definition: "Relating to myths — traditional stories about gods, heroes, and supernatural events that explain natural phenomena or human behavior.", context: "The mythological world Percy entered was not ancient and distant — it was layered beneath the surface of modern America.", staarNote: "Context clues for 'mythological' include references to gods, ancient stories, supernatural beings, and events that defy natural explanation." },
-      { word: "Labyrinth", definition: "A complicated irregular network of passages or paths in which it is difficult to find one's way; a maze.", context: "The path to the Underworld felt like a labyrinth — every turn revealed a new obstacle, and doubling back was not an option.", staarNote: "Both a literal place (maze) and a metaphor for any confusing situation with no clear path forward. Context clues include confusion, wrong turns, and difficulty navigating." },
-      { word: "Presumptuous", definition: "Failing to observe the limits of what is permitted or appropriate; overstepping.", context: "It was presumptuous of Zeus to assume Percy had stolen the bolt without any evidence — but gods rarely questioned their own conclusions.", staarNote: "Context clues for 'presumptuous' include someone acting with unearned confidence, overstepping their authority, or assuming too much without proof." },
-    
-      { word: "Treachery", definition: "Betrayal of trust by someone who appeared loyal; deceptive action against those who trusted you.", context: "Luke's treachery was the novel's most shocking revelation — someone Percy had trusted and admired had been working against Olympus the entire time.", staarNote: "STAAR tests 'treachery' by showing betrayal from within — someone trusted who was secretly working against others. Look for hidden loyalty, secret plans, or sudden betrayal reveals." },
-      { word: "Labyrinthine", definition: "Resembling a labyrinth in being intricate and difficult to navigate; complicated and confusing.", context: "The path to the Underworld was labyrinthine — every solution created a new obstacle, and no direction felt safe or clear.", staarNote: "Context clues for 'labyrinthine' include confusion, multiple wrong turns, difficulty finding the right path, and an overwhelming sense of complexity." },
-      { word: "Oracle", definition: "A person or thing regarded as a source of wise counsel or prophetic opinion; a pronouncement considered authoritative.", context: "The Oracle's prophecy was both a guide and a trap — true enough to matter but vague enough to be misunderstood until it was too late to change course.", staarNote: "In context, an oracle is identified by its prophetic authority, its often-ambiguous language, and the weight characters give its words. STAAR tests whether students understand prophecy as a literary device." },
-      { word: "Hubris", definition: "Excessive pride or self-confidence, especially when it leads to a downfall.", context: "Ares embodied hubris — his arrogance and certainty in his own power made him careless, which Percy used to his advantage in their confrontation.", staarNote: "Hubris is a key literary term from Greek tragedy. STAAR tests it by showing a character whose excessive pride causes them to make mistakes. Look for overconfidence followed by failure." },
-      { word: "Mortal", definition: "Subject to death; relating to human beings as opposed to divine or immortal beings.", context: "Percy's mortal half made him vulnerable in ways a pure god would not be — he could be hurt, exhausted, and frightened, which the novel treats as a strength, not a weakness.", staarNote: "In mythology contexts, 'mortal' contrasts with 'immortal' or 'divine.' STAAR tests whether students understand this as a thematic distinction, not just a factual one." },    ],
-    questions: [
-      {
-        type: "Multiple Choice",
-        skill: "Theme",
-        staar: true,
-        map: true,
-        question:
-          "Which statement BEST expresses a central theme of The Lightning Thief?",
-        options: [
-          "A. Powerful families always protect their children from danger.",
-          "B. True heroism comes from loyalty, courage, and knowing who you are — not from power alone.",
-          "C. The gods of ancient Greece were more just than modern institutions.",
-          "D. Intelligence and planning are more important than any other quality in a hero.",
-        ],
-        answer: "B",
-        explanation:
-          "Percy defeats challenges not because he is the most powerful demigod, but because he acts out of loyalty to his friends and mother, faces his fears, and gradually accepts who he is. Ares, who has raw power, is defeated precisely because he lacks honor. The novel consistently rewards character over strength.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Character Analysis — Motivation",
-        staar: true,
-        map: true,
-        question:
-          "Which of the following BEST describes Percy's primary motivation throughout most of the novel?",
-        options: [
-          "A. To become the most respected hero at Camp Half-Blood",
-          "B. To prove to the Olympian gods that he is worthy of their attention",
-          "C. To rescue his mother from the Underworld and stop a war among the gods",
-          "D. To discover which Olympian is his parent before the summer solstice",
-        ],
-        answer: "C",
-        explanation:
-          "Percy's emotional core is his love for his mother. He accepts the dangerous quest not for glory, but to save her. Stopping the war is essential too, but the personal motivation — rescuing Sally Jackson — is what drives his courage in the darkest moments of the story.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Literary Device — Allusion",
-        staar: true,
-        map: true,
-        question:
-          "The novel makes frequent allusions to Greek mythology — Medusa, the Minotaur, the Underworld — embedded in the modern world. What is the MOST LIKELY purpose of these allusions?",
-        options: [
-          "A. To show that modern America is exactly like ancient Greece",
-          "B. To replace the need for a plot by relying on stories readers already know",
-          "C. To connect Percy's present-day journey to the ancient tradition of heroic quests, giving his struggles greater meaning",
-          "D. To suggest that Greek mythology is more accurate than modern science",
-        ],
-        answer: "C",
-        explanation:
-          "By embedding ancient myths into the modern world, Riordan places Percy within a long tradition of heroism. The allusions do more than entertain — they signal to the reader that Percy's journey is part of something much larger than one boy's adventure. They also reward readers who recognize the references.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Character Analysis + Textual Evidence",
-        staar: true,
-        map: false,
-        question:
-          "Part A: What does Luke Castellan's resentment toward the Olympian gods reveal about a theme in the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Luke shows that all demigods eventually turn evil.\nPart A — B. Luke illustrates how neglect and bitterness can corrupt even someone with heroic potential.\nPart A — C. Luke proves that children of minor gods are always less loyal than children of major gods.\nPart A — D. Luke demonstrates that the gods are right to keep their distance from their children.\n\nPart B — A. Luke was never a strong fighter, which made him feel overlooked at camp.\nPart B — B. Luke tells Percy that Hermes never visited or paid attention to him, fueling his anger and eventual betrayal.\nPart B — C. Luke loses a contest to Annabeth, which makes him resentful of Percy's friendship with her.\nPart B — D. Luke secretly worked with Ares to steal the lightning bolt for personal gain.",
-        ],
-        answer: "Part A: B | Part B: B",
-        explanation:
-          "Luke is a warning about what Percy could become. His father Hermes's absence created a wound that festered into betrayal. The novel uses this to explore how parental neglect — even divine neglect — has real consequences. Luke's explicit conversation with Percy about Hermes is the clearest textual evidence of this.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "In the novel, Percy is described as 'impulsive' in many of his decisions during the quest. Based on context clues, what does 'impulsive' most likely mean?",
-        options: [
-          "A. Acting only after careful planning and deliberation",
-          "B. Following the advice of others rather than thinking independently",
-          "C. Acting quickly on instinct without fully thinking through consequences",
-          "D. Moving slowly and cautiously to avoid making mistakes",
-        ],
-        answer: "C",
-        explanation:
-          "Throughout the novel, Percy repeatedly acts before thinking — charging into monster fights, making decisions without consulting Annabeth, diving into the ocean instinctively. Context clues reinforce that 'impulsive' describes someone driven by impulse (sudden feeling) rather than reason. Notably, the novel frames this trait as both a flaw and a strength.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Author's Craft — Point of View",
-        staar: true,
-        map: true,
-        question:
-          "The Lightning Thief is narrated in first person by Percy Jackson. How does this point of view MOST affect the reader's experience of the story?",
-        options: [
-          "A. It allows the reader to know more about the plot than Percy does",
-          "B. It creates a sense of suspense and discovery because the reader learns information exactly when Percy does",
-          "C. It makes Percy the least reliable narrator since he is only a child",
-          "D. It prevents the reader from understanding Annabeth's and Grover's motivations",
-        ],
-        answer: "B",
-        explanation:
-          "First-person narration limits the reader to Percy's perspective — we are surprised when he is surprised, confused when he is confused, and thrilled when he figures something out. This creates an immersive experience where the reader essentially lives the quest alongside Percy rather than watching from a distance.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Plot Structure — Hero's Journey",
-        staar: true,
-        map: true,
-        question:
-          "Percy's story follows the structure of a classic hero's journey. Which of the following story events represents the 'crossing the threshold' stage — the moment Percy fully commits to entering the new, dangerous world?",
-        options: [
-          "A. Percy's Latin teacher transforms into a Fury and attacks him",
-          "B. Percy arrives at Camp Half-Blood and learns the truth about demigods",
-          "C. Percy accepts the quest to retrieve Zeus's lightning bolt",
-          "D. Percy descends into the Underworld to confront Hades",
-        ],
-        answer: "C",
-        explanation:
-          "In the hero's journey, 'crossing the threshold' is the moment the hero chooses to fully commit to the adventure. Arriving at camp introduces Percy to the new world, but formally accepting the quest — with full knowledge of the danger — is the true threshold crossing. Everything before is preparation; everything after is the journey.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Theme + Textual Evidence",
-        staar: true,
-        map: false,
-        question:
-          "How does Rick Riordan use Percy's ADHD and dyslexia to develop a theme about identity and self-worth? Use evidence from the novel to support your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) State a clear theme — e.g., qualities that make someone feel 'broken' in one context can be powerful gifts in another; (2) Explain how Percy's learning differences are reframed in the novel (ADHD = battle instincts, dyslexia = brain wired for Ancient Greek); (3) Cite at least one specific moment where Percy's 'differences' help him succeed; (4) Connect back to the theme about identity and self-acceptance.",
-        explanation:
-          "STAAR SCR responses are scored on the clarity of the claim, quality of textual evidence, and explanation of how the evidence supports the claim. Use the RACES strategy and aim for 4–6 focused sentences.",
-        strongExample: "In The Lightning Thief, Riordan reframes Percy's ADHD and dyslexia as divine gifts rather than disabilities, developing the theme that what makes someone feel broken in one context may be exactly what makes them powerful in another. Percy's dyslexia — which has gotten him expelled from school after school — is revealed to be a brain wired for ancient Greek. His ADHD, labeled as inability to focus, is reframed as battle instincts that keep him alive during monster attacks. During the encounter with the Minotaur, Percy's impulsive, hyperactive response is precisely what saves him. Riordan uses this reframing to argue that identity and self-worth should not be measured by the standards of institutions that were never designed for you.",
-        weakExample: "Percy has ADHD and dyslexia which make school hard for him. But in the book they become his strengths. This shows that being different can be a strength.",
-        weakFeedback: "'Being different can be a strength' is a theme statement without analysis. A strong SCR connects a specific moment from the text to the theme and explains the connection — for example, citing the Minotaur encounter and analyzing what Percy's instinctive response demonstrates about how his 'flaw' functions as a gift in a context designed for who he actually is.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Character Analysis — Annabeth",
-        staar: true,
-        map: true,
-        question:
-          "How does Annabeth's characterization challenge traditional ideas about what a hero looks like?",
-        options: [
-          "A. Annabeth uses physical strength to defeat monsters, showing she is as powerful as Percy.",
-          "B. Annabeth leads through intelligence and strategy, demonstrating that heroism does not require brute force.",
-          "C. Annabeth's emotions make her unreliable in dangerous situations, which Percy must compensate for.",
-          "D. Annabeth is more heroic than Percy because she has been at camp longer.",
-        ],
-        answer: "B",
-        explanation:
-          "Annabeth repeatedly solves problems through planning, knowledge of mythology, and strategic thinking rather than combat. Her greatest contributions to the quest — knowing which monsters they face, how to navigate the Underworld, understanding the prophecy — all come from her mind. Riordan uses her to argue that intelligence is just as heroic as strength, expanding the traditional definition of what a hero can be.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Mood and Tone",
-        staar: true,
-        map: true,
-        question:
-          "How does Riordan establish a tone that is adventurous and humorous despite the life-threatening dangers Percy faces throughout the quest?",
-        options: [
-          "A. By minimizing the danger so that readers never feel Percy is truly at risk",
-          "B. By using Percy's first-person, conversational voice to narrate even terrifying events with wit and self-awareness",
-          "C. By having other characters reassure Percy that everything will be fine",
-          "D. By setting most dangerous scenes during the daytime so they feel less frightening",
-        ],
-        answer: "B",
-        explanation:
-          "Percy's narrating voice is the key to the novel's tone. He comments on monster attacks with sarcasm, describes his own near-death experiences with exasperation, and jokes even in crisis. This voice does not eliminate tension — it channels it. The humor is a coping mechanism that feels authentic to a twelve-year-old boy, and it keeps the novel propulsive and fun even when the stakes are high.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "At Camp Half-Blood, Percy is told that being a demigod makes him 'formidable' but also dangerous to those around him. Based on context clues, what does 'formidable' most likely mean?",
-        options: [
-          "A. Clumsy and unpredictable in unfamiliar situations",
-          "B. Inspiring fear or respect because of great power or ability",
-          "C. Cautious and reluctant to take action",
-          "D. Friendly and approachable to both humans and monsters",
-        ],
-        answer: "B",
-        explanation:
-          "'Formidable' comes from the Latin formidare, meaning to fear. In context, being called formidable is both a compliment and a warning — Percy's power as a son of Poseidon commands respect but also attracts dangerous enemies. The pairing of 'formidable' with 'dangerous to those around him' confirms the meaning: his power is impressive and intimidating.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Theme — Belonging and Identity",
-        staar: true,
-        map: false,
-        question:
-          "Part A: How does Percy's experience at Camp Half-Blood develop the theme of belonging and identity?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Camp Half-Blood makes Percy feel completely at home immediately upon his arrival.\nPart A — B. Percy's struggle to be claimed and accepted at camp mirrors his lifelong feeling of not fitting in — and his journey toward understanding who he truly is.\nPart A — C. Camp Half-Blood shows Percy that identity is determined entirely by which god is your parent.\nPart A — D. Percy feels he belongs at camp only after he wins a capture-the-flag battle.\n\nPart B — A. Percy is not claimed by Poseidon for weeks after arriving at camp, leaving him without a cabin or a defined place among the demigods.\nPart B — B. Percy immediately wins the respect of all campers by defeating a Minotaur before he even arrives.\nPart B — C. The camp director assigns Percy a permanent cabin before his parentage is revealed.\nPart B — D. Percy decides he prefers his regular school to Camp Half-Blood after his first week.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "The delay in Percy being claimed is one of the novel's most pointed details. Just as he has always been the kid who doesn't fit in — expelled from schools, misunderstood by teachers — at camp he is literally unclaimed, without a place. The moment Poseidon's trident appears above his head is not just a plot reveal; it is Percy finally knowing, for the first time, exactly who he is and where he belongs.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Conflict — Character vs. Society",
-        staar: true,
-        map: false,
-        question:
-          "Percy is accused of stealing Zeus's lightning bolt without any evidence against him. How does this conflict reflect a theme about justice, power, and how the powerful treat those with less power? Use evidence from the novel in your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Identify the theme — e.g., those with power often make assumptions about those without it, and the accused must prove innocence rather than guilt being proven; (2) Explain that Percy is presumed guilty by the Olympian gods simply because he is a son of Poseidon and was present; (3) Connect this to Percy's real-world experiences of being blamed and expelled from schools for things he did not fully control; (4) Cite at least one specific detail from the novel as evidence; (5) Explain what this pattern reveals about how power operates in both the mythological and human world.",
-        explanation:
-          "This SCR targets the higher-order skill of connecting a specific plot conflict to a broader theme. Strong responses make the thematic link explicit — they don't just describe what happened, they explain what it means. Use RACES and aim for 5–6 focused sentences.",
-        modelAnswer: "In The Lightning Thief, Rick Riordan uses the false accusation against Percy Jackson to develop the theme that power often operates by presuming the guilt of those who lack it, requiring the powerless to prove their innocence rather than allowing innocence to be assumed. Percy is accused of stealing Zeus's master lightning bolt with no evidence beyond his identity: he is the son of Poseidon, he was present near Olympus, and therefore he must be responsible. This logic — accusation as proof — mirrors Percy's experience in the mortal world with painful precision. He has been expelled from school after school for incidents that were not entirely his fault, disciplined by adults who assumed the worst before investigating, labeled a problem child by institutions that were not designed for someone like him. Riordan places these two worlds — the Olympian and the American middle school — in deliberate parallel to make a single argument: when institutions hold the power to punish, individuals without status or protection must spend their energy proving a negative. The accused is already guilty in the eyes of the powerful. Percy's quest is not just to find the lightning bolt; it is to exist in a world that assumed he had already failed.",
-        strongExample: "In The Lightning Thief, Riordan uses the false accusation against Percy to develop the theme that the powerful often treat the powerless as guilty by default. Percy is accused of stealing Zeus's lightning bolt with no evidence beyond his identity — he is Poseidon's son, he was present, and therefore he must be responsible. This mirrors Percy's experiences in the mortal world, where he is repeatedly expelled for incidents he did not fully control, and where teachers assume the worst before investigating. Riordan uses both contexts to argue the same point: when institutions hold power to punish, individuals with less power must prove their innocence rather than being presumed innocent. This parallel between Olympus and a public school is not accidental — it is the novel's quiet critique of how power operates in any institution.",
-        weakExample: "Percy is accused of stealing the lightning bolt even though he didn't do it. This is unfair because the gods just assumed he was guilty. This shows that the gods are not very just.",
-        weakFeedback: "'The gods are not very just' is a surface-level observation. A strong SCR connects the accusation to a specific theme about power — explaining that Percy's situation follows the same pattern as his school expulsions, and that Riordan uses this repeating pattern to argue something about how institutions treat those with less power. The connection between the mythological and real-world pattern is where the analysis lives.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Figurative Language — Metaphor",
-        staar: true,
-        map: true,
-        question:
-          "Riordan describes the Mist as a force that causes mortals to see mythological creatures and events as ordinary, explainable things. What idea does the Mist function as a metaphor for?",
-        options: [
-          "A. The idea that magic is always invisible to people who do not believe in it",
-          "B. The way people rationalize or ignore extraordinary things happening around them that they are not prepared to see",
-          "C. The scientific explanation for why humans cannot see into other dimensions",
-          "D. The gods' deliberate cruelty in hiding the truth from ordinary people",
-        ],
-        answer: "B",
-        explanation:
-          "The Mist is a rich metaphor for how people filter reality through the lens of what they already believe or expect. When mortals see a monster, they perceive something ordinary — their minds construct a 'reasonable' explanation. Riordan uses this to comment on how humans often miss what is extraordinary or dangerous right in front of them because they are not looking for it, or because accepting the truth would be too disruptive.",
-      },
-      {
-        type: "Extended Constructed Response (ECR)",
-        skill: "Myth + Modern World + Theme Analysis",
-        staar: true,
-        map: false,
-        question:
-          "Rick Riordan deliberately sets an ancient mythological story in the modern United States. Write a response in which you analyze the effect of this setting choice. How does placing Greek gods and monsters in the contemporary world develop a theme or reinforce the novel's central ideas? Use specific evidence from the text to support your analysis.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Open with a thesis about what the modern setting accomplishes thematically — e.g., it argues that ancient human struggles (pride, loyalty, jealousy, the search for identity) are timeless and still alive today; (2) Analyze two or more specific examples where a mythological element in a modern setting creates meaning — such as Olympus atop the Empire State Building, the Underworld beneath Los Angeles, or Medusa running a garden statue shop; (3) Explain what each example suggests about the modern world or human nature; (4) Connect the setting choices back to the novel's themes about heroism, identity, or belonging; (5) Conclude by arguing why this setting choice makes the mythology feel relevant rather than remote.",
-        explanation:
-          "This is a sophisticated ECR that asks students to analyze craft choices (setting) rather than just theme or character. Strong responses treat each modern-mythological pairing as evidence and explain its specific effect. Avoid simply listing locations — analyze what each pairing means.",
-        modelAnswer: "Rick Riordan's decision to embed Greek mythology in the contemporary United States is not a quirk of setting — it is the novel's central argument about human nature. By placing Olympus on the 600th floor of the Empire State Building, Riordan signals that the gods' hunger for power, status, and dominance did not belong to ancient Greece. It belongs to every era, including this one. The Empire State Building — a monument to American ambition, competition, and the desire to be tallest — is the natural home of gods who spend their immortality fighting over authority. The choice of Los Angeles as the entrance to the Underworld is equally precise. Hollywood is a city built on illusion, on the performance of life rather than its reality, on the worship of fame that outlasts the body. Placing the realm of the dead beneath a city devoted to manufactured immortality is not accidental — it is Riordan's argument that Americans, like the ancient Greeks, spend enormous energy denying and disguising mortality. Together, these settings make the same point: mythology has survived for three thousand years not because it describes ancient people but because it describes permanent ones. The gods are still alive because the drives they represent — jealousy, pride, the need for loyalty, the fear of being forgotten — never left.",
-        strongExample: "By placing Mount Olympus on the 600th floor of the Empire State Building and the Underworld beneath Los Angeles, Riordan argues that the ancient conflicts embodied in Greek mythology — ambition, jealousy, the hunger for power, the search for identity — are not relics of the past but living forces shaping the modern world. Each modern location is chosen with thematic precision: Olympus above the center of American ambition signals that the gods' hunger for power mirrors the most recognizable drives of contemporary society. The Underworld beneath Hollywood — a city built on illusion and the performance of fame — suggests that escapism and denial of mortality are as modern as they are ancient. Riordan's setting is not decoration; it is his argument that mythology survives because the human conditions it describes never went away.",
-        weakExample: "Riordan sets the story in modern America which makes it interesting because you can see places you recognize. Olympus is on top of the Empire State Building and the Underworld is in Los Angeles. This makes the mythology feel more real.",
-        weakFeedback: "'Makes it feel more real' describes an effect but doesn't analyze a meaning. A strong ECR explains WHY each specific location was chosen — what does the Empire State Building say about Olympus and the kind of power it represents? What does Los Angeles say about the Underworld? Every location choice should be analyzed as a deliberate argument about the modern world, not just noted as a detail."
-      },
-    ],
-  },
-  {
-    id: "sge",
-    title: "The School for Good and Evil",
-    author: "Soman Chainani",
-    genre: "Fantasy / Fairy Tale Retelling",
-    lexile: "770L",
-    color: "#4A235A",
-    accent: "#A569BD",
-    emoji: "🏰",
-    isbn: "9780062104939",
-    summary: {
-      overview:
-        "Every four years, two children are stolen from the village of Gavaldon and taken to the School for Good and Evil — a mysterious institution where future fairy-tale heroes and villains are trained. Sophie, a beautiful girl who dreams of becoming a princess, is certain she belongs in the School for Good. Her best friend Agatha, dark and strange and misunderstood, seems destined for Evil. But when they arrive, everything is reversed: Sophie is placed in the School for Evil, and Agatha in the School for Good. As both girls struggle to switch schools and reclaim their 'rightful' places, they begin to question everything they thought they knew about good, evil, beauty, and belonging. The novel ultimately argues that the line between good and evil is far more complicated — and far more personal — than fairy tales suggest.",
-      themes: [
-        "Appearances can be deceiving — true goodness and true evil are defined by choices, not looks",
-        "Friendship and loyalty as forces more powerful than rivalry or competition",
-        "The danger of vanity, selfishness, and the desire for power",
-        "Identity — who we believe we are vs. who we actually are",
-        "Subverting fairy-tale tropes: questioning 'happily ever after' and what it means to be a hero",
-        "Belonging, self-acceptance, and embracing what makes you different",
-      ],
-      characters: [
-        { name: "Sophie", role: "Co-protagonist — beautiful, vain, and obsessed with being a princess; placed in the School for Evil, which reveals uncomfortable truths about her true nature" },
-        { name: "Agatha", role: "Co-protagonist — plain, kind, and loyal; placed in the School for Good, where she proves that virtue is about character, not appearance" },
-        { name: "Tedros", role: "Prince Charming's son — handsome, proud, and conflicted; his evolving relationship with Agatha challenges his assumptions about what a hero should look like" },
-        { name: "Professor Dovey", role: "Head of the School for Good — proper and principled, she represents the traditional rules of fairy-tale morality" },
-        { name: "Lady Lesso", role: "Head of the School for Evil — sharp and ruthless, she sees something interesting in Sophie that others miss" },
-        { name: "The School Master", role: "The mysterious figure who controls both schools — his true motivations are the novel's central mystery" },
-      ],
-      setting: "The magical village of Gavaldon and the twin Schools for Good and Evil — one gleaming and golden, one dark and decayed — in a fairy-tale world where stories are literally written into history.",
-      literaryDevices: [
-        { device: "Subversion / Parody of Genre", example: "The novel deliberately flips fairy-tale expectations — the 'pretty' girl ends up in Evil and the 'ugly' girl in Good — forcing the reader to question the assumptions built into classic stories." },
-        { device: "Foil Characters", example: "Sophie and Agatha are foils: Sophie is beautiful but selfish; Agatha is plain but genuinely good. Their contrast drives every major conflict and theme." },
-        { device: "Symbolism", example: "The two schools represent not just good vs. evil, but also society's tendency to judge by appearance — the gleaming School for Good is built on shallow standards." },
-        { device: "Irony", example: "Sophie's desperate attempts to act 'good' often reveal her selfishness, while Agatha's instinct to help others shows real goodness without effort." },
-        { device: "Foreshadowing", example: "Early clues about Sophie's vanity and Agatha's loyalty hint at where each girl truly belongs long before either character accepts it." },
-        { device: "Motif", example: "Fairy-tale conventions (the prince, the princess, the wish, the test) appear throughout but are consistently twisted to challenge the reader's expectations." },
-      ],
-      authorPurpose:
-        "Soman Chainani uses the structure of classic fairy tales to challenge their most dangerous messages — that beauty equals goodness, that princesses need rescuing, and that heroes and villains are born, not made. He wants readers to question inherited stories and think critically about what they truly value in themselves and others.",
-    },
-
-    vocab: [
-      { word: "Subvert", definition: "To undermine or overturn something established or assumed, especially a belief or expectation.", context: "Agatha subverted every expectation placed on her — the girl who looked like a villain turned out to be the most genuinely good person in the story.", staarNote: "STAAR often pairs 'subvert' with descriptions of things turning out opposite to expectations. Look for reversal clues in the surrounding sentences." },
-      { word: "Enigmatic", definition: "Mysterious and difficult to understand or predict.", context: "The School Master remained enigmatic throughout — neither students nor teachers could fully predict his motives or loyalties.", staarNote: "Context clues for 'enigmatic' include characters speaking in hushed tones, uncertainty, unanswered questions, and descriptions of mystery." },
-      { word: "Vanity", definition: "Excessive pride in one's appearance or achievements; placing too much value on how others see you.", context: "Sophie's vanity was her defining flaw — she cared far more about being seen as good than about actually being good.", staarNote: "When a character constantly checks mirrors, seeks approval, or performs kindness for an audience, that's vanity. STAAR tests this as a character motivation." },
-      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "The School Master's tower cast a sinister shadow over both schools — something about his presence made even the bravest students uneasy.", staarNote: "Look for context clues involving darkness, unease, hidden menace, or things that feel wrong without being openly threatening." },
-      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause.", context: "As the story progressed, Agatha's allegiance to Sophie was tested repeatedly — and each time, she chose her friend over her own comfort.", staarNote: "STAAR tests 'allegiance' by showing a character making a choice that costs them something. True allegiance is shown under pressure, not in easy situations." },
-      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature.", context: "Lady Lesso appeared malevolent on the surface, but the novel gradually revealed a more complicated character beneath her cruelty.", staarNote: "Context clues for 'malevolent' include harmful actions, cruel words, and a character who seems to want others to suffer. Contrast with 'sinister,' which implies hidden threat." },
-      { word: "Foil", definition: "A character whose contrasting traits highlight the qualities of another character.", context: "Sophie and Agatha are classic foils — Sophie's vanity makes Agatha's selflessness more visible, and vice versa.", staarNote: "This is a literary term STAAR tests directly. A foil doesn't have to be a villain — they just have to contrast with another character to make that character's traits clearer." },
-    
-      { word: "Malevolent", definition: "Having or showing a desire to harm others; evil in nature or intent.", context: "Lady Lesso appeared malevolent on the surface — cruel, sharp, and demanding — but the novel gradually revealed a character more complicated than pure evil.", staarNote: "STAAR pairs 'malevolent' with visible cruelty and harmful intent. It differs from 'sinister,' which implies hidden threat. Malevolent intent is usually visible in actions and words." },
-      { word: "Allegiance", definition: "Loyalty or commitment to a person, group, or cause, especially under pressure.", context: "Agatha's allegiance to Sophie was tested repeatedly — every time Sophie pushed her away, Agatha had to choose whether to stay or go.", staarNote: "STAAR tests 'allegiance' by showing a character making costly choices out of loyalty. True allegiance is demonstrated under pressure, not in easy circumstances." },
-      { word: "Pretense", definition: "An attempt to make something that is not the case appear true; a false display.", context: "Sophie's acts of kindness in the School for Evil were a pretense — performances designed to prove she didn't belong there, not genuine expressions of care.", staarNote: "Context clues for 'pretense' include characters performing behavior for an audience, actions that contradict inner motivations, and a gap between appearance and reality." },
-      { word: "Superficial", definition: "Existing or occurring at or on the surface; not thorough or deep; concerned only with appearance.", context: "The sorting system's criteria were superficial — beauty and appearance were treated as reliable indicators of goodness, which the novel systematically disproves.", staarNote: "STAAR uses 'superficial' to contrast with deeper or more meaningful qualities. Look for context clues about surface appearances being valued over substance." },
-      { word: "Redemption", definition: "The act of being saved or making up for past failings; gaining something of value through effort or sacrifice.", context: "Whether Sophie achieves true redemption by the novel's end is left deliberately ambiguous — she changes, but not completely, and not without cost.", staarNote: "STAAR tests 'redemption' as a theme word. It implies both past failings and present effort to make things right. Look for evidence of genuine change, not just changed circumstances." },    ],
-    questions: [
-      {
-        type: "Multiple Choice",
-        skill: "Theme",
-        staar: true,
-        map: true,
-        question:
-          "Which statement BEST expresses a central theme of The School for Good and Evil?",
-        options: [
-          "A. Beauty and goodness always go together in the natural world.",
-          "B. True good and evil are determined by a person's choices, not their appearance.",
-          "C. Friendship is less important than following the rules of society.",
-          "D. Heroes are born with special qualities that cannot be learned.",
-        ],
-        answer: "B",
-        explanation:
-          "The novel's entire premise subverts the fairy-tale assumption that beautiful = good and ugly = evil. Sophie and Agatha's reversed placements force both characters — and the reader — to reckon with what actually makes someone good or evil: their choices and values, not their looks.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Character Analysis — Foil",
-        staar: true,
-        map: true,
-        question:
-          "Sophie and Agatha function as foil characters. What is the PRIMARY purpose of using foil characters in a story?",
-        options: [
-          "A. To give the protagonist a companion who agrees with all of their decisions",
-          "B. To create humor by making two characters act in identical ways",
-          "C. To highlight each character's contrasting traits, making both more clearly defined",
-          "D. To show that one character is superior to the other in every way",
-        ],
-        answer: "C",
-        explanation:
-          "A foil is a character whose contrasting traits highlight the qualities of another character. Sophie's vanity makes Agatha's selflessness stand out even more — and vice versa. Neither character would be as clearly defined without the contrast the other provides.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Author's Craft — Genre Subversion",
-        staar: true,
-        map: true,
-        question:
-          "The author places Sophie — who looks like a fairy-tale princess — in the School for Evil, and Agatha — who looks like a villain — in the School for Good. What is the MOST LIKELY reason Chainani makes this choice?",
-        options: [
-          "A. To show that fairy-tale schools make frequent sorting mistakes",
-          "B. To challenge the idea that appearance determines a person's character or worth",
-          "C. To suggest that beautiful people are secretly always evil",
-          "D. To make readers feel sorry for Sophie and root against Agatha",
-        ],
-        answer: "B",
-        explanation:
-          "This is the novel's central act of subversion. By reversing expectations from the very first chapter, Chainani signals to the reader that this story will question — not confirm — the shallow rules of traditional fairy tales. Appearance tells us nothing about character.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Character Motivation + Textual Evidence",
-        staar: true,
-        map: false,
-        question:
-          "Part A: What does Sophie's reaction to being placed in the School for Evil reveal about her character at the beginning of the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Sophie is humble and willing to learn from her mistakes.\nPart A — B. Sophie is self-aware and recognizes she has flaws to work on.\nPart A — C. Sophie is vain and concerned with how others perceive her rather than who she truly is.\nPart A — D. Sophie is brave and determined to prove the school wrong through hard work.\n\nPart B — A. Sophie immediately tries to understand the curriculum at the School for Evil.\nPart B — B. Sophie spends her early days at Evil obsessing over her appearance and insisting there has been a mistake.\nPart B — C. Sophie forms a genuine friendship with her Evil classmates to learn from them.\nPart B — D. Sophie accepts Lady Lesso's guidance and works to improve herself.",
-        ],
-        answer: "Part A: C | Part B: B",
-        explanation:
-          "Sophie's first instinct is not self-reflection — it is denial and image-management. She insists the sorting is wrong because she cannot imagine that her beautiful exterior could be hiding anything less than goodness. This is precisely what makes her a compelling character study in vanity.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "In the novel, Agatha is described as someone who 'subverts' expectations at every turn. Based on context clues, what does 'subvert' most likely mean?",
-        options: [
-          "A. To strengthen and reinforce what is already expected",
-          "B. To undermine or overturn something established or assumed",
-          "C. To carefully follow all rules and traditions",
-          "D. To ignore a situation completely without reacting",
-        ],
-        answer: "B",
-        explanation:
-          "'Subvert' comes from Latin meaning to overturn from below. In context, Agatha consistently acts in ways that contradict what people expect from someone who looks like her — she is kind when expected to be cruel, brave when expected to fail. This is confirmed by the surrounding text whenever her actions surprise other characters.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Symbolism",
-        staar: true,
-        map: true,
-        question:
-          "In the novel, the School for Good is described as gleaming and golden, while the School for Evil is dark and decayed. What do these contrasting descriptions MOST likely symbolize?",
-        options: [
-          "A. That good and evil are easy to identify in real life",
-          "B. Society's tendency to value surface beauty over inner character — and the novel's challenge to that belief",
-          "C. That students in the School for Good are always treated fairly",
-          "D. The different climates found in magical versus ordinary worlds",
-        ],
-        answer: "B",
-        explanation:
-          "The schools look exactly as society expects — beautiful = good, ugly = evil. But the novel systematically shows that these appearances are misleading. The gleaming School for Good enforces shallow standards; the dark School for Evil holds complex, interesting characters. The contrast is ironic, not literal.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Theme + Textual Evidence",
-        staar: true,
-        map: false,
-        question:
-          "How does the friendship between Sophie and Agatha develop a theme about what truly matters in a person? Use evidence from the novel to support your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) State a clear theme — e.g., true friendship is based on loyalty and genuine care, not shared beauty or social status; (2) Explain how Agatha's loyalty to Sophie (even when Sophie treats her poorly) and Sophie's eventual recognition of Agatha's value develops that theme; (3) Include at least one specific detail from the text as evidence; (4) Explain how the evidence connects back to the theme.",
-        explanation:
-          "Use the RACES strategy: Restate the question, Answer with your claim, Cite a specific detail, Explain how it supports your claim, and Summarize the connection to theme. SCR responses should be 4–6 focused sentences.",
-        modelAnswer: "In The School for Good and Evil, Soman Chainani develops the theme that true friendship is defined by loyalty and genuine care rather than by shared status, appearance, or mutual benefit. Agatha's relationship with Sophie embodies this theme through a pattern the novel repeats across every major conflict: Sophie dismisses, belittles, or outright betrays Agatha, and Agatha returns anyway — not because Sophie deserves it, but because Agatha's care is not conditional on being deserved. This distinction is crucial. Sophie's version of friendship is transactional: she values Agatha when Agatha is useful and discards her when she is not. Agatha's version is unconditional: she continues trying to help Sophie even after being humiliated by her in front of other students. Chainani uses this imbalance deliberately. By making the friendship so clearly one-sided, he forces the reader to ask what truly defines a bond between people — and to conclude that real friendship is not an equal exchange but a commitment that holds even when the other person fails you repeatedly.",
-        strongExample: "In The School for Good and Evil, Chainani develops the theme that true friendship is defined by loyalty regardless of circumstances, through Agatha's repeated choice to prioritize Sophie over her own comfort and social standing. Even after Sophie dismisses and belittles her, Agatha continues trying to help her — not because Sophie deserves it, but because Agatha's care is unconditional. This one-sided loyalty is the novel's most powerful argument about what friendship actually looks like: not a balanced transaction between equals, but a commitment that holds even when the other person fails you. Chainani uses Agatha's consistent returns to Sophie's side as evidence that real friendship is defined not by what you receive, but by what you choose to give.",
-        weakExample: "Agatha and Sophie have a strong friendship because Agatha always helps Sophie. This shows that true friends stick together no matter what. Their friendship is important to the story.",
-        weakFeedback: "'True friends stick together' is a cliché, not a theme analysis. A strong SCR names a specific moment of loyalty, explains what that moment demonstrates about the nature of real friendship, and connects it to an idea Chainani is developing — not just restating that friendship is good. The analytical move is: what does Agatha's unconditional loyalty cost her, and what does Chainani argue about friendship through that cost?",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Point of View & Narrative Structure",
-        staar: true,
-        map: true,
-        question:
-          "The novel is told in third-person limited perspective, following Sophie and Agatha in alternating sections. How does this narrative structure MOST affect the reader's understanding of the story?",
-        options: [
-          "A. It makes it impossible to understand either character's motivations",
-          "B. It allows the reader to see both girls' inner thoughts and sympathize with each of their struggles",
-          "C. It makes Sophie appear more sympathetic because her chapters come first",
-          "D. It prevents the reader from knowing what happens in each school",
-        ],
-        answer: "B",
-        explanation:
-          "By giving both Sophie and Agatha interior chapters, Chainani makes sure the reader understands each girl's fears, desires, and logic — even when they are wrong or selfish. This prevents the story from being a simple 'root for Agatha' experience and creates genuine complexity in both characters.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Conflict — Internal vs. External",
-        staar: true,
-        map: true,
-        question:
-          "Which statement BEST describes the relationship between Sophie's internal and external conflicts in the novel?",
-        options: [
-          "A. Sophie's external conflict with the School for Evil is entirely separate from any internal struggle she faces.",
-          "B. Sophie's internal conflict — her refusal to accept her true nature — drives and intensifies every external conflict she encounters.",
-          "C. Sophie's external conflict is resolved when she switches schools, ending her internal struggle as well.",
-          "D. Sophie's internal conflict is caused entirely by Agatha's presence at the school.",
-        ],
-        answer: "B",
-        explanation:
-          "Sophie's core internal conflict is her inability to acknowledge the selfish, vain person she actually is. This refusal to self-reflect is exactly what makes every external situation worse — she manipulates, lies, and schemes because she cannot accept that her placement in Evil might be correct. The internal and external conflicts are inseparable; resolving one requires resolving the other.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "The novel describes the School Master as 'enigmatic.' Based on context clues, what does 'enigmatic' most likely mean?",
-        options: [
-          "A. Friendly and approachable, putting others at ease",
-          "B. Cruel and openly threatening to everyone around him",
-          "C. Mysterious and difficult to understand or predict",
-          "D. Wise and all-knowing, with clear and stated intentions",
-        ],
-        answer: "C",
-        explanation:
-          "'Enigmatic' shares a root with 'enigma,' meaning a puzzle or mystery. In context, the School Master's true motivations and loyalties are never fully clear — students and teachers alike cannot predict or fully understand him. The surrounding scenes, in which characters speak about him in hushed, uncertain terms, confirm this meaning.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Setting — Function and Meaning",
-        staar: true,
-        map: true,
-        question:
-          "How does the setting of the two schools function beyond simply providing a physical location for the story?",
-        options: [
-          "A. The schools exist only to separate the main characters and create logistical conflict.",
-          "B. The schools embody the novel's central argument about how society sorts people into categories based on surface-level judgments.",
-          "C. The schools demonstrate that magical worlds operate by completely different rules than the real world.",
-          "D. The schools serve primarily to introduce a large number of supporting characters.",
-        ],
-        answer: "B",
-        explanation:
-          "The schools are not just locations — they are the novel's central symbol. The sorting system, the physical appearance of each campus, and the rules students must follow all externalize the way society categorizes people based on looks and assumptions. Chainani makes the setting do thematic work: every detail of the schools reinforces and then challenges the idea that good and evil are visible, sortable categories.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Theme — Friendship vs. Self-Interest",
-        staar: true,
-        map: false,
-        question:
-          "Part A: How does Agatha's loyalty to Sophie develop a theme about the nature of true friendship?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. True friendship requires both people to be equally talented and successful.\nPart A — B. True friendship means standing by someone even when they treat you poorly or take you for granted.\nPart A — C. True friendship only survives when both people share the same goals and values.\nPart A — D. True friendship requires the friends to be placed in the same school or social group.\n\nPart B — A. Agatha continues trying to help Sophie even after Sophie repeatedly dismisses, belittles, or betrays her trust.\nPart B — B. Agatha agrees with every decision Sophie makes because she values keeping the peace.\nPart B — C. Agatha leaves Sophie behind once she finds friends in the School for Good.\nPart B — D. Agatha only helps Sophie because she wants to return to Gavaldon herself.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "The novel consistently shows Agatha choosing Sophie's wellbeing over her own comfort or social standing — even when Sophie is at her most selfish and cruel. This one-sided loyalty is not presented as weakness; it is presented as the most powerful force in the story. The textual evidence is Agatha's repeated returns to Sophie's side after being pushed away.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Character Change — Sophie",
-        staar: true,
-        map: false,
-        question:
-          "How does Sophie change — or fail to change — over the course of the novel, and what does this reveal about the novel's message regarding self-awareness? Use evidence from the text in your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Acknowledge that Sophie undergoes some change — she glimpses moments of genuine connection and doubt — but largely resists full self-awareness throughout Book 1; (2) Explain that her resistance to change is itself a thematic statement: true growth requires honest self-reflection, which Sophie avoids; (3) Cite at least one specific moment where Sophie has the opportunity to change and chooses vanity or self-interest instead; (4) Connect this to the novel's larger theme about the relationship between self-knowledge and genuine goodness.",
-        explanation:
-          "This question targets character change — a high-frequency STAAR skill. Strong responses avoid simply summarizing what Sophie does and instead analyze what her behavior pattern reveals. Use RACES and aim for 4–6 sentences.",
-        modelAnswer: "In The School for Good and Evil, Sophie undergoes moments of genuine self-awareness but consistently retreats from them, revealing Chainani's argument that true change requires honesty about oneself that vanity will always resist. Throughout the novel, Sophie is placed in situations that should force her to reckon with her actual motivations: her repeated failures in the School for Evil, her inability to perform the kind of instinctive goodness that Agatha demonstrates effortlessly, and the moments when her so-called acts of kindness are exposed as self-serving calculations. In one revealing pattern, whenever Sophie acts in a way that resembles genuine care, she immediately frames it as evidence that she belongs in Good — turning even compassion into a performance for an audience. This pattern of awareness followed by reframing is itself the novel's thematic statement: Sophie cannot grow because she refuses to look at herself clearly. Chainani uses Sophie not as a villain but as a portrait of what unexamined vanity costs a person — the ability to know, and therefore to become, who you actually are.",
-        strongExample: "In The School for Good and Evil, Sophie's resistance to genuine self-awareness reveals Chainani's message that true growth requires honest self-reflection — and that some people choose comfort over truth. Though Sophie has moments where she glimpses the gap between who she believes she is and who she actually is, she consistently chooses to reframe those moments as injustice rather than insight. For example, when her Good-like instincts occasionally surface, she quickly redirects them toward self-interest, as if kindness is only valuable if it earns her the outcome she wants. This pattern — awareness followed by avoidance — is itself the novel's argument: Sophie cannot grow because she will not look at herself clearly.",
-        weakExample: "Sophie changes a little bit throughout the story but not very much. She still wants to be in the School for Good at the end. She is a complicated character because she does some good things and some bad things.",
-        weakFeedback: "This response describes Sophie without analyzing her. 'She does some good things and some bad things' is an observation, not a claim. A strong SCR makes a specific argument — for example, that Sophie's pattern of awareness-then-avoidance is itself the thematic statement — and supports it with a specific moment from the text."
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Foreshadowing",
-        staar: true,
-        map: true,
-        question:
-          "Early in the novel, Agatha instinctively acts to protect others — including Sophie — without being asked or rewarded. How does this pattern of behavior function as foreshadowing?",
-        options: [
-          "A. It foreshadows that Agatha will eventually become the head of the School for Evil.",
-          "B. It foreshadows that Agatha's natural instinct toward others is genuine goodness, making her placement in Good inevitable.",
-          "C. It foreshadows that Agatha will eventually betray Sophie when the pressure becomes too great.",
-          "D. It foreshadows that the School for Good will reject Agatha once they discover her background.",
-        ],
-        answer: "B",
-        explanation:
-          "Foreshadowing plants clues early that pay off later. Agatha's protective instincts — helping animals, defending the vulnerable, staying loyal without expectation of reward — are all early signals that she belongs in the School for Good, regardless of her appearance. The sorting system confirms what the reader already sensed from Agatha's established behavioral pattern.",
-      },
-      {
-        type: "Extended Constructed Response (ECR)",
-        skill: "Comparative Character Analysis + Writing",
-        staar: true,
-        map: false,
-        question:
-          "Compare how Sophie and Agatha each respond to being placed in an unexpected school. In a well-developed response, analyze what each character's reaction reveals about her true character, and explain how this contrast develops a central theme of the novel. Use specific evidence from the text to support your analysis.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Open with a thesis that identifies both the contrast and the theme it develops (e.g., true character is revealed by how we respond to adversity, not by how we appear); (2) Analyze Sophie's response — denial, obsession with appearance, scheming to switch schools — and what it reveals about her vanity and self-deception; (3) Analyze Agatha's response — discomfort but a willingness to engage, focus on Sophie's wellbeing over her own status — and what it reveals about her genuine goodness; (4) Explain how the contrast between the two responses is the engine that drives the novel's central theme; (5) Conclude by connecting the comparison to a broader idea about self-knowledge and moral character.",
-        explanation:
-          "Comparative ECR questions are among the most demanding STAAR writing tasks. Strong responses spend roughly equal time on each character and make sure every body paragraph contains a claim, textual evidence, and explicit analysis of what the evidence means. Avoid summarizing — every sentence should advance the argument.",
-        modelAnswer: "Soman Chainani reveals each character's true nature not through their self-descriptions but through how they respond when placed in circumstances that contradict their self-image. Sophie's response to the School for Evil is immediate denial, obsessive self-examination in mirrors, and a series of schemes designed to convince the school — and herself — that a mistake has been made. She cannot engage with the curriculum, cannot form genuine bonds with her classmates, and cannot stop performing goodness long enough to examine whether she actually possesses it. This response is itself the evidence. A person whose goodness is real does not need to audition for it. Agatha's response to the School for Good is more complex: she is uncomfortable, out of place, and unsure of herself — but her first instinct is not to improve her own position. It is to find Sophie. While Sophie schemes to switch schools, Agatha schemes to reach her friend. This contrast is Chainani's central argument: true character is not what you claim when things are easy; it is what you reach for instinctively when things are difficult. Sophie's disruption exposes vanity. Agatha's exposes loyalty. The two responses together define the novel's most important theme: goodness is not a quality you perform. It is a direction you consistently choose.",
-        strongExample: "Chainani reveals each character's true nature not by telling the reader who they are, but by showing how they respond when placed in an environment that contradicts their self-image. Sophie's response to Evil School — denial, obsession with her reflection, frantic scheming — is the behavior of someone who has built her identity on external validation. She cannot accept the placement because her entire sense of self depends on being seen as good, not on actually being good. Agatha's response, by contrast, is discomfort without performance — she is unsettled by Good School but her first instinct is to find Sophie, not to cultivate her own status. This contrast is Chainani's argument: true character is revealed not in moments of comfort, but in moments of disruption. Sophie's disruption exposes vanity; Agatha's exposes genuine loyalty.",
-        weakExample: "Sophie was upset when she was placed in the School for Evil because she thought she should be in Good. Agatha was placed in Good but she did not feel like she belonged there either. Both of them had trouble adjusting to their new schools.",
-        weakFeedback: "This response summarizes what happened but never analyzes what it means. 'Both had trouble adjusting' treats the characters as equivalent when the whole point of the comparison is that their responses are completely different in what they reveal. A strong comparative ECR explains specifically what each response reveals about each character's inner nature, and connects that to the theme being developed."
-      },
-    ],
-  },
-  {
     id: "tollbooth",
     title: "The Phantom Tollbooth",
     author: "Norton Juster",
@@ -1507,617 +1811,6 @@ const books = [
       },
     ],
   },
-  {
-    id: "savvy",
-    title: "Savvy",
-    author: "Ingrid Law",
-    genre: "Magical Realism / Coming-of-Age",
-    lexile: "1070L",
-    color: "#7D3C98",
-    accent: "#BB8FCE",
-    emoji: "✨",
-    isbn: "9780142414330",
-    summary: {
-      overview:
-        "Mississippi 'Mibs' Beaumont is two days from her thirteenth birthday — the age when every Beaumont discovers their 'savvy,' a supernatural ability unique to that person. Her brother Fish can stir up storms (a hurricane on his thirteenth birthday forced the family to move inland, away from any coastline), and her brother Rocket channels electricity. Mibs is desperate for her own savvy to be something powerful and useful, and when her father is critically injured in a car accident just before her birthday, she becomes convinced her savvy must be the ability to save him. On the morning of her party, she sneaks aboard what she believes is a bus heading toward the hospital — accompanied by her brothers Fish and Samson, and the pastor's children, Bobbi and Will Junior. The bus is actually a traveling Bible salesman's delivery route heading the wrong direction, launching the group into an unplanned, day-long odyssey. Along the way, Mibs discovers her actual savvy: she can hear the 'voice' of any tattoo, which lets her perceive people's hidden fears, secrets, and inner lives. Through encounters with strangers, a kidnapping scare, and the breakdown of Bobbi's tough exterior, Mibs learns that a savvy — like growing up — isn't about gaining a power that solves every problem, but about learning to understand and control who you already are.",
-      themes: [
-        "Coming of age — adolescence as a process of discovering and learning to control who you already are",
-        "The difference between the power you wish for and the power you actually have",
-        "Empathy and perception — truly seeing other people requires looking past their surface",
-        "Family loyalty and the responsibility older siblings feel toward younger ones",
-        "Self-acceptance — every 'savvy,' like every person, has to be 'scumbled' (controlled and shaped), not hidden or wished away",
-        "The unpredictability of growing up — Mibs cannot control when or how her insight arrives, only how she responds to it",
-      ],
-      characters: [
-        { name: "Mississippi 'Mibs' Beaumont", role: "Protagonist — about to turn thirteen and anxious to discover her savvy; her fierce wish to save her injured father drives the novel's action and her own growth" },
-        { name: "Fish Beaumont", role: "Mibs's older brother, whose savvy is control over storms and water; still learning to 'scumble' (control) his power, he struggles with guilt over the hurricane that uprooted the family" },
-        { name: "Samson Beaumont", role: "Mibs's younger brother, who stows away on the bus; quiet and often overlooked, his loyalty to Mibs is steady throughout the journey" },
-        { name: "Rocket Beaumont", role: "Mibs's oldest brother, whose savvy is control over electricity; he stays behind with Momma at the hospital, representing the responsible, controlled sibling Mibs is not yet" },
-        { name: "Bobbi Meeks", role: "The pastor's daughter — initially cold and dismissive toward the Beaumonts; Mibs's savvy reveals through Bobbi's tattoo that she is lonelier and more frightened than her tough exterior suggests" },
-        { name: "Will Meeks Junior", role: "The pastor's son and Mibs's closest friend outside her family; kind, loyal, and the first person Mibs begins to see clearly — both with her ordinary perception and her new savvy" },
-        { name: "Lester", role: "The bus driver and traveling Bible salesman whose route the children unintentionally hijack; his own quiet arc involves finding the confidence to speak up for himself" },
-        { name: "Poppa Beaumont", role: "Mibs's father, the only family member without a savvy of his own; his car accident and coma set the novel's central crisis in motion" },
-      ],
-      setting: "Contemporary rural Kansaska-Nebransas (the family's name for the Kansas–Nebraska border town they moved to) and the open highway between there and Salina, Kansas — the bus journey itself becomes a transitional, in-between setting that mirrors Mibs's own transition out of childhood.",
-      literaryDevices: [
-        { device: "Magical Realism", example: "The Beaumonts' savvies are treated as an ordinary, accepted fact of family life rather than a fantastical spectacle — Law grounds the supernatural premise in everyday, realistic emotional struggles like sibling guilt and a parent's hospitalization." },
-        { device: "Symbolism — The Savvy as Metaphor", example: "Each character's savvy mirrors an aspect of their personality (Fish's stormy temper controls the weather; Rocket's intensity channels electricity), making the magic system a literal extension of the characters' inner lives." },
-        { device: "Symbolism — Tattoos as Hidden Truths", example: "Mibs's savvy — hearing the voices of tattoos — lets her perceive what people hide beneath their skin, literalizing the novel's theme that surface appearances rarely reveal a person's true feelings." },
-        { device: "First-Person Narration", example: "Mibs narrates her own thirteenth birthday in real time, allowing the reader to experience her shifting, uncertain understanding of her savvy exactly as she does, rather than from a removed or all-knowing perspective." },
-        { device: "Journey Motif", example: "The bus ride going the 'wrong way' becomes a literal and figurative journey: the characters do not reach the destination they intended, but each arrives somewhere they needed to go emotionally." },
-        { device: "Foil Characters", example: "Bobbi's guarded toughness and Mibs's open uncertainty contrast with each other, and the journey reveals that Bobbi's hardness is a defense rather than her true self — deepening Mibs's growing insight into other people." },
-      ],
-      authorPurpose:
-        "Ingrid Law uses the fantastical premise of a magical 'savvy' as an extended metaphor for the real, disorienting experience of early adolescence — when every middle schooler is, in their own way, waiting to discover who they are about to become. By making Mibs's wished-for power (the ability to save her father) different from her actual power (the ability to perceive hidden truths in others), Law argues that growing up means learning to accept and develop the self you actually have, not the self you wish you had. The novel's gentle insistence that every savvy must be 'scumbled,' or learned and controlled over time, mirrors the universal truth that maturity is a process, not a single transformative moment.",
-    },
-
-    vocab: [
-      { word: "Savvy", definition: "Practical knowledge or shrewd understanding; in this novel, a unique supernatural ability that manifests in each Beaumont at age thirteen.", context: "Mibs spends the whole novel anxious about what her savvy will turn out to be, certain that whatever it is will define who she becomes.", staarNote: "STAAR may test 'savvy' both as the novel's invented noun (a special power) and its real-world meaning (shrewd, practical understanding) — context clues distinguish the two uses." },
-      { word: "Scumble", definition: "In the novel, to practice and gradually gain control over a savvy; in real usage, to soften or blend an edge.", context: "Fish has not yet learned to scumble his storm-calling savvy, which is why the family fears what might happen if he loses his temper.", staarNote: "This is an invented-meaning word specific to the novel — context clues for 'scumble' include practice, gradual control, and characters learning to manage a power rather than be ruled by it." },
-      { word: "Perceptive", definition: "Having or showing keen insight or understanding; quick to notice and understand things.", context: "Even before her savvy fully emerges, Mibs is perceptive — she notices small details about Will and Bobbi that others overlook entirely.", staarNote: "Context clues for 'perceptive' include a character noticing subtle details, reading between the lines, or understanding something others miss." },
-      { word: "Apprehensive", definition: "Anxious or fearful about something that may happen.", context: "Mibs grows increasingly apprehensive as her birthday approaches, unsure whether her savvy will be something she can be proud of.", staarNote: "STAAR tests 'apprehensive' by placing it in situations involving uncertain future outcomes. Context clues include nervous anticipation and fear of an unknown result." },
-      { word: "Bewildered", definition: "Confused or perplexed, especially due to a complicated or unexpected situation.", context: "Mibs is bewildered when she first realizes her savvy is not the power to wake people, but something stranger and harder to control.", staarNote: "Context clues for 'bewildered' include confusion following a surprising revelation and a character needing time to process what has happened." },
-      { word: "Resilient", definition: "Able to recover quickly from difficulties; tough and adaptable.", context: "Despite the chaos of the journey — a kidnapping scare, a runaway bus, and her father's uncertain condition — Mibs proves resilient, adapting to each new challenge.", staarNote: "STAAR tests 'resilient' through a character's ability to keep functioning and growing despite repeated setbacks, not simply enduring one difficult moment." },
-      { word: "Insight", definition: "The capacity to gain an accurate and deep understanding of someone or something.", context: "Mibs's savvy gives her literal insight into people's hidden feelings, but the novel suggests she had a version of this insight even before her power emerged.", staarNote: "Context clues for 'insight' include sudden or deepened understanding of another character's inner life, often following careful observation." },
-      { word: "Vulnerable", definition: "Exposed to the possibility of being harmed, either physically or emotionally; open and unguarded.", context: "Bobbi's tattoo reveals a vulnerable, lonely side of her that her tough exterior was designed to hide from everyone, including herself.", staarNote: "STAAR tests 'vulnerable' by contrasting a character's outward behavior with an inner emotional state that the text reveals indirectly, often through symbolism or another character's perception." },
-    ],
-
-    questions: [
-      {
-        type: "Multiple Choice",
-        skill: "Theme — Coming of Age",
-        staar: true,
-        map: true,
-        question:
-          "Which statement BEST expresses a central theme of Savvy?",
-        options: [
-          "A. The most powerful savvies always belong to the oldest children in a family.",
-          "B. Growing up means learning to understand and control who you already are, not gaining the power you wished for.",
-          "C. A family's savvies should be hidden from the outside world at all costs.",
-          "D. Once a savvy appears, it cannot be changed or controlled in any way.",
-        ],
-        answer: "B",
-        explanation:
-          "Mibs spends the novel hoping for a savvy that can save her father, but discovers instead a power to perceive hidden truths in others — a power she did not ask for and initially does not want. The novel argues that maturity means accepting and developing the self you actually have, which is the heart of its coming-of-age theme.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Character Motivation",
-        staar: true,
-        map: true,
-        question:
-          "What is Mibs's primary motivation for sneaking onto the bus?",
-        options: [
-          "A. She wants to escape her family and see the world on her own.",
-          "B. She is convinced her new savvy must be the power to save her injured father, and she wants to reach the hospital.",
-          "C. She is curious about the Bible salesman's route and wants an adventure.",
-          "D. Will Junior convinces her it would be a fun way to spend her birthday.",
-        ],
-        answer: "B",
-        explanation:
-          "Mibs's father's accident reshapes her hopes for her savvy entirely — instead of wishing for something exciting, she becomes fixated on the idea that her power must be the ability to heal or wake him. This singular, urgent motivation is what drives her onto the bus in the first place.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Plot — Cause and Effect",
-        staar: true,
-        map: true,
-        question:
-          "Why did the Beaumont family move to the Kansas–Nebraska border in the first place?",
-        options: [
-          "A. Poppa's job required relocating away from the coast.",
-          "B. Fish accidentally caused a hurricane on his thirteenth birthday, so the family moved inland, away from large bodies of water.",
-          "C. Grandpa Bomba wanted to be closer to Salina, Kansas.",
-          "D. Rocket's electrical savvy made coastal living too dangerous.",
-        ],
-        answer: "B",
-        explanation:
-          "Fish's storm-calling savvy emerged violently on his thirteenth birthday, causing a hurricane. To protect Fish and the surrounding community from his still-unscumbled power, the family relocated far from any coastline, which is why they live in the landlocked Kansaska-Nebransas region.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Character Analysis — Bobbi",
-        staar: true,
-        map: true,
-        question:
-          "What does Mibs discover about Bobbi through her savvy that changes how the reader understands Bobbi's character?",
-        options: [
-          "A. Bobbi secretly has a savvy of her own that she has been hiding from everyone.",
-          "B. Bobbi's tattoo reveals that beneath her tough, dismissive exterior, she is deeply lonely.",
-          "C. Bobbi has been planning to run away from her family for months.",
-          "D. Bobbi does not actually like Will Junior and resents being his sister.",
-        ],
-        answer: "B",
-        explanation:
-          "When Mibs hears Bobbi's tattoo, she learns that Bobbi's coldness is a defense mechanism hiding real loneliness — not genuine dislike of the Beaumonts. This revelation is a turning point in how both Mibs and the reader understand Bobbi, and it sets up her gradual softening over the course of the novel.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Setting and Mood",
-        staar: true,
-        map: false,
-        question:
-          "How does the setting of the bus journey contribute to the novel's mood and meaning?",
-        options: [
-          "A. The cramped, ordinary bus makes the story feel mundane and disconnects it from the magical elements.",
-          "B. The bus heading in the 'wrong' direction mirrors the characters' own uncertain, unplanned paths toward growth and self-understanding.",
-          "C. The bus setting is only used for comic relief and has no thematic significance.",
-          "D. The bus journey is meant to feel frightening and dangerous from beginning to end.",
-        ],
-        answer: "B",
-        explanation:
-          "The bus's wrong-direction route is not just a plot complication — it functions symbolically. None of the characters reach the destination they originally intended, yet each ends the journey having arrived somewhere meaningful emotionally, reflecting the novel's theme that growth rarely follows a planned, direct path.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Theme — Wished-For vs. Actual Power",
-        staar: true,
-        map: false,
-        question:
-          "Part A: What does the difference between the savvy Mibs hopes for and the savvy she actually receives reveal about a central idea in the novel?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Mibs's actual savvy proves that wishing hard enough for a specific outcome can make it come true.\nPart A — B. The gap between what Mibs wants and what she gets shows that growth means accepting and developing your real self rather than the self you imagined.\nPart A — C. Mibs's disappointment proves that some savvies are simply better and more useful than others.\nPart A — D. The difference shows that the Beaumont family's savvies are entirely random and have no connection to personality.\n\nPart B — A. Mibs initially believes her savvy might be the power to wake people, based on her little sister waking up unusually early.\nPart B — B. Fish causes a hurricane on his thirteenth birthday before learning to scumble his power.\nPart B — C. Rocket stays behind at the hospital with Momma instead of joining the bus journey.\nPart B — D. Lester eventually finds the confidence to speak up for himself by the end of the novel.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "Mibs's mistaken early belief that her savvy is the power to wake people (Part B option A) sets up the novel's central irony: her actual power, hearing tattoos, is not the dramatic, father-saving ability she hoped for. The novel uses this gap to argue that real growth means learning to work with who you actually are.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary — Invented and Figurative Language",
-        staar: true,
-        map: true,
-        question:
-          "In the sentence, 'Fish hadn't yet learned to scumble his savvy, and the family worried about what might happen if his temper flared near open water,' the word 'scumble' most likely means —",
-        options: [
-          "A. To make something completely disappear or vanish",
-          "B. To practice and gradually gain control over an ability",
-          "C. To share a secret with someone outside the family",
-          "D. To intensify or worsen an existing problem",
-        ],
-        answer: "B",
-        explanation:
-          "The context clue 'hadn't yet learned' signals an ongoing process of gaining control, and 'worried about what might happen' confirms that scumbling refers to managing or controlling a power, not eliminating, sharing, or worsening it. STAAR vocabulary questions reward identifying the verb's function within the surrounding action, not just its sound.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Genre — Magical Realism",
-        staar: true,
-        map: true,
-        question:
-          "Savvy is best classified as magical realism rather than pure fantasy because —",
-        options: [
-          "A. The story contains no magical or supernatural elements at all.",
-          "B. The supernatural savvies exist within an otherwise realistic, contemporary world, and the characters' emotional struggles remain grounded and true to life.",
-          "C. The novel takes place in an entirely invented fantasy world with its own geography and history.",
-          "D. Magical realism requires the story to be told from multiple narrators, which Savvy does not do.",
-        ],
-        answer: "B",
-        explanation:
-          "Magical realism blends a fantastical element — here, the Beaumonts' inherited savvies — into an otherwise ordinary, realistic setting and set of relationships. The novel's emotional core (sibling guilt, a parent's hospitalization, adolescent uncertainty) remains entirely grounded in real human experience, which is what distinguishes magical realism from a fully invented fantasy world.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Textual Evidence — Character Growth (Bobbi)",
-        staar: true,
-        map: false,
-        question:
-          "How does Bobbi change over the course of the novel, and what causes that change? Use evidence from the text to support your answer.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Identify that Bobbi moves from cold and dismissive toward more open and communicative; (2) Cite specific evidence, such as Mibs hearing the loneliness in Bobbi's tattoo, or Bobbi's behavior shifting after witnessing the Beaumonts' savvies during the storm; (3) Explain what causes the change — being truly seen and understood by Mibs, and the shared intensity of the bus journey; (4) Connect the change to the novel's broader theme about empathy and looking past someone's surface.",
-        explanation:
-          "This SCR asks students to trace character development and connect it to cause, a core STAAR/MAP skill. Strong responses move beyond 'Bobbi gets nicer' and explain specifically what triggers her change and why it matters to the novel's themes.",
-        modelAnswer: "Bobbi begins the novel as a guarded, dismissive presence who treats the Beaumonts — and Mibs in particular — with open scorn. This hardness, however, is revealed to be a defense rather than her true self. When Mibs's emerging savvy lets her hear the voice of Bobbi's tattoo, she discovers that Bobbi is in fact deeply lonely, a truth her tough exterior was built to conceal. From that point forward, the novel tracks a gradual softening in Bobbi, accelerated by the shared intensity of the bus journey and by witnessing Fish's storm-calling power firsthand, which forces her to see the Beaumonts as remarkable rather than merely strange. By the end of the novel, Bobbi has become more communicative and emotionally honest. Her transformation is caused not by a single dramatic event but by being truly perceived — first by Mibs's savvy, and then by the shared vulnerability of the journey itself, which mirrors the novel's larger argument that empathy requires looking past a person's guarded surface.",
-        strongExample: "Bobbi's arc moves from coldness to genuine connection, and the cause is being truly seen for the first time. Mibs's savvy reveals the loneliness hidden in Bobbi's tattoo, exposing that her toughness was a shield rather than her real personality. As the bus journey forces the group together through chaos and danger, Bobbi gradually drops that shield, becoming more open. Law uses this change to argue that real connection requires looking past someone's defensive exterior to understand what they are actually protecting.",
-        weakExample: "Bobbi starts out mean to everyone but by the end she is nicer. This happens because of the bus trip and because Mibs finds out she is lonely. The book shows that people can change.",
-        weakFeedback: "This response identifies the change but doesn't explain it with specific evidence or analyze why it matters. 'People can change' is too general — a strong SCR specifies what Mibs's savvy reveals about Bobbi, ties that revelation to a specific moment in the text, and explains what the change suggests about the novel's theme of empathy.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Author's Craft — Magical Realism",
-        staar: true,
-        map: false,
-        question:
-          "How does Ingrid Law use the Beaumont family's savvies to explore real, ordinary experiences of growing up? Use evidence from the text to support your answer.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Identify that each savvy functions as a metaphor for an aspect of personality or adolescent experience (e.g., Fish's storms reflecting an unscumbled temper, Mibs's tattoo-hearing reflecting growing empathy); (2) Cite at least one specific example connecting a savvy to a realistic emotional struggle; (3) Explain that the fantastical premise is grounded by realistic family dynamics, like sibling guilt or a parent's hospitalization; (4) Connect this craft choice to the novel's larger purpose of making an extraordinary premise feel emotionally true to ordinary adolescence.",
-        explanation:
-          "This SCR asks students to analyze magical realism as a deliberate craft choice rather than simply identifying it as a genre label. Strong responses explain what the device accomplishes thematically, not just what it is.",
-        modelAnswer: "Ingrid Law uses the Beaumonts' savvies as concrete, magical stand-ins for ordinary adolescent struggles, which is what allows the fantastical premise to feel emotionally real rather than purely escapist. Fish's storm-calling power, for instance, is not simply a cool ability — it is explicitly tied to his temper and his guilt over the hurricane he caused before learning to scumble it, making his magical power a direct extension of an internal struggle any teenager might recognize: learning to control strong emotions before they cause real damage. Similarly, Mibs's savvy for hearing hidden truths in tattoos is really a heightened version of the empathy and perceptiveness she already shows toward Will and Bobbi before her birthday even arrives. By grounding each fantastical power in a recognizable emotional reality, and by surrounding the magic with genuinely realistic family stakes — Poppa's accident, Momma's exhaustion, the children's fear — Law ensures that the novel's magic never distracts from its true subject: the disorienting, ordinary process of figuring out who you are at thirteen.",
-        strongExample: "Law's savvies work because each one is a literalized version of a real adolescent experience. Fish's unscumbled storm power mirrors a temper he has not yet learned to control, while Mibs's tattoo-hearing savvy is simply an intensified version of the empathy she already shows before her birthday. By tying the magic directly to recognizable emotional struggles, and by keeping the family stakes — Poppa's accident, the children's fear — entirely realistic, Law uses magical realism not as spectacle but as a tool for making adolescent uncertainty feel vivid and concrete.",
-        weakExample: "The book has magic powers but it also feels real because the family has real problems like the dad's accident. This makes the book interesting to read and not just a fantasy story.",
-        weakFeedback: "This response notices that the book mixes magic and realism but doesn't explain how each specific savvy connects to a specific emotional truth. A strong SCR picks one or two savvies, explains exactly what personality trait or struggle each one represents, and ties that connection back to the novel's purpose.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Conflict — Internal vs. External",
-        staar: true,
-        map: true,
-        question:
-          "Which type of conflict is MOST central to Mibs's experience throughout the novel?",
-        options: [
-          "A. Character vs. Nature — Mibs must survive a dangerous storm during the bus journey.",
-          "B. Character vs. Self — Mibs must come to terms with a savvy that is different from the one she hoped for.",
-          "C. Character vs. Character — Mibs is in constant conflict with her brother Fish.",
-          "D. Character vs. Society — Mibs fights against a town that rejects savvies entirely.",
-        ],
-        answer: "B",
-        explanation:
-          "While external events drive the plot — the accident, the bus journey, the kidnapping scare — the novel's emotional center is Mibs's internal struggle to accept a savvy that does not match her hopes. Her growth comes from resolving this internal conflict, not from defeating an external threat.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Author's Craft — Symbolism",
-        staar: true,
-        map: false,
-        question:
-          "Part A: What does the symbol of the bus traveling in the 'wrong' direction reveal about the novel's view of growing up?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Growing up is a precise, predictable process that always leads exactly where a person plans to go.\nPart A — B. Growing up often happens through unplanned detours, and meaningful change can occur even when things go differently than intended.\nPart A — C. The wrong-direction bus shows that adults cannot be trusted to guide children safely.\nPart A — D. The symbol suggests that mistakes during childhood can never be corrected.\n\nPart B — A. Lester realizes partway through the trip that he cannot turn the bus around without missing his deliveries, so he continues forward.\nPart B — B. Rocket stays behind at the hospital with Momma while Poppa recovers.\nPart B — C. Grandpa Bomba is mentioned as having created an entire landmass with his savvy.\nPart B — D. Will Junior is revealed to live with his grandparents rather than his parents.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "Lester's decision to keep driving in the wrong direction (Part B option A) because turning back is no longer practical becomes the novel's central symbol: the journey cannot be redirected to its original plan, yet every character grows from where it actually leads. This supports the idea that meaningful change often happens off the intended path, not despite the detour but because of it.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary — Character Description",
-        staar: true,
-        map: true,
-        question:
-          "In the sentence, 'Bobbi's tattoo revealed a vulnerable side of her that she had spent years hiding behind a tough exterior,' the word 'vulnerable' most likely means —",
-        options: [
-          "A. Confident and entirely self-assured",
-          "B. Open to being hurt; emotionally exposed and unguarded",
-          "C. Angry and quick to lash out at others",
-          "D. Completely indifferent to what other people think",
-        ],
-        answer: "B",
-        explanation:
-          "The contrast between 'vulnerable side' and 'tough exterior she had spent years hiding behind' signals that vulnerable describes an exposed, unguarded emotional state — the opposite of the toughness Bobbi displays outwardly. STAAR vocabulary questions often test words through this kind of internal/external contrast.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Theme — Perception and Empathy",
-        staar: true,
-        map: true,
-        question:
-          "What does Mibs's savvy — the ability to hear the voices of tattoos — suggest about the novel's view of true understanding between people?",
-        options: [
-          "A. True understanding requires a magical power and is otherwise impossible.",
-          "B. People's outward appearances and behaviors often hide deeper truths that require careful attention to perceive.",
-          "C. Everyone's hidden feelings are identical once revealed.",
-          "D. Tattoos are the only reliable way to understand another person's character.",
-        ],
-        answer: "B",
-        explanation:
-          "Mibs's savvy is a literal, magical version of something the novel suggests anyone can do with enough attention: look past a person's guarded surface to understand what they are actually feeling. Bobbi's hidden loneliness and Will's hidden family situation both reinforce that appearances can conceal significant emotional truths.",
-      },
-      {
-        type: "Extended Constructed Response (ECR)",
-        skill: "Theme + Symbolism + Writing",
-        staar: true,
-        map: false,
-        question:
-          "Ingrid Law structures Savvy so that Mibs's actual savvy — the ability to perceive others' hidden truths — turns out to be entirely different from the power she hoped for. Write a response in which you analyze how this gap between expectation and reality develops the novel's central ideas about growing up. Use specific evidence from the text to support your analysis.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Open with a clear thesis connecting the gap between Mibs's wished-for and actual savvy to the novel's coming-of-age theme; (2) Analyze at least two specific examples of Mibs's actual savvy in action (e.g., perceiving Bobbi's loneliness, sensing details about Will's family) with specific textual detail; (3) Explain how Mibs's initial disappointment and eventual acceptance of her real savvy models a broader truth about adolescence — that growing up means developing your actual self rather than an imagined ideal; (4) Address the symbolic role of the bus journey going the 'wrong' direction as reinforcing this same idea; (5) Conclude by connecting this to the author's purpose — using a fantastical premise to explore a universal adolescent experience.",
-        explanation:
-          "This ECR asks students to analyze how a structural and thematic gap (expectation vs. reality) develops the novel's central meaning — a high-order STAAR and MAP reading skill at Grade 8. Strong responses move beyond plot summary and explain what the gap reveals about growing up. Aim for an introduction, three analytical body paragraphs, and a conclusion.",
-        modelAnswer: "Ingrid Law builds Savvy around a central gap between what Mibs wants her power to be and what it actually turns out to be, and this gap is the novel's clearest statement about what growing up actually requires. Mibs spends the days before her birthday convinced that her savvy must be something dramatic and useful enough to save her injured father — a power that would let her control the one crisis she cannot otherwise fix. What she receives instead is the ability to hear the hidden voices of tattoos, a power that reveals other people's inner lives rather than solving any single problem directly. This is not a lesser power, but it is a different kind of power than Mibs imagined, and her initial disappointment mirrors a universal adolescent experience: discovering that who you are turning into is not the person you pictured. The clearest evidence of this theme comes through Bobbi, whose guarded toughness Mibs's savvy reveals to be a mask for deep loneliness. Mibs cannot use this insight to rescue her father, but she can use it to understand and connect with the people around her in a way she could not before — a quieter, more durable form of usefulness than the dramatic rescue she originally wanted. The bus journey itself reinforces this same idea structurally: the characters never reach their intended destination, yet each arrives somewhere meaningful. Law's argument is that growing up is rarely the straightforward acquisition of the power or path you wished for. It is the slower, less dramatic process of learning to recognize, accept, and develop the self — and the savvy — you actually have.",
-        strongExample: "Law constructs Savvy around the gap between Mibs's wished-for savvy and her actual one, and this gap is the novel's central argument about adolescence. Mibs wants a power dramatic enough to save her father; instead she receives the ability to perceive hidden truths in others, beginning with the loneliness beneath Bobbi's tough exterior. This is not the rescue-oriented power Mibs hoped for, but it is a power that lets her connect with people more honestly than before. The bus journey's wrong-direction route reinforces the same idea on a structural level — the characters never reach their planned destination, yet each arrives somewhere emotionally significant. Law's point is that growing up rarely delivers the specific outcome a person wishes for; it delivers something real and useful, but only if the person learns to recognize and develop it rather than mourning what they expected instead.",
-        weakExample: "Mibs wanted her savvy to save her dad but instead she got the power to hear tattoos. This shows that you don't always get what you want. She learns to use her power to understand Bobbi better. The book teaches that growing up is hard.",
-        weakFeedback: "'You don't always get what you want' and 'growing up is hard' are too general to earn a high score. A strong ECR explains specifically what Mibs's actual savvy reveals about other people, connects that revelation to a clear claim about what growing up requires, and uses the bus journey's structure as additional evidence rather than treating it as a separate, unconnected detail.",
-      },
-    ],
-  },
-  {
-    id: "striped",
-    title: "The Boy in the Striped Pajamas",
-    author: "John Boyne",
-    genre: "Historical Fiction",
-    lexile: "1080L",
-    color: "#2C3E50",
-    accent: "#E8C547",
-    emoji: "📖",
-    isbn: "9780385751063",
-    summary: {
-      overview:
-        "Set during World War II, this novel follows nine-year-old Bruno, the son of a Nazi commandant who has been assigned to oversee a concentration camp. After his family relocates from their comfortable home in Berlin to a grim house near the camp — called 'Out-With' (Auschwitz) by Bruno — he is lonely and bored. Exploring forbidden territory, he befriends Shmuel, a Jewish boy his exact age who lives on the other side of a wire fence. Neither boy fully understands the horrific reality that separates them. The story builds to a devastating, ironic conclusion that reflects the senseless cruelty of hatred and genocide.",
-      themes: [
-        "Innocence and ignorance in the face of evil",
-        "The power and limits of friendship across difference",
-        "Prejudice, dehumanization, and their consequences",
-        "Identity — who we are vs. who we are told we are",
-        "The moral responsibility of ordinary people during atrocity",
-      ],
-      characters: [
-        { name: "Bruno", role: "Protagonist — a naïve, curious 9-year-old German boy who sees the world as an adventure" },
-        { name: "Shmuel", role: "Bruno's Jewish friend behind the fence — quiet, thin, and deeply sad, representing the victims of the Holocaust" },
-        { name: "Father (Ralf)", role: "The Commandant — a cold, ambitious Nazi officer who values duty over family" },
-        { name: "Mother", role: "Conflicted and increasingly disturbed by what she witnesses; represents moral unease" },
-        { name: "Gretel", role: "Bruno's older sister who is gradually indoctrinated by Nazi ideology" },
-        { name: "Lieutenant Kotler", role: "A cruel, fanatical young Nazi soldier who intimidates everyone, including Bruno" },
-      ],
-      setting: "Berlin and 'Out-With' (Auschwitz), Poland, during World War II, approximately 1942–1943.",
-      literaryDevices: [
-        { device: "Irony", example: "Bruno mispronounces names — 'Out-With' for Auschwitz, 'the Fury' for the Führer — showing his ignorance of the evil around him." },
-        { device: "Point of View (Limited 3rd Person)", example: "We only know what Bruno knows, which creates dramatic irony — the reader understands the Holocaust's horror while Bruno does not." },
-        { device: "Symbolism", example: "The fence represents the division between freedom and imprisonment, between the oppressor and the oppressed." },
-        { device: "Foreshadowing", example: "Bruno's fascination with the people in 'striped pajamas' and his dangerous plan to go under the fence hint at the tragic ending." },
-        { device: "Allegory", example: "The two boys — same birthday, same age — symbolize that children are born equal; it is society that creates division." },
-      ],
-      authorPurpose:
-        "John Boyne uses a child narrator to make the horrors of the Holocaust accessible, while also critiquing how ordinary people — even children — can be shaped by their environment. The story forces readers to consider the consequences of complicity, silence, and blind obedience.",
-    },
-
-    vocab: [
-      { word: "Fanatical", definition: "Extremely and unreasonably devoted to a belief or cause, to the point of danger.", context: "Lieutenant Kotler was fanatical in his devotion to Nazi ideology, carrying out orders without hesitation or moral reflection.", staarNote: "STAAR tests this word by showing Kotler's behavior and asking what 'fanatical' reveals about his character. Look for context clues that show extreme, unquestioning devotion." },
-      { word: "Prestige", definition: "High status and the respect or admiration that comes from an important position.", context: "The Commandant's transfer to Out-With was presented by the Nazi regime as a position of great prestige — a sign of their trust in him.", staarNote: "When you see 'prestige,' look for surrounding clues about status, honor, or importance. The irony in this novel is that the 'prestigious' post is overseeing a death camp." },
-      { word: "Desolate", definition: "Completely empty, bleak, and without comfort or hope.", context: "Bruno found the landscape around Out-With desolate compared to the lively streets of Berlin — grey, flat, and offering nothing to explore.", staarNote: "Context clues like descriptions of emptiness, greyness, or absence of life point to 'desolate.' It describes both physical places and emotional states." },
-      { word: "Ignorance", definition: "Lack of knowledge or awareness about something, especially something important.", context: "Bruno's ignorance of the Holocaust's true nature was both a result of his age and the deliberate silence of the adults around him.", staarNote: "STAAR distinguishes between ignorance (not knowing) and indifference (not caring). Bruno's ignorance is enforced from outside; the adults' silence is a choice." },
-      { word: "Complicit", definition: "Involved in or sharing responsibility for something wrong, even without directly doing it.", context: "The Mother became increasingly complicit in the camp's operation simply by staying — her silence made her part of what was happening.", staarNote: "This is a critical word for the novel's theme. Being complicit doesn't require direct action — choosing silence or comfort when you know something is wrong counts." },
-      { word: "Melancholy", definition: "A deep, persistent feeling of sadness and hopelessness.", context: "Shmuel's eyes held a melancholy that Bruno couldn't fully understand — a sadness far too heavy for a boy his age.", staarNote: "Context clues like heavy sadness, silence, thin appearance, and eyes that don't smile all point to 'melancholy.' It suggests sadness that doesn't go away." },
-      { word: "Propaganda", definition: "Information, especially biased or misleading, used to promote a particular political cause or point of view.", context: "Gretel's bedroom walls filled with maps and Nazi imagery — she had absorbed the propaganda around her without questioning it.", staarNote: "Look for context clues showing one-sided, emotionally charged information designed to make people believe or do something." },
-    
-      { word: "Naive", definition: "Showing a lack of experience or judgment; innocent to the point of being unaware of danger or complexity.", context: "Bruno's naive questions about the people in striped pajamas revealed how completely he had been shielded from the truth of what the camp was.", staarNote: "Context clues for 'naive' include a character asking innocent questions others find shocking, misunderstanding obvious situations, or being protected from hard truths." },
-      { word: "Sinister", definition: "Giving the impression that something harmful or evil is happening or will happen.", context: "Lieutenant Kotler had a sinister quality that Bruno couldn't name — something about his presence made Bruno uneasy even before he understood why.", staarNote: "STAAR tests 'sinister' by surrounding it with unease, dread, or a sense of hidden menace. It differs from 'evil' — sinister implies threat that hasn't fully shown itself yet." },
-      { word: "Atrocity", definition: "An extremely wicked or cruel act, especially one that shocks the conscience.", context: "The novel builds slowly toward the revelation of the atrocity being committed at Out-With — the Holocaust as experienced through a child's innocent eyes.", staarNote: "Context clues for 'atrocity' include descriptions of mass suffering, moral outrage, and acts so severe they are considered crimes against humanity." },
-      { word: "Oblivious", definition: "Not aware of or concerned about what is happening around one.", context: "Bruno remained oblivious to the true nature of Out-With far longer than any adult would — his ignorance was both a shield and a tragedy.", staarNote: "STAAR tests 'oblivious' by showing a character who fails to notice what is obvious to others. Look for context clues of dramatic irony — the reader knows what the character doesn't." },
-      { word: "Ideology", definition: "A system of ideas and ideals, especially one that forms the basis of political or economic theory and policy.", context: "The Nazi ideology that consumed Gretel and shaped Lieutenant Kotler's behavior was accepted by them as truth rather than examined as belief.", staarNote: "Context clues for 'ideology' include a rigid set of beliefs used to justify actions, groupthink, and characters following rules without questioning where they came from." },    ],
-    questions: [
-      {
-        type: "Multiple Choice",
-        skill: "Theme",
-        staar: true,
-        map: true,
-        question:
-          "Which theme is MOST strongly developed throughout the novel?",
-        options: [
-          "A. War always produces heroes and villains in equal measure.",
-          "B. Friendship can exist even between people kept apart by hatred and injustice.",
-          "C. Children should always obey their parents, no matter the circumstance.",
-          "D. Adventure and exploration always lead to discovery.",
-        ],
-        answer: "B",
-        explanation:
-          "Bruno and Shmuel's friendship across the barbed wire fence is the novel's central relationship and drives its most important ideas about human connection despite systems of oppression.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Point of View & Dramatic Irony",
-        staar: true,
-        map: true,
-        question:
-          "The author tells the story through Bruno's limited perspective. How does this narrative choice affect the reader's experience?",
-        options: [
-          "A. It prevents the reader from understanding the seriousness of the Holocaust.",
-          "B. It allows the reader to know less than the characters in the story.",
-          "C. It creates dramatic irony — the reader understands the danger that Bruno does not.",
-          "D. It makes Bruno a more reliable narrator than an adult would be.",
-        ],
-        answer: "C",
-        explanation:
-          "Because we know what Auschwitz is while Bruno does not, Boyne creates dramatic irony — tension that comes from the gap between what the character knows and what the audience understands.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Character Analysis",
-        staar: true,
-        map: false,
-        question:
-          "Part A: What does Bruno's friendship with Shmuel reveal about his character?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. Bruno is selfish and uses Shmuel for entertainment.\nPart A — B. Bruno has genuine empathy that his upbringing has not yet destroyed.\nPart A — C. Bruno understands the difference between Jews and Germans.\nPart A — D. Bruno is afraid of his father and rebels through the friendship.\n\nPart B — A. Bruno brings Shmuel food and risks punishment to maintain their friendship.\nPart B — B. Bruno tells Lieutenant Kotler that he has never met Shmuel.\nPart B — C. Bruno complains that Out-With is boring and he misses Berlin.\nPart B — D. Bruno wants to explore the other side of the fence out of curiosity.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "Bruno's consistent effort to bring Shmuel food and his emotional distress when he betrays him (Part B option B) both point toward genuine empathy. The BEST evidence is the food — a deliberate, repeated act of care.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Textual Evidence & Inference",
-        staar: true,
-        map: false,
-        question:
-          "How does the setting of 'Out-With' influence Bruno's understanding of the world around him? Use evidence from the text to support your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) identify that the isolated, unfamiliar setting limits Bruno's information, (2) note that he is told only what adults choose to share, and (3) use specific details — such as the fence, the striped pajamas, or what he observes from his bedroom window — as textual evidence.",
-        explanation:
-          "STAAR SCR responses are scored on clarity of claim, use of relevant textual evidence, and explanation of how the evidence supports the claim (RAC or RACES strategy).",
-        modelAnswer: "In The Boy in the Striped Pajamas, the setting of Out-With shapes Bruno's understanding of the world around him by controlling every piece of information he receives. Because Bruno is isolated — physically separated from the camp by distance, and socially separated from the truth by his father's authority and the adults' deliberate silence — he can only interpret what he sees through the limited lens of a child who has never been told the truth. When Bruno looks out his bedroom window and observes the people in striped pajamas on the other side of the fence, he describes them with genuine curiosity, noting that they all seem thin and unhappy but not understanding why. The fence itself is the setting's most powerful detail: it makes the horror of the camp invisible to Bruno even while it stands directly in front of him. Boyne uses this setting to argue that the environments we grow up in — the information we are given and withheld — shape what we are capable of understanding, for better or worse.",
-        strongExample: "In The Boy in the Striped Pajamas, Boyne uses the setting of Out-With to keep Bruno — and the reader — in a state of deliberate ignorance. Because Bruno is isolated from the outside world and told only what adults choose to share, he misinterprets everything he sees. For example, Bruno observes the people in 'striped pajamas' through his bedroom window and thinks they must live there by choice, never imagining the horror of what the camp actually is. This detail shows that the setting is not just a backdrop but a tool the author uses to control what Bruno — and through him, the reader — understands. The setting creates the novel's central dramatic irony: the reader slowly fills in the truth that Bruno can never quite see.",
-        weakExample: "The setting of Out-With affects Bruno's understanding because it is in a different place than Berlin. Bruno doesn't know a lot about what is happening around him. The setting is important to the story.",
-        weakFeedback: "This response loses points because it makes only vague, general claims with no specific textual evidence. Saying 'Bruno doesn't know a lot' restates the question without analyzing it. A strong response names a specific detail from the text and explains exactly how that detail reveals something about the setting's effect on Bruno's understanding.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Figurative Language / Symbolism",
-        staar: true,
-        map: true,
-        question:
-          "The fence in the novel serves as a symbol. What does it MOST likely represent?",
-        options: [
-          "A. The physical danger of exploring new places",
-          "B. The boundary between childhood and adulthood",
-          "C. The divisions created by prejudice, power, and hatred",
-          "D. Bruno's father's authority over the family",
-        ],
-        answer: "C",
-        explanation:
-          "The fence divides the free from the imprisoned, the oppressor from the oppressed. It is not just a physical barrier — it is the tangible form of Nazi ideology made real in Bruno's world.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Author's Purpose",
-        staar: true,
-        map: true,
-        question:
-          "Why did the author most likely choose a nine-year-old boy as the narrator of a story about the Holocaust?",
-        options: [
-          "A. To show that children during WWII were unaffected by the conflict",
-          "B. To use a child's innocent perspective to highlight the absurdity and horror of hatred",
-          "C. To argue that children are better observers of history than adults",
-          "D. To make the story appropriate for younger readers by avoiding difficult topics",
-        ],
-        answer: "B",
-        explanation:
-          "Boyne uses Bruno's innocence deliberately. A child who doesn't understand what he sees makes the horror more powerful, not less — because the reader fills in the gap between Bruno's confusion and the historical reality.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "In the novel, Lieutenant Kotler is described as 'fanatical' in his devotion to Nazi ideology. Based on context, what does 'fanatical' mean?",
-        options: [
-          "A. Reluctant and uncertain",
-          "B. Casually interested but not committed",
-          "C. Extremely and unreasonably devoted to a belief",
-          "D. Openly critical of rules and authority",
-        ],
-        answer: "C",
-        explanation:
-          "'Fanatical' comes from the Latin word for temple, suggesting someone driven by almost religious passion. In context, Kotler is shown to be dangerously extreme in his beliefs — making C the only accurate match.",
-      },
-      {
-        type: "Extended Constructed Response (ECR)",
-        skill: "Theme + Textual Evidence + Writing",
-        staar: true,
-        map: false,
-        question:
-          "The author of The Boy in the Striped Pajamas suggests that ordinary people who remain silent or ignorant during injustice share responsibility for its consequences. Write a response in which you analyze how the novel develops this idea. Use specific evidence from the text to support your analysis.",
-        options: [],
-        answer:
-          "Strong responses should: (1) State a clear, specific claim about the theme; (2) Identify at least two characters who represent silence/complicity (e.g., the Mother, Bruno himself when he denies knowing Shmuel); (3) Cite specific textual evidence for each; (4) Explain how each piece of evidence supports the claim; (5) Conclude with a statement about the broader significance of the theme.",
-        explanation:
-          "ECR responses are scored on thesis clarity, quality and integration of textual evidence, depth of analysis, and writing conventions. Aim for 3–5 developed paragraphs.",
-        modelAnswer: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who remain silent in the face of injustice bear moral responsibility for its consequences. This theme is developed most powerfully through two characters: Bruno's mother and Bruno himself. The Mother is aware enough of what the camp represents to be deeply disturbed by it — she begins drinking heavily and argues repeatedly with the Father about returning to Berlin. Yet she never acts. Her private moral discomfort never becomes public opposition. Boyne uses her deterioration not to excuse her but to indict her: knowing what is wrong and choosing comfort over action is its own form of complicity. Bruno, too, commits this failure in the scene where Lieutenant Kotler confronts Shmuel in the kitchen. When Bruno is asked if he knows Shmuel, he denies it — choosing self-preservation over loyalty. The betrayal is small in scale but enormous in meaning; Bruno has the opportunity to witness injustice and speak against it, and he chooses silence. Boyne's novel is ultimately a warning: the Holocaust was not only the work of fanatics like Kotler. It was sustained by the silence of ordinary people who knew something was wrong and did nothing.",
-        strongExample: "In The Boy in the Striped Pajamas, John Boyne argues that ordinary people who choose comfort over conscience bear responsibility for the evil that results. This theme is developed most powerfully through the Mother and Bruno himself. The Mother knows enough about the camp to be disturbed — she begins drinking and argues with the Father about returning to Berlin — yet she never acts on her moral discomfort. Her inaction is not ignorance; it is a choice. Bruno, too, chooses his own comfort when he denies knowing Shmuel to Lieutenant Kotler, sacrificing his friend to avoid punishment. Both characters represent the moral failure Boyne is warning against: awareness without action. The novel suggests that silence in the face of injustice is not neutrality — it is a form of participation.",
-        weakExample: "The Boy in the Striped Pajamas shows that people should not be silent when bad things happen. Bruno and his family knew bad things were happening. They should have done something to help. This is why the theme of the book is about responsibility.",
-        weakFeedback: "This response has a theme but no textual evidence and no analysis. It tells the reader what to think without proving it. A strong ECR identifies specific characters, cites specific moments from the text, and then explains — in analytical sentences, not summary — what those moments prove about the theme. The claim 'they should have done something' needs to become 'the Mother's choice to drink and argue privately rather than act publicly represents Boyne's argument that private moral discomfort without action is its own form of complicity.'",
-        staar: true,
-        map: true,
-        question:
-          "How does Gretel change over the course of the novel, and what does her transformation represent?",
-        options: [
-          "A. She becomes kinder and more compassionate as she matures",
-          "B. She gradually adopts Nazi ideology, showing how propaganda shapes young minds",
-          "C. She grows distant from her family because she misses Berlin",
-          "D. She begins to question the war but keeps her doubts private",
-        ],
-        answer: "B",
-        explanation:
-          "Gretel begins as a typical older sister — bossy and self-absorbed — but progressively fills her bedroom walls with maps of Nazi territorial expansion and absorbs the ideology around her without question. Her transformation is not incidental; Boyne uses it to show how ordinary children become complicit in systems of hatred simply by absorbing what adults around them model and normalize.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Irony — Situational",
-        staar: true,
-        map: true,
-        question:
-          "At the novel's end, Bruno dresses in striped pajamas and crawls under the fence to help Shmuel find his father. What type of irony does this moment create?",
-        options: [
-          "A. Verbal irony — Bruno says one thing but means another",
-          "B. Situational irony — the outcome is the opposite of what Bruno and the reader hoped for",
-          "C. Dramatic irony — only the reader knows Bruno is about to be harmed",
-          "D. Comic irony — the situation is humorous despite seeming serious",
-        ],
-        answer: "B",
-        explanation:
-          "Situational irony occurs when events turn out opposite to what was expected or intended. Bruno's act of compassion — his most genuinely heroic moment — leads directly to his death. The boy whose innocence was meant to protect him is destroyed by the very system his father upholds. The outcome is the cruelest possible reversal of expectation.",
-      },
-      {
-        type: "Vocabulary in Context",
-        skill: "Vocabulary",
-        staar: true,
-        map: true,
-        question:
-          "The novel describes the Commandant's new role at Out-With as one of great 'prestige.' Based on context, what does 'prestige' most likely mean?",
-        options: [
-          "A. Physical danger and personal sacrifice",
-          "B. High status and the respect or admiration of others",
-          "C. Financial reward given as payment for difficult work",
-          "D. Loneliness that comes from being far from home",
-        ],
-        answer: "B",
-        explanation:
-          "In context, the Father's transfer to Out-With is framed by the Nazi regime as an honor — a sign of their trust in him. 'Prestige' refers to the admiration and elevated status associated with an important position. The bitter irony is that this 'prestigious' post is overseeing a death camp.",
-      },
-      {
-        type: "Part A / Part B (Evidence-Based)",
-        skill: "Character Analysis — The Mother",
-        staar: true,
-        map: false,
-        question:
-          "Part A: How does the Mother's attitude toward living at Out-With change as the novel progresses?\n\nPart B: Which detail from the novel BEST supports your answer to Part A?",
-        options: [
-          "Part A — A. She becomes increasingly enthusiastic about her husband's important role.\nPart A — B. She grows more distressed and morally troubled by what she witnesses at the camp.\nPart A — C. She remains indifferent and focused entirely on maintaining the household.\nPart A — D. She tries to convince her husband to resign but accepts his refusal peacefully.\n\nPart B — A. The Mother begins drinking more heavily and argues with the Father about returning to Berlin.\nPart B — B. The Mother decorates the Out-With house to make it feel like their Berlin home.\nPart B — C. The Mother tells Bruno that the people behind the fence are not their concern.\nPart B — D. The Mother praises Lieutenant Kotler's dedication to his duties.",
-        ],
-        answer: "Part A: B | Part B: A",
-        explanation:
-          "The Mother's increasing despair — signaled by her drinking and arguments with the Father about leaving — marks her as the character most visibly corroded by proximity to the camp's horrors. Unlike the Father, she cannot maintain comfortable distance from what she knows is happening. Her deterioration is Boyne's signal that moral awareness, even without action, has a cost.",
-      },
-      {
-        type: "Short Constructed Response (SCR)",
-        skill: "Author's Craft — Allegory",
-        staar: true,
-        map: false,
-        question:
-          "Bruno and Shmuel share the same birthday and are described as mirror images of each other. How does this detail function as an allegory, and what idea does it communicate about the children on either side of the fence? Use evidence from the novel in your response.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Define or explain allegory as using specific details to represent a broader truth; (2) Explain that the boys' shared birthday and mirrored descriptions suggest they were born equal — that nothing inherent separates them; (3) Connect this to the novel's larger argument that the division between prisoner and free person is entirely man-made, not natural; (4) Cite the shared birthday or physical mirroring as specific textual evidence.",
-        explanation:
-          "SCR responses should use the RACES strategy and run 4–6 focused sentences. The key analytical move here is connecting a specific detail (shared birthday) to a larger thematic idea (the artificial nature of racial and social division).",
-        strongExample: "In The Boy in the Striped Pajamas, Boyne uses the detail that Bruno and Shmuel share the same birthday as an allegory for the idea that no child is born deserving imprisonment or freedom — those fates are imposed by the society around them. The two boys are described in nearly identical terms: same age, same size, same sense of curiosity. This mirroring argues that the only thing separating Bruno from Shmuel is an accident of birth — which family they were born into, which side of the fence they appeared on. Boyne uses this allegory to show that the fence between them is not natural or inevitable; it is man-made, and therefore it is a moral choice, not a fact of nature.",
-        weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
-        weakFeedback: "This response identifies the detail but does not explain what it means allegorically. 'Life is not fair' is too vague — it is a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
-        modelAnswer: "In The Boy in the Striped Pajamas, Boyne uses the shared birthday between Bruno and Shmuel as an allegory for the fundamental equality of all human beings at birth. The two boys are described in nearly identical terms — same age, same height, and born on the same day. This physical and temporal mirroring is deliberate: it argues that nothing inherent separates them. The only thing that places one boy on the free side of the fence and the other in the camp is an accident of birth — which family they were born into, which side of history they appeared on. By making the boys allegorical twins, Boyne communicates that the divisions created by Nazi ideology are entirely man-made, not natural or inevitable. The fence is a choice, not a fact, and that is the most disturbing truth the allegory communicates.",
-        weakExample: "Bruno and Shmuel share a birthday which is interesting because they are very different. One is free and one is not. This shows that life is not fair.",
-        weakFeedback: "This response identifies the detail but doesn't explain what it means allegorically. 'Life is not fair' is too vague to score well — it's a feeling, not an analysis. A strong response explains the specific idea the allegory communicates: that the division between the boys is artificial and man-made, which is Boyne's moral argument about the Holocaust.",
-      },
-      {
-        type: "Multiple Choice",
-        skill: "Mood and Tone",
-        staar: true,
-        map: true,
-        question:
-          "How does the author establish a mood of unease and dread throughout the novel, even in scenes that appear calm?",
-        options: [
-          "A. By describing graphic scenes of violence at the concentration camp",
-          "B. By using Bruno's innocent misunderstandings to hint at a danger the reader recognizes but Bruno does not",
-          "C. By having adult characters openly discuss the horrors of the Holocaust with Bruno",
-          "D. By including detailed historical facts about World War II in each chapter",
-        ],
-        answer: "B",
-        explanation:
-          "Boyne maintains dread not through explicit description but through dramatic irony. When Bruno cheerfully describes the 'striped pajamas' or mispronounces 'Auschwitz,' the reader's knowledge of what those words actually mean creates a persistent, quiet horror. The calm surface of Bruno's observations makes the underlying reality more disturbing, not less.",
-      },
-      {
-        type: "Extended Constructed Response (ECR)",
-        skill: "Character + Theme + Writing",
-        staar: true,
-        map: false,
-        question:
-          "Through the character of Lieutenant Kotler, John Boyne explores how ideology can dehumanize both its victims and those who enforce it. Write a response in which you analyze how Kotler's characterization develops this idea. Use specific evidence from the novel to support your analysis.",
-        options: [],
-        answer:
-          "Strong responses should: (1) Open with a clear thesis connecting Kotler's character to the theme of ideology and dehumanization; (2) Analyze specific scenes — such as Kotler's treatment of Pavel, his interactions with Shmuel, or his behavior toward the household — as evidence; (3) Argue that Kotler's cruelty is not personal but systemic — he is what the Nazi ideology produced; (4) Consider how Bruno's discomfort around Kotler functions as a moral signal even before Bruno fully understands why; (5) Conclude by connecting this character study to the novel's broader warning about systems that normalize cruelty.",
-        explanation:
-          "ECR responses are scored on thesis strength, analytical depth, evidence integration, and writing conventions. Avoid summarizing what Kotler does — analyze what his characterization means and how Boyne uses him to develop the novel's themes.",
-        modelAnswer: "John Boyne uses Lieutenant Kotler to demonstrate how ideology, when it replaces individual moral judgment, produces cruelty as a matter of policy rather than personal choice. Kotler is not portrayed as a psychologically complex character driven by personal hatred — he is defined by his function within the system. When he humiliates Pavel in the dining room, forcing an elderly man to serve at the table without acknowledgment of his humanity, he does so without visible emotion or hesitation. This absence of feeling is precisely Boyne's point. The most dangerous cruelty is not passionate and visible; it is routine and normalized. Kotler's treatment of Shmuel in the kitchen scene reinforces this: his interrogation of a nine-year-old child is conducted with the same bureaucratic calmness as any other duty. What makes Kotler powerful as a literary device is Bruno's response to him. Bruno — who is too young to articulate why — consistently feels something wrong in Kotler's presence. This discomfort is Boyne's signal that moral awareness does not require political sophistication; it requires only a willingness to listen to it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty and indifference is professionalism.",
-        strongExample: "Boyne uses Lieutenant Kotler to show that ideology, when it removes individual moral judgment, produces cruelty not as an exception but as a feature. Kotler does not appear cruel because of personal hatred — he is cruel because the system he serves demands and rewards it. When he humiliates Pavel or threatens Shmuel, he does so without visible emotion, as though it requires no thought. This is Boyne's point: the most dangerous evil is not passionate hatred but bureaucratic indifference. Even Bruno — a nine-year-old with no political understanding — feels something wrong about Kotler, and this discomfort is Boyne's signal that moral awareness is available even to children, if they choose to act on it. Kotler represents what happens when a person surrenders that awareness entirely to an ideology that tells them cruelty is duty.",
-        weakExample: "Lieutenant Kotler is a mean character in the story. He is cruel to the Jewish people and also to Pavel. He represents the Nazis. Boyne includes him to show that bad people existed during the Holocaust.",
-        weakFeedback: "This response summarizes Kotler's role but does not analyze it. Saying he 'represents the Nazis' is true but obvious — the analytical question is HOW and WHY Boyne characterizes him this specific way, and what that reveals about how ideology operates. A strong ECR moves from observation ('Kotler is cruel') to analysis ('Kotler's cruelty is effortless — which is Boyne's argument that systemic evil is most dangerous when it becomes routine and ordinary').",
-      },
-    ],
-  },
 ];
 
 const questionTypeColors = {
@@ -2321,22 +2014,15 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbwzpN9Od5b5N9T4bK_dpM
 async function submitToSheet(payload) {
   if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return { ok: false, demo: true };
   try {
-    const response = await fetch(SHEET_URL, {
+    await fetch(SHEET_URL, {
       method: "POST",
-      // text/plain keeps this a CORS "simple request" so the browser doesn't
-      // send a preflight OPTIONS call, which Apps Script doesn't handle well.
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    const result = await response.json();
-    if (!result.ok) {
-      console.error("Sheet submission failed:", result.error);
-      return { ok: false, error: result.error };
-    }
-    return { ok: true, rowsWritten: result.rowsWritten };
-  } catch (err) {
-    console.error("Sheet submission error:", err);
-    return { ok: false, error: err.message };
+    return { ok: true };
+  } catch {
+    return { ok: false };
   }
 }
 
@@ -2991,8 +2677,18 @@ function FlashcardTab({ book }) {
 // ── Book Grid Card ────────────────────────────────────────────────────────────
 function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   const [hovered, setHovered] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  const coverUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
+  const [sourceIdx, setSourceIdx] = useState(0); // 0 = Google Books, 1 = Open Library, 2 = fallback tile
+
+  const coverSources = [
+    `https://books.google.com/books/content?isbn=${book.isbn}&printsec=frontcover&img=1&zoom=2&source=gbs_api`,
+    `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`,
+  ];
+
+  const handleImgError = () => {
+    setSourceIdx(i => i + 1); // advance to next source, or to fallback tile if exhausted
+  };
+
+  const showImage = sourceIdx < coverSources.length;
 
   return (
     <div
@@ -3024,11 +2720,12 @@ function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
         position: "relative",
         background: book.color,
       }}>
-        {!imgError ? (
+        {showImage ? (
           <img
-            src={coverUrl}
+            key={sourceIdx}
+            src={coverSources[sourceIdx]}
             alt={book.title}
-            onError={() => setImgError(true)}
+            onError={handleImgError}
             style={{
               width: "100%",
               height: "100%",
@@ -3039,7 +2736,7 @@ function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
             }}
           />
         ) : (
-          /* Fallback if cover doesn't load */
+          /* Fallback if all cover sources fail */
           <div style={{
             width: "100%", height: "100%",
             display: "flex", flexDirection: "column",
@@ -3142,7 +2839,6 @@ export default function App() {
   const [drafts, setDrafts] = useState({});
   const [selections, setSelections] = useState({});
   const [submitState, setSubmitState] = useState("idle");
-  const [submitError, setSubmitError] = useState("");
   const [shuffled, setShuffled] = useState(false);
   const [questionOrder, setQuestionOrder] = useState(null); // null = original order
   const [sessionHistory, setSessionHistory] = useState(() => {
@@ -3204,7 +2900,6 @@ export default function App() {
 
   const handleSubmitAll = async () => {
     setSubmitState("submitting");
-    setSubmitError("");
 
     const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
 
@@ -3216,15 +2911,7 @@ export default function App() {
       } else if (q.type.includes("Part A")) {
         const sel = selections[draftKey(origIdx)];
         if (sel) {
-          const allOpts = (q.options[0] || "").split("\n").map(s => s.trim()).filter(Boolean);
-          const findOptText = (prefix, letter) => {
-            if (!letter) return null;
-            const match = allOpts.find(o => o.startsWith(prefix) && o.match(/[A-D]\./)?.[0]?.replace(".", "") === letter);
-            return match ? match.replace(/^Part [AB] — [A-D]\.\s*/, "") : null;
-          };
-          const aText = findOptText("Part A", sel.a);
-          const bText = findOptText("Part B", sel.b);
-          answerText = `Part A: ${sel.a ? `${sel.a}. ${aText}` : "—"} | Part B: ${sel.b ? `${sel.b}. ${bText}` : "—"}`;
+          answerText = `Part A: ${sel.a || "—"} | Part B: ${sel.b || "—"}`;
         }
       } else if (q.options.length > 0) {
         const sel = selections[draftKey(origIdx)];
@@ -3241,9 +2928,11 @@ export default function App() {
       };
     });
 
-    const result = await submitToSheet(rows);
-    const allOk = result.ok || result.demo;
-    setSubmitError(allOk ? "" : (result.error || "Couldn't reach the spreadsheet. Check your internet connection."));
+    let allOk = true;
+    for (const row of rows) {
+      const result = await submitToSheet(row);
+      if (!result.ok && !result.demo) allOk = false;
+    }
     setSubmitState(allOk ? "done" : "error");
 
     // Save to session history on success
@@ -3776,12 +3465,7 @@ export default function App() {
                           </div>
                         ) : submitState === "error" ? (
                           <div style={{ textAlign: "center" }}>
-                            <div style={{ color: "#E74C3C", fontWeight: 800, fontSize: 14, marginBottom: 4 }}>⚠️ Submission failed</div>
-                            {submitError && (
-                              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, marginBottom: 8, maxWidth: 220 }}>
-                                {submitError}
-                              </div>
-                            )}
+                            <div style={{ color: "#E74C3C", fontWeight: 800, fontSize: 14, marginBottom: 8 }}>⚠️ Submission failed</div>
                             <button
                               onClick={handleSubmitAll}
                               style={{ background: "#E74C3C", color: "#fff", border: "none", borderRadius: 10, padding: "12px 28px", fontSize: 14, fontWeight: 800, cursor: "pointer" }}
