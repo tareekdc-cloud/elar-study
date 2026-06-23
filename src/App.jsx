@@ -2677,18 +2677,35 @@ function FlashcardTab({ book }) {
 // ── Book Grid Card ────────────────────────────────────────────────────────────
 function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   const [hovered, setHovered] = useState(false);
-  const [sourceIdx, setSourceIdx] = useState(0); // 0 = Google Books, 1 = Open Library, 2 = fallback tile
+  const [googleUrl, setGoogleUrl] = useState(null);   // resolved real thumbnail URL, or null if not ready/failed
+  const [googleChecked, setGoogleChecked] = useState(false);
+  const [openLibFailed, setOpenLibFailed] = useState(false);
 
-  const coverSources = [
-    `https://books.google.com/books/content?isbn=${book.isbn}&printsec=frontcover&img=1&zoom=2&source=gbs_api`,
-    `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`,
-  ];
+  // On mount, query Google Books Volumes API for a real thumbnail URL
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${book.isbn}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (cancelled) return;
+        const thumb = data?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail
+          || data?.items?.[0]?.volumeInfo?.imageLinks?.smallThumbnail;
+        if (thumb) {
+          // Upgrade http to https and bump zoom for a slightly larger image
+          setGoogleUrl(thumb.replace("http://", "https://").replace("zoom=1", "zoom=2"));
+        }
+        setGoogleChecked(true);
+      })
+      .catch(() => { if (!cancelled) setGoogleChecked(true); });
+    return () => { cancelled = true; };
+  }, [book.isbn]);
 
-  const handleImgError = () => {
-    setSourceIdx(i => i + 1); // advance to next source, or to fallback tile if exhausted
-  };
+  const openLibUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`;
 
-  const showImage = sourceIdx < coverSources.length;
+  // Decide what to render: Google thumbnail (if resolved) → Open Library (if Google failed/unavailable) → tile
+  const useGoogle = !!googleUrl;
+  const useOpenLib = googleChecked && !googleUrl && !openLibFailed;
+  const useTile = googleChecked && !googleUrl && openLibFailed;
 
   return (
     <div
@@ -2720,21 +2737,35 @@ function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
         position: "relative",
         background: book.color,
       }}>
-        {showImage ? (
+        {useGoogle ? (
           <img
-            key={sourceIdx}
-            src={coverSources[sourceIdx]}
+            src={googleUrl}
             alt={book.title}
-            onError={handleImgError}
+            onError={() => setGoogleUrl(null)}
             style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-              transition: "opacity 0.2s ease",
-              opacity: hovered ? 0.85 : 1,
+              width: "100%", height: "100%", objectFit: "cover", display: "block",
+              transition: "opacity 0.2s ease", opacity: hovered ? 0.85 : 1,
             }}
           />
+        ) : useOpenLib ? (
+          <img
+            src={openLibUrl}
+            alt={book.title}
+            onError={() => setOpenLibFailed(true)}
+            style={{
+              width: "100%", height: "100%", objectFit: "cover", display: "block",
+              transition: "opacity 0.2s ease", opacity: hovered ? 0.85 : 1,
+            }}
+          />
+        ) : !googleChecked ? (
+          /* Loading state while we check Google Books */
+          <div style={{
+            width: "100%", height: "100%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: `linear-gradient(160deg, ${book.color} 0%, ${book.color}99 100%)`,
+          }}>
+            <span style={{ fontSize: 28, opacity: 0.6 }}>{book.emoji}</span>
+          </div>
         ) : (
           /* Fallback if all cover sources fail */
           <div style={{
