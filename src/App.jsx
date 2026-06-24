@@ -2267,11 +2267,8 @@ function SentenceStarters({ type, bookColor }) {
 }
 
 // ── Scoring Rubric ───────────────────────────────────────────────────────────
-function ScoringRubric({ type }) {
-  const [open, setOpen] = useState(false);
-  const isECR = type.includes("Extended");
-
-  const rubric = isECR
+function getRubric(isECR) {
+  return isECR
     ? [
         { score: "4", label: "Accomplished", color: "#1E8449", bg: "#EAFAF1", desc: "Clear, specific thesis. Two or more pieces of well-chosen textual evidence. Thorough explanation of how each piece supports the claim. Demonstrates deep understanding of theme/author's craft. Strong organization, precise word choice, few if any errors." },
         { score: "3", label: "Satisfactory", color: "#D4AC0D", bg: "#FEF9E7", desc: "Adequately stated thesis. At least two pieces of relevant evidence. Explanation is present but may be surface-level for one piece. Generally organized with minor errors that don't affect meaning." },
@@ -2284,6 +2281,12 @@ function ScoringRubric({ type }) {
         { score: "1", label: "Partial", color: "#D4AC0D", bg: "#FEF9E7", desc: "Claim is present but vague or partially addresses the question. Evidence is present but may be general or loosely connected. Explanation is incomplete or implied rather than stated. Some relevant ideas present despite organizational weakness." },
         { score: "0", label: "Insufficient", color: "#C0392B", bg: "#FDEDEC", desc: "No clear claim, no textual evidence, or response does not address the prompt. May be off-topic, too brief to evaluate, or simply repeats the question." },
       ];
+}
+
+function ScoringRubric({ type }) {
+  const [open, setOpen] = useState(false);
+  const isECR = type.includes("Extended");
+  const rubric = getRubric(isECR);
 
   return (
     <div style={{ marginBottom: 14 }}>
@@ -2310,6 +2313,63 @@ function ScoringRubric({ type }) {
               </div>
             </div>
           ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Self-Rating Selector ──────────────────────────────────────────────────────
+// Shown after the model answer. Lets the student judge their OWN response
+// against the same rubric scale, before/separately from a parent's review.
+function SelfRating({ isECR, value, onChange }) {
+  const rubric = getRubric(isECR);
+  // Render highest score first (left-to-right reads best-to-worst, matches rubric display)
+  const ordered = [...rubric].reverse();
+
+  return (
+    <div style={{ marginTop: 16, paddingTop: 14, borderTop: "2px dashed #CBD5E0" }}>
+      <div style={{ fontWeight: 800, color: "#6C3483", fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>
+        🪞 Rate Your Own Response
+      </div>
+      <div style={{ fontSize: 12.5, color: "#7F8C8D", marginBottom: 10, lineHeight: 1.5 }}>
+        Now that you've read the model answer, look back at what you wrote. Using the rubric above, what score would you honestly give your own response?
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {ordered.map(r => {
+          const isSelected = value === r.score;
+          return (
+            <button
+              key={r.score}
+              onClick={() => onChange(r.score)}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                background: isSelected ? r.color : "#fff",
+                border: `2px solid ${r.color}`,
+                borderRadius: 10, padding: "8px 14px",
+                cursor: "pointer", transition: "all 0.15s ease",
+                boxShadow: isSelected ? `0 2px 8px ${r.color}66` : "none",
+              }}
+            >
+              <span style={{
+                background: isSelected ? "#fff" : r.color,
+                color: isSelected ? r.color : "#fff",
+                borderRadius: 5, width: 22, height: 22,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 900, fontSize: 12, flexShrink: 0,
+              }}>
+                {r.score}
+              </span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: isSelected ? "#fff" : r.color }}>
+                {r.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      {value !== null && value !== undefined && (
+        <div style={{ marginTop: 10, fontSize: 12, color: "#27AE60", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+          ✓ Self-rating saved — this will be included when you submit.
         </div>
       )}
     </div>
@@ -2390,7 +2450,7 @@ function useWritingTimer(isECR) {
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect }) {
+function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
@@ -2611,6 +2671,15 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
               </span>
             </div>
           )}
+
+          {/* Self-rating — appears once they've written something, BEFORE the model answer is ever shown */}
+          {(draftText || "").trim().length > 0 && (
+            <SelfRating
+              isECR={isECR}
+              value={selfRating}
+              onChange={(score) => onSelfRatingChange(index, score)}
+            />
+          )}
         </div>
       )}
 
@@ -2653,6 +2722,28 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
                   {q.explanation}
                 </p>
               </div>
+              {selfRating !== null && selfRating !== undefined && (
+                <div style={{
+                  marginTop: 14, paddingTop: 12, borderTop: "2px dashed #CBD5E0",
+                  display: "flex", alignItems: "center", gap: 10,
+                }}>
+                  <span style={{
+                    background: "#6C3483", color: "#fff", borderRadius: 8,
+                    width: 36, height: 36, display: "flex", alignItems: "center",
+                    justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0,
+                  }}>
+                    {selfRating}
+                  </span>
+                  <div>
+                    <div style={{ fontSize: 11, color: "#6C3483", fontWeight: 800, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                      🪞 Self-Rating (given before seeing this model answer)
+                    </div>
+                    <div style={{ fontSize: 12, color: "#7F8C8D" }}>
+                      Talk through with a parent whether this rating matches reality now that you've seen the model answer.
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -3182,6 +3273,7 @@ export default function App() {
   const [showPin, setShowPin] = useState(false);
   const [drafts, setDrafts] = useState({});
   const [selections, setSelections] = useState({});
+  const [selfRatings, setSelfRatings] = useState({});
   const [submitState, setSubmitState] = useState("idle");
   const [submitError, setSubmitError] = useState("");
   const [shuffled, setShuffled] = useState(false);
@@ -3208,6 +3300,7 @@ export default function App() {
     }
     setSelections({});
     setDrafts({});
+    setSelfRatings({});
     setSubmitState("idle");
   };
 
@@ -3221,6 +3314,10 @@ export default function App() {
   const handleSelect = (qIndex, optionIndex) => {
     setSelections(prev => ({ ...prev, [draftKey(qIndex)]: optionIndex }));
     setSubmitState("idle");
+  };
+
+  const handleSelfRatingChange = (qIndex, score) => {
+    setSelfRatings(prev => ({ ...prev, [draftKey(qIndex)]: score }));
   };
 
   // Track ALL questions for progress
@@ -3252,6 +3349,8 @@ export default function App() {
     const rows = displayedQuestions.map(({ q, origIdx }, displayIdx) => {
       const isWritten = isWrittenResponse(q.type);
       let answerText = "";
+      let isCorrect = ""; // "" = not applicable (written response), "✓" or "✗" for MC/Part A-B
+
       if (isWritten) {
         answerText = (drafts[draftKey(origIdx)] || "").trim();
       } else if (q.type.includes("Part A")) {
@@ -3266,11 +3365,34 @@ export default function App() {
           const aText = findOptText("Part A", sel.a);
           const bText = findOptText("Part B", sel.b);
           answerText = `Part A: ${sel.a ? `${sel.a}. ${aText}` : "—"} | Part B: ${sel.b ? `${sel.b}. ${bText}` : "—"}`;
+
+          // Correct answer is stored like "Part A: C | Part B: A" — compare letters directly
+          if (sel.a && sel.b) {
+            const correctMatch = q.answer.match(/Part A:\s*([A-D])\s*\|\s*Part B:\s*([A-D])/i);
+            if (correctMatch) {
+              const correctA = correctMatch[1].toUpperCase();
+              const correctB = correctMatch[2].toUpperCase();
+              isCorrect = (sel.a.toUpperCase() === correctA && sel.b.toUpperCase() === correctB) ? "✓" : "✗";
+            }
+          }
         }
       } else if (q.options.length > 0) {
         const sel = selections[draftKey(origIdx)];
-        if (sel !== undefined && sel !== null && q.options[sel]) answerText = q.options[sel];
+        if (sel !== undefined && sel !== null && q.options[sel]) {
+          answerText = q.options[sel];
+          // Standard MC: q.answer is just the letter (e.g. "C"). Compare against
+          // the letter prefix of the selected option text (e.g. "C. Some option text...")
+          const selectedLetter = answerText.match(/^([A-D])[.)]/i)?.[1]?.toUpperCase();
+          const correctLetter = (q.answer || "").trim().toUpperCase();
+          if (selectedLetter && correctLetter.length === 1) {
+            isCorrect = (selectedLetter === correctLetter) ? "✓" : "✗";
+          }
+        }
       }
+      const isECRq = q.type.includes("Extended");
+      const maxScore = isECRq ? 4 : 2;
+      const selfScore = isWritten ? (selfRatings[draftKey(origIdx)] ?? "") : "";
+
       return {
         timestamp,
         book: book.title,
@@ -3279,6 +3401,9 @@ export default function App() {
         skill: q.skill,
         question: q.question.slice(0, 300),
         answer: answerText,
+        correct_answer: isWritten ? "" : q.answer,
+        is_correct: isCorrect,
+        self_rating: selfScore !== "" ? `${selfScore} / ${maxScore}` : "",
       };
     });
 
@@ -3766,6 +3891,8 @@ export default function App() {
                       onDraftChange={(_, text) => handleDraftChange(origIdx, text)}
                       selectedOption={selections[draftKey(origIdx)] ?? null}
                       onSelect={(_, optIdx) => handleSelect(origIdx, optIdx)}
+                      selfRating={selfRatings[draftKey(origIdx)] ?? null}
+                      onSelfRatingChange={(_, score) => handleSelfRatingChange(origIdx, score)}
                     />
                   ))}
                 </div>
