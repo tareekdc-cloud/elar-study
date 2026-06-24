@@ -2403,7 +2403,7 @@ async function submitToSheet(payload) {
 }
 
 // ── Writing Timer Hook ────────────────────────────────────────────────────────
-function useWritingTimer(isECR) {
+function useWritingTimer(isECR, frozen) {
   const LIMIT_SECS = isECR ? 20 * 60 : 8 * 60; // 20 min ECR, 8 min SCR
 
   const [elapsed, setElapsed] = useState(0);
@@ -2411,7 +2411,7 @@ function useWritingTimer(isECR) {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (running) {
+    if (running && !frozen) {
       intervalRef.current = setInterval(() => {
         setElapsed(e => {
           if (e + 1 >= LIMIT_SECS) {
@@ -2423,9 +2423,9 @@ function useWritingTimer(isECR) {
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [running]);
+  }, [running, frozen]);
 
-  const startIfNotStarted = () => { if (!running) setRunning(true); };
+  const startIfNotStarted = () => { if (!running && !frozen) setRunning(true); };
 
   const remaining = LIMIT_SECS - elapsed;
   const expired = remaining <= 0;
@@ -2439,24 +2439,27 @@ function useWritingTimer(isECR) {
   if (remaining <= LIMIT_SECS * 0.25) color = "#E67E22";
   if (remaining <= 2 * 60) color = "#E74C3C";
   if (expired) color = "#7F8C8D";
+  if (frozen) color = "#27AE60";
 
-  const label = !running
+  const label = frozen
+    ? `✅ Submitted at ${display}`
+    : !running
     ? `⏱ ${isECR ? "20:00" : "8:00"}`
     : expired
     ? "🔒 Time's Up"
     : `⏱ ${display}`;
 
-  return { label, color, startIfNotStarted, running, expired };
+  return { label, color, startIfNotStarted, running, expired, frozen };
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange }) {
+function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, submitted }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
   const isECR = q.type.includes("Extended");
-  const timer = useWritingTimer(isECR);
+  const timer = useWritingTimer(isECR, submitted);
 
   // Re-lock: hide answers when parent locks
   const [prevUnlocked, setPrevUnlocked] = useState(unlocked);
@@ -2589,20 +2592,20 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
           {/* Draft textarea with timer */}
           <div style={{
             background: "#fff",
-            border: `2px solid ${timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border}`,
+            border: `2px solid ${timer.frozen ? "#27AE60" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border}`,
             borderRadius: 10, overflow: "hidden",
             transition: "border-color 0.3s ease",
-            opacity: timer.expired ? 0.85 : 1,
+            opacity: timer.expired && !timer.frozen ? 0.85 : 1,
           }}>
             {/* Textarea header with live timer */}
             <div style={{
-              background: timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border,
+              background: timer.frozen ? "#27AE60" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border,
               padding: "8px 14px", display: "flex", alignItems: "center", gap: 8,
               transition: "background 0.5s ease",
             }}>
-              <span style={{ fontSize: 14 }}>{timer.expired ? "🔒" : "✏️"}</span>
+              <span style={{ fontSize: 14 }}>{timer.frozen ? "✅" : timer.expired ? "🔒" : "✏️"}</span>
               <span style={{ color: "#fff", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                {timer.expired ? "Response Locked" : "Your Response"}
+                {timer.frozen ? "Submitted" : timer.expired ? "Response Locked" : "Your Response"}
               </span>
               <span style={{
                 marginLeft: "auto",
@@ -2611,14 +2614,27 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
                 fontWeight: 800,
                 fontFamily: "monospace",
                 letterSpacing: 1,
-                opacity: timer.running ? 1 : 0.7,
+                opacity: timer.running || timer.frozen ? 1 : 0.7,
               }}>
                 {timer.label}
               </span>
             </div>
 
-            {/* Locked banner */}
-            {timer.expired && (
+            {/* Submitted banner */}
+            {timer.frozen && (
+              <div style={{
+                background: "#EAFAF1", borderBottom: "1px solid #27AE60",
+                padding: "10px 14px", display: "flex", alignItems: "center", gap: 8,
+              }}>
+                <span style={{ fontSize: 16 }}>✅</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#1E8449" }}>
+                  This response has been submitted — the timer has stopped and the field is locked.
+                </span>
+              </div>
+            )}
+
+            {/* Locked banner (time ran out before submitting) */}
+            {timer.expired && !timer.frozen && (
               <div style={{
                 background: "#F2F3F4", borderBottom: "1px solid #BDC3C7",
                 padding: "10px 14px", display: "flex", alignItems: "center", gap: 8,
@@ -2632,9 +2648,9 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
 
             <textarea
               value={draftText || ""}
-              readOnly={timer.expired}
+              readOnly={timer.expired || timer.frozen}
               onChange={e => {
-                if (timer.expired) return;
+                if (timer.expired || timer.frozen) return;
                 onDraftChange(index, e.target.value);
                 timer.startIfNotStarted();
               }}
@@ -2644,11 +2660,11 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
               style={{
                 width: "100%", minHeight: isECR ? 220 : 140,
                 padding: "14px 16px", fontSize: 14, lineHeight: 1.7,
-                fontFamily: "'Georgia', serif", color: timer.expired ? "#888" : "#2C3E50",
-                border: "none", outline: "none", resize: timer.expired ? "none" : "vertical",
+                fontFamily: "'Georgia', serif", color: (timer.expired || timer.frozen) ? "#555" : "#2C3E50",
+                border: "none", outline: "none", resize: (timer.expired || timer.frozen) ? "none" : "vertical",
                 boxSizing: "border-box",
-                background: timer.expired ? "#F8F9FA" : "#fff",
-                cursor: timer.expired ? "not-allowed" : "text",
+                background: timer.frozen ? "#F7FDF9" : timer.expired ? "#F8F9FA" : "#fff",
+                cursor: (timer.expired || timer.frozen) ? "not-allowed" : "text",
               }}
             />
 
@@ -2664,7 +2680,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
           </div>
 
           {/* Timer hint — shown before timer starts */}
-          {!timer.running && !timer.expired && (
+          {!timer.running && !timer.expired && !timer.frozen && (
             <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 11, color: "#999" }}>
                 ⏱ Timer starts on first keystroke · {isECR ? "20 min" : "8 min"} · field locks when time is up
@@ -3893,6 +3909,7 @@ export default function App() {
                       onSelect={(_, optIdx) => handleSelect(origIdx, optIdx)}
                       selfRating={selfRatings[draftKey(origIdx)] ?? null}
                       onSelfRatingChange={(_, score) => handleSelfRatingChange(origIdx, score)}
+                      submitted={submitState === "done"}
                     />
                   ))}
                 </div>
