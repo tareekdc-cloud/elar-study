@@ -2259,9 +2259,8 @@ function ScoringRubric({ type }) {
 // Shown after the model answer. Lets the student judge their OWN response
 // against the same rubric scale, before/separately from a parent's review.
 function SelfRating({ isECR, value, onChange, whyValue, onWhyChange }) {
-  const rubric = getRubric(isECR);
-  // Render highest score first (left-to-right reads best-to-worst, matches rubric display)
-  const ordered = [...rubric].reverse();
+  const rubric = getRubric(isECR); // already highest score first, e.g. ["2","1","0"] for SCR
+  const ordered = rubric; // render highest score first, left-to-right reads best-to-worst
   const maxScore = ordered[0]?.score;
   const showWhy = value !== null && value !== undefined && value !== maxScore;
 
