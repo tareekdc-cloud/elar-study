@@ -2402,6 +2402,126 @@ async function submitToSheet(payload) {
   }
 }
 
+async function fetchSheetRows() {
+  if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return { ok: false, demo: true, rows: [] };
+  try {
+    const response = await fetch(SHEET_URL, { method: "GET" });
+    const result = await response.json();
+    if (!result.ok) return { ok: false, error: result.error, rows: [] };
+    return { ok: true, rows: result.rows || [] };
+  } catch (err) {
+    return { ok: false, error: err.message, rows: [] };
+  }
+}
+
+// ── Progress Dashboard Data Hook ──────────────────────────────────────────────
+// Fetches all submitted rows from the Sheet and computes the three headline metrics:
+// skill accuracy, self-rating accuracy, and overall streak/totals.
+function useProgressData() {
+  const [state, setState] = useState({ loading: true, error: null, rows: [] });
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchSheetRows().then(result => {
+      if (cancelled) return;
+      if (!result.ok) {
+        setState({ loading: false, error: result.demo ? "demo" : (result.error || "Couldn't load progress data."), rows: [] });
+      } else {
+        setState({ loading: false, error: null, rows: result.rows });
+      }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const metrics = (() => {
+    const { rows } = state;
+    if (!rows.length) {
+      return {
+        totalAnswered: 0, totalCorrect: 0, totalIncorrect: 0,
+        skillBreakdown: [], selfRatingAccuracy: null, streak: 0,
+        sessionDates: [], recentSessions: [],
+      };
+    }
+
+    // MC/Part A-B accuracy by skill
+    const skillMap = {}; // skill -> { correct, total }
+    let totalAnswered = 0, totalCorrect = 0, totalIncorrect = 0;
+
+    rows.forEach(r => {
+      const isCorrect = (r.is_correct || r["Is Correct"] || "").trim();
+      if (isCorrect === "✓" || isCorrect === "✗") {
+        totalAnswered++;
+        if (isCorrect === "✓") totalCorrect++; else totalIncorrect++;
+        const skill = r.skill || r["Skill"] || "Unknown";
+        if (!skillMap[skill]) skillMap[skill] = { correct: 0, total: 0 };
+        skillMap[skill].total++;
+        if (isCorrect === "✓") skillMap[skill].correct++;
+      }
+    });
+
+    const skillBreakdown = Object.entries(skillMap)
+      .map(([skill, v]) => ({ skill, correct: v.correct, total: v.total, pct: Math.round((v.correct / v.total) * 100) }))
+      .sort((a, b) => a.pct - b.pct); // weakest first
+
+    // Self-rating accuracy: compare self_rating ("2 / 2") against is_correct isn't directly comparable
+    // since self-rating only applies to written responses (no automatic correctness for those).
+    // Instead we track: did he rate himself at all, and what's his average self-score relative to max.
+    const selfRatedRows = rows.filter(r => {
+      const sr = (r.self_rating || r["Self Rating"] || "").trim();
+      return sr && sr.includes("/");
+    });
+    let selfRatingAccuracy = null;
+    if (selfRatedRows.length > 0) {
+      let totalPct = 0;
+      selfRatedRows.forEach(r => {
+        const sr = (r.self_rating || r["Self Rating"] || "").trim();
+        const [score, max] = sr.split("/").map(s => parseFloat(s.trim()));
+        if (!isNaN(score) && !isNaN(max) && max > 0) totalPct += (score / max) * 100;
+      });
+      selfRatingAccuracy = {
+        count: selfRatedRows.length,
+        avgPct: Math.round(totalPct / selfRatedRows.length),
+      };
+    }
+
+    // Streak: count distinct calendar days with at least one submission
+    const sessionDates = [...new Set(rows.map(r => {
+      const ts = r.timestamp || r["Timestamp"] || "";
+      const datePart = ts.split(",")[0]; // "6/29/2026, 3:45:00 PM" -> "6/29/2026"
+      return datePart;
+    }).filter(Boolean))].sort((a, b) => new Date(b) - new Date(a));
+
+    let streak = 0;
+    if (sessionDates.length > 0) {
+      streak = 1;
+      for (let i = 0; i < sessionDates.length - 1; i++) {
+        const d1 = new Date(sessionDates[i]);
+        const d2 = new Date(sessionDates[i + 1]);
+        const diffDays = Math.round((d1 - d2) / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) streak++;
+        else break;
+      }
+    }
+
+    // Recent sessions grouped by timestamp + book
+    const sessionMap = {};
+    rows.forEach(r => {
+      const ts = r.timestamp || r["Timestamp"] || "";
+      const bk = r.book || r["Book"] || "";
+      const key = `${ts}__${bk}`;
+      if (!sessionMap[key]) sessionMap[key] = { timestamp: ts, book: bk, count: 0 };
+      sessionMap[key].count++;
+    });
+    const recentSessions = Object.values(sessionMap)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, 8);
+
+    return { totalAnswered, totalCorrect, totalIncorrect, skillBreakdown, selfRatingAccuracy, streak, sessionDates, recentSessions };
+  })();
+
+  return { ...state, metrics };
+}
+
 // ── Writing Timer Hook ────────────────────────────────────────────────────────
 function useWritingTimer(isECR, frozen) {
   const LIMIT_SECS = isECR ? 20 * 60 : 8 * 60; // 20 min ECR, 8 min SCR
@@ -2780,7 +2900,7 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "0305";
+const CORRECT_PIN = "8959";
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
@@ -3097,28 +3217,202 @@ function FlashcardTab({ book }) {
   );
 }
 
+// ── Progress Dashboard ────────────────────────────────────────────────────────
+function ProgressDashboard() {
+  const { loading, error, metrics } = useProgressData();
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>⏳</div>
+        <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 15 }}>Loading your progress...</div>
+      </div>
+    );
+  }
+
+  if (error === "demo") {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 480, margin: "0 auto" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>📊</div>
+        <div style={{ color: "#fff", fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Progress tracking isn't set up yet</div>
+        <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, lineHeight: 1.6 }}>Once the Google Sheet connection is configured, your progress across all books will show up here.</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 480, margin: "0 auto" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>⚠️</div>
+        <div style={{ color: "#fff", fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Couldn't load progress</div>
+        <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, lineHeight: 1.6 }}>{error}</div>
+      </div>
+    );
+  }
+
+  const { totalAnswered, totalCorrect, skillBreakdown, selfRatingAccuracy, streak, recentSessions } = metrics;
+
+  if (totalAnswered === 0 && !selfRatingAccuracy) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 480, margin: "0 auto" }}>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>🌱</div>
+        <div style={{ color: "#fff", fontSize: 18, fontWeight: 800, marginBottom: 8 }}>No submissions yet</div>
+        <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, lineHeight: 1.6 }}>
+          Once you complete and submit a book's questions, your progress will show up here — including which skills you're strongest at and how your self-ratings compare over time.
+        </div>
+      </div>
+    );
+  }
+
+  const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* Top stat row */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
+        <StatCard emoji="🔥" label="Day Streak" value={streak} sub={streak === 1 ? "day practiced" : "days in a row"} color="#E67E22" />
+        <StatCard emoji="✅" label="Questions Answered" value={totalAnswered} sub="multiple choice & part A/B" color="#27AE60" />
+        {overallPct !== null && (
+          <StatCard emoji="🎯" label="Overall Accuracy" value={`${overallPct}%`} sub={`${totalCorrect} of ${totalAnswered} correct`} color={overallPct >= 70 ? "#27AE60" : overallPct >= 50 ? "#F39C12" : "#E74C3C"} />
+        )}
+        {selfRatingAccuracy && (
+          <StatCard emoji="🪞" label="Self-Rating Avg" value={`${selfRatingAccuracy.avgPct}%`} sub={`across ${selfRatingAccuracy.count} written response${selfRatingAccuracy.count !== 1 ? "s" : ""}`} color="#6C3483" />
+        )}
+      </div>
+
+      {/* Skill breakdown */}
+      {skillBreakdown.length > 0 && (
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 800, marginBottom: 14 }}>
+            📚 Accuracy by Skill
+          </h3>
+          <div style={{ display: "grid", gap: 10 }}>
+            {skillBreakdown.map(s => (
+              <div key={s.skill} style={{
+                background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 18px",
+                border: `1px solid ${s.pct >= 70 ? "#27AE6044" : s.pct >= 50 ? "#F39C1244" : "#E74C3C44"}`,
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                  <span style={{ color: "#fff", fontSize: 13.5, fontWeight: 700 }}>{s.skill}</span>
+                  <span style={{ color: s.pct >= 70 ? "#27AE60" : s.pct >= 50 ? "#F39C12" : "#E74C3C", fontSize: 13, fontWeight: 800 }}>
+                    {s.correct}/{s.total} · {s.pct}%
+                  </span>
+                </div>
+                <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 6, height: 7 }}>
+                  <div style={{
+                    height: "100%", borderRadius: 6, width: `${s.pct}%`, transition: "width 0.4s ease",
+                    background: s.pct >= 70 ? "#27AE60" : s.pct >= 50 ? "#F39C12" : "#E74C3C",
+                  }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          {skillBreakdown[0] && skillBreakdown[0].pct < 70 && (
+            <div style={{
+              marginTop: 14, background: "rgba(231,76,60,0.1)", border: "1px solid rgba(231,76,60,0.3)",
+              borderRadius: 10, padding: "12px 16px", fontSize: 13, color: "#FFB4A8", lineHeight: 1.55,
+            }}>
+              💡 <strong>{skillBreakdown[0].skill}</strong> is your biggest growth area right now ({skillBreakdown[0].pct}% accuracy). Worth extra focus next session.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Recent sessions */}
+      {recentSessions.length > 0 && (
+        <div>
+          <h3 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 800, marginBottom: 14 }}>
+            🕐 Recent Activity
+          </h3>
+          <div style={{ display: "grid", gap: 8 }}>
+            {recentSessions.map((s, i) => (
+              <div key={i} style={{
+                background: "rgba(255,255,255,0.04)", borderRadius: 8, padding: "10px 16px",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+              }}>
+                <span style={{ color: "#fff", fontSize: 13, fontWeight: 600 }}>{s.book}</span>
+                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 12 }}>{s.count} questions · {s.timestamp}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatCard({ emoji, label, value, sub, color }) {
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.04)", border: `1px solid ${color}44`,
+      borderRadius: 14, padding: "20px 18px", textAlign: "center",
+    }}>
+      <div style={{ fontSize: 26, marginBottom: 6 }}>{emoji}</div>
+      <div style={{ fontSize: 28, fontWeight: 900, color, fontFamily: "'Georgia', serif", marginBottom: 2 }}>{value}</div>
+      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>{label}</div>
+      <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 4 }}>{sub}</div>
+    </div>
+  );
+}
+
 // ── Book Grid Card ────────────────────────────────────────────────────────────
+// ── Cover URL Cache (localStorage, 7-day expiry) ──────────────────────────────
+const COVER_CACHE_PREFIX = "elar_cover_";
+const COVER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+function getCachedCover(isbn) {
+  try {
+    const raw = localStorage.getItem(COVER_CACHE_PREFIX + isbn);
+    if (!raw) return undefined; // no cache entry at all — need to fetch
+    const { url, ts } = JSON.parse(raw);
+    if (Date.now() - ts > COVER_CACHE_TTL_MS) return undefined; // expired — re-fetch
+    return url; // may be null (cached "no cover found") or a real URL string
+  } catch {
+    return undefined;
+  }
+}
+
+function setCachedCover(isbn, url) {
+  try {
+    localStorage.setItem(COVER_CACHE_PREFIX + isbn, JSON.stringify({ url, ts: Date.now() }));
+  } catch {
+    // localStorage full or unavailable — fail silently, just means no caching this session
+  }
+}
+
 function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   const [hovered, setHovered] = useState(false);
   const [googleUrl, setGoogleUrl] = useState(null);
   const [googleChecked, setGoogleChecked] = useState(false);
   const [openLibFailed, setOpenLibFailed] = useState(false);
 
-  // On mount, query Google Books Volumes API for a real thumbnail URL
+  // On mount, check localStorage cache first. Only hit the Google Books API on a cache miss.
   useEffect(() => {
     let cancelled = false;
+
+    const cached = getCachedCover(book.isbn);
+    if (cached !== undefined) {
+      // Cache hit (even if cached value is null, meaning "we already know there's no cover")
+      setGoogleUrl(cached || null);
+      setGoogleChecked(true);
+      return;
+    }
+
     fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${book.isbn}`)
       .then(res => res.ok ? res.json() : null)
       .then(data => {
         if (cancelled) return;
         const thumb = data?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail
           || data?.items?.[0]?.volumeInfo?.imageLinks?.smallThumbnail;
-        if (thumb) {
-          setGoogleUrl(thumb.replace("http://", "https://").replace("zoom=1", "zoom=2"));
-        }
+        const resolved = thumb ? thumb.replace("http://", "https://").replace("zoom=1", "zoom=2") : null;
+        setGoogleUrl(resolved);
         setGoogleChecked(true);
+        setCachedCover(book.isbn, resolved); // cache the result either way, so we don't re-hit the API on next load
       })
-      .catch(() => { if (!cancelled) setGoogleChecked(true); });
+      .catch(() => {
+        if (!cancelled) setGoogleChecked(true);
+        // Don't cache network failures — worth retrying next load
+      });
     return () => { cancelled = true; };
   }, [book.isbn]);
 
@@ -3282,14 +3576,62 @@ function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   );
 }
 
+// ── Draft/Selection Persistence (localStorage) ────────────────────────────────
+// Keeps in-progress answers safe across refresh, tab crash, or accidental back button.
+// Keyed globally (not per-book) since draftKey() already namespaces by book.id.
+const PROGRESS_STORAGE_KEY = "elar_progress_v1";
+
+function loadProgress() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY) || "{}");
+    return {
+      drafts: raw.drafts || {},
+      selections: raw.selections || {},
+      selfRatings: raw.selfRatings || {},
+    };
+  } catch {
+    return { drafts: {}, selections: {}, selfRatings: {} };
+  }
+}
+
+function saveProgress(drafts, selections, selfRatings) {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ drafts, selections, selfRatings }));
+  } catch {
+    // Storage full or unavailable — fail silently, in-memory state still works for this session
+  }
+}
+
+// Remove all stored keys belonging to a specific book (called after successful submit)
+function clearProgressForBook(bookId, drafts, selections, selfRatings) {
+  const prefix = `${bookId}-`;
+  const filterOut = (obj) => {
+    const next = {};
+    for (const k in obj) {
+      if (!k.startsWith(prefix)) next[k] = obj[k];
+    }
+    return next;
+  };
+  const newDrafts = filterOut(drafts);
+  const newSelections = filterOut(selections);
+  const newSelfRatings = filterOut(selfRatings);
+  saveProgress(newDrafts, newSelections, newSelfRatings);
+  return { newDrafts, newSelections, newSelfRatings };
+}
+
 export default function App() {
   const [activeBook, setActiveBook] = useState(0);
   const [activeTab, setActiveTab] = useState("summary");
   const [unlocked, setUnlocked] = useState(false);
   const [showPin, setShowPin] = useState(false);
-  const [drafts, setDrafts] = useState({});
-  const [selections, setSelections] = useState({});
-  const [selfRatings, setSelfRatings] = useState({});
+  const [drafts, setDrafts] = useState(() => loadProgress().drafts);
+  const [selections, setSelections] = useState(() => loadProgress().selections);
+  const [selfRatings, setSelfRatings] = useState(() => loadProgress().selfRatings);
+  const [restoredNotice, setRestoredNotice] = useState(() => {
+    const { drafts, selections } = loadProgress();
+    return Object.keys(drafts).length > 0 || Object.keys(selections).length > 0;
+  });
+  const [topView, setTopView] = useState("books"); // "books" | "progress"
   const [submitState, setSubmitState] = useState("idle");
   const [submitError, setSubmitError] = useState("");
   const [shuffled, setShuffled] = useState(false);
@@ -3298,6 +3640,11 @@ export default function App() {
     try { return JSON.parse(localStorage.getItem("elar_sessions") || "[]"); } catch { return []; }
   });
   const book = books[activeBook];
+
+  // Auto-save drafts/selections/self-ratings to localStorage on every change
+  useEffect(() => {
+    saveProgress(drafts, selections, selfRatings);
+  }, [drafts, selections, selfRatings]);
 
   // Derive displayed question list (shuffled or original)
   const displayedQuestions = (() => {
@@ -3314,9 +3661,10 @@ export default function App() {
       setQuestionOrder(null);
       setShuffled(false);
     }
-    setSelections({});
-    setDrafts({});
-    setSelfRatings({});
+    const { newDrafts, newSelections, newSelfRatings } = clearProgressForBook(book.id, drafts, selections, selfRatings);
+    setDrafts(newDrafts);
+    setSelections(newSelections);
+    setSelfRatings(newSelfRatings);
     setSubmitState("idle");
   };
 
@@ -3442,6 +3790,12 @@ export default function App() {
       const updated = [session, ...sessionHistory].slice(0, 50);
       setSessionHistory(updated);
       try { localStorage.setItem("elar_sessions", JSON.stringify(updated)); } catch {}
+
+      // Clear this book's saved drafts/selections/self-ratings now that they're safely submitted
+      const { newDrafts, newSelections, newSelfRatings } = clearProgressForBook(book.id, drafts, selections, selfRatings);
+      setDrafts(newDrafts);
+      setSelections(newSelections);
+      setSelfRatings(newSelfRatings);
     }
   };
 
@@ -3450,8 +3804,6 @@ export default function App() {
     setActiveTab("summary");
     setShuffled(false);
     setQuestionOrder(null);
-    setDrafts({});
-    setSelections({});
     setSubmitState("idle");
     setTimeout(() => {
       document.getElementById("book-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -3512,6 +3864,28 @@ export default function App() {
             ))}
           </div>
 
+          {/* Top-level view toggle */}
+          <div style={{ display: "flex", background: "rgba(255,255,255,0.06)", borderRadius: 10, padding: 4, gap: 4 }}>
+            {[
+              { id: "books", label: "📚 Books" },
+              { id: "progress", label: "📊 My Progress" },
+            ].map(v => (
+              <button
+                key={v.id}
+                onClick={() => setTopView(v.id)}
+                style={{
+                  background: topView === v.id ? "rgba(255,255,255,0.12)" : "none",
+                  color: topView === v.id ? "#fff" : "rgba(255,255,255,0.5)",
+                  border: "none", borderRadius: 7, padding: "7px 14px",
+                  fontSize: 12, fontWeight: 700, cursor: "pointer", transition: "all 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+
           {/* Lock control */}
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {unlocked ? (
@@ -3545,6 +3919,8 @@ export default function App() {
         </div>
       </header>
 
+      {topView === "books" ? (
+        <>
       {/* ── Book Grid ── */}
       <section style={{ padding: "40px 40px 32px" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -3867,6 +4243,21 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+                {restoredNotice && (
+                  <div style={{
+                    background: "#EAFAF1", border: "1px solid #27AE60", borderRadius: 10,
+                    padding: "10px 18px", fontSize: 13, color: "#1E8449", lineHeight: 1.6, marginBottom: 12,
+                    display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
+                  }}>
+                    <span>💾 <strong>Your previous answers were restored</strong> — anything you typed or selected before is still here.</span>
+                    <button
+                      onClick={() => setRestoredNotice(false)}
+                      style={{ background: "none", border: "none", color: "#1E8449", fontSize: 16, fontWeight: 800, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
                 <div style={{
                   background: "#EBF5FB", border: "1px solid #AED6F1", borderRadius: 10,
                   padding: "12px 18px", fontSize: 13, color: "#1A5276", lineHeight: 1.6, marginBottom: 24,
@@ -4005,6 +4396,21 @@ export default function App() {
           </div>
         </div>
       </main>
+        </>
+      ) : (
+        /* ── My Progress View ── */
+        <section style={{ padding: "40px 40px 80px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto", marginBottom: 28 }}>
+            <h2 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 22, fontWeight: 800, margin: 0 }}>
+              📊 My Progress
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginTop: 6 }}>
+              How you're doing across all books, all sessions — pulled live from the review sheet.
+            </p>
+          </div>
+          <ProgressDashboard />
+        </section>
+      )}
 
       {/* Footer */}
       <div style={{ textAlign: "center", paddingBottom: 32, color: "rgba(255,255,255,0.25)", fontSize: 11 }}>
