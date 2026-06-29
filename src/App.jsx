@@ -2322,10 +2322,19 @@ function ScoringRubric({ type }) {
 // ── Self-Rating Selector ──────────────────────────────────────────────────────
 // Shown after the model answer. Lets the student judge their OWN response
 // against the same rubric scale, before/separately from a parent's review.
-function SelfRating({ isECR, value, onChange }) {
+function SelfRating({ isECR, value, onChange, whyValue, onWhyChange }) {
   const rubric = getRubric(isECR);
   // Render highest score first (left-to-right reads best-to-worst, matches rubric display)
   const ordered = [...rubric].reverse();
+  const maxScore = ordered[0]?.score;
+  const showWhy = value !== null && value !== undefined && value !== maxScore;
+
+  const whyOptions = [
+    { id: "claim", emoji: "🎯", label: "Making a clear claim" },
+    { id: "evidence", emoji: "📖", label: "Finding the right evidence" },
+    { id: "explanation", emoji: "💡", label: "Explaining how the evidence connects" },
+    { id: "time", emoji: "⏱", label: "Running out of time" },
+  ];
 
   return (
     <div style={{ marginTop: 16, paddingTop: 14, borderTop: "2px dashed #CBD5E0" }}>
@@ -2333,7 +2342,7 @@ function SelfRating({ isECR, value, onChange }) {
         🪞 Rate Your Own Response
       </div>
       <div style={{ fontSize: 12.5, color: "#7F8C8D", marginBottom: 10, lineHeight: 1.5 }}>
-        Now that you've read the model answer, look back at what you wrote. Using the rubric above, what score would you honestly give your own response?
+        Before you see the model answer, look back at what you just wrote. Using the rubric above, what score would you honestly give your own response?
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {ordered.map(r => {
@@ -2370,6 +2379,38 @@ function SelfRating({ isECR, value, onChange }) {
       {value !== null && value !== undefined && (
         <div style={{ marginTop: 10, fontSize: 12, color: "#27AE60", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
           ✓ Self-rating saved — this will be included when you submit.
+        </div>
+      )}
+
+      {/* Diagnostic follow-up — only shown when he didn't rate himself at the max */}
+      {showWhy && (
+        <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid #E8DAEF" }}>
+          <div style={{ fontWeight: 800, color: "#6C3483", fontSize: 11.5, marginBottom: 8 }}>
+            What was the hardest part for you on this one?
+          </div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {whyOptions.map(opt => {
+              const isSelected = whyValue === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => onWhyChange(isSelected ? null : opt.id)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 6,
+                    background: isSelected ? "#6C3483" : "#fff",
+                    border: "1.5px solid #6C3483",
+                    borderRadius: 8, padding: "6px 12px",
+                    cursor: "pointer", transition: "all 0.15s ease",
+                    fontSize: 11.5, fontWeight: 700,
+                    color: isSelected ? "#fff" : "#6C3483",
+                  }}
+                >
+                  <span>{opt.emoji}</span>
+                  <span>{opt.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
@@ -2439,7 +2480,7 @@ function useProgressData() {
       return {
         totalAnswered: 0, totalCorrect: 0, totalIncorrect: 0,
         skillBreakdown: [], selfRatingAccuracy: null, streak: 0,
-        sessionDates: [], recentSessions: [],
+        sessionDates: [], recentSessions: [], attemptHistory: [],
       };
     }
 
@@ -2516,7 +2557,43 @@ function useProgressData() {
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       .slice(0, 8);
 
-    return { totalAnswered, totalCorrect, totalIncorrect, skillBreakdown, selfRatingAccuracy, streak, sessionDates, recentSessions };
+    // Written response attempt history: group by book + question number + type.
+    // Only questions attempted MORE THAN ONCE are interesting here — a single
+    // attempt isn't "history," it's just the answer.
+    const writtenTypes = ["Short Constructed Response", "Extended Constructed Response"];
+    const attemptMap = {};
+    rows.forEach(r => {
+      const qType = r.question_type || r["Question Type"] || "";
+      if (!writtenTypes.some(t => qType.includes(t))) return;
+      const bk = r.book || r["Book"] || "";
+      const qNum = r.question_number || r["Question #"] || "";
+      const key = `${bk}__${qNum}`;
+      if (!attemptMap[key]) {
+        attemptMap[key] = {
+          book: bk,
+          questionNumber: qNum,
+          questionType: qType,
+          skill: r.skill || r["Skill"] || "",
+          questionText: r.question || r["Question"] || "",
+          attempts: [],
+        };
+      }
+      attemptMap[key].attempts.push({
+        timestamp: r.timestamp || r["Timestamp"] || "",
+        answer: r.answer || r["Answer"] || "",
+        selfRating: r.self_rating || r["Self Rating"] || "",
+      });
+    });
+
+    const attemptHistory = Object.values(attemptMap)
+      .filter(group => group.attempts.length >= 2)
+      .map(group => ({
+        ...group,
+        attempts: group.attempts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)), // oldest first, so attempt 1 reads first
+      }))
+      .sort((a, b) => new Date(b.attempts[b.attempts.length - 1].timestamp) - new Date(a.attempts[a.attempts.length - 1].timestamp)); // most recently retried first
+
+    return { totalAnswered, totalCorrect, totalIncorrect, skillBreakdown, selfRatingAccuracy, streak, sessionDates, recentSessions, attemptHistory };
   })();
 
   return { ...state, metrics };
@@ -2573,13 +2650,23 @@ function useWritingTimer(isECR, frozen) {
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, submitted }) {
+function QuestionCard({ q, index, bookColor, bookId, bookTitle, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
   const isECR = q.type.includes("Extended");
   const timer = useWritingTimer(isECR, submitted);
+
+  // Check if this is a Vocabulary in Context question testing a word the student
+  // marked "Still Learning" in the Vocab Flashcards tab for this book.
+  const isStillLearningWord = (() => {
+    if (q.type !== "Vocabulary in Context") return false;
+    const word = extractVocabWord(q.question);
+    if (!word) return false;
+    const learningWords = loadFlashcardLearning()[bookId] || [];
+    return learningWords.includes(word);
+  })();
 
   // Re-lock: hide answers when parent locks
   const [prevUnlocked, setPrevUnlocked] = useState(unlocked);
@@ -2613,6 +2700,11 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
           {isWritten && (
             <span style={{ background: "#8E44AD", color: "#fff", borderRadius: 20, padding: "3px 10px", fontSize: 11, fontWeight: 700 }}>
               ✏️ Written Response
+            </span>
+          )}
+          {isStillLearningWord && (
+            <span style={{ background: "#F39C12", color: "#fff", borderRadius: 20, padding: "3px 10px", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
+              📌 You marked this word "still learning"
             </span>
           )}
         </div>
@@ -2814,6 +2906,8 @@ function QuestionCard({ q, index, bookColor, bookTitle, unlocked, draftText, onD
               isECR={isECR}
               value={selfRating}
               onChange={(score) => onSelfRatingChange(index, score)}
+              whyValue={selfRatingWhy}
+              onWhyChange={(why) => onSelfRatingWhyChange(index, why)}
             />
           )}
         </div>
@@ -3038,9 +3132,23 @@ function FlashcardTab({ book }) {
   const [flipped, setFlipped] = useState(false);
   const [mode, setMode] = useState("word"); // "word" | "sentence"
   const [known, setKnown] = useState(new Set());
-  const [learning, setLearning] = useState(new Set());
+  const [learning, setLearning] = useState(() => {
+    // Restore "still learning" words for this specific book from localStorage
+    const stored = loadFlashcardLearning()[book.id] || [];
+    const indices = stored
+      .map(word => book.vocab.findIndex(v => v.word.toLowerCase() === word))
+      .filter(i => i !== -1);
+    return new Set(indices);
+  });
   const [order, setOrder] = useState(() => book.vocab.map((_, i) => i));
   const [filterMode, setFilterMode] = useState("all");
+
+  // Persist "still learning" words (by word text, not index, so it survives reshuffling/reordering)
+  useEffect(() => {
+    const allLearning = loadFlashcardLearning();
+    allLearning[book.id] = [...learning].map(i => book.vocab[i]?.word.toLowerCase()).filter(Boolean);
+    saveFlashcardLearning(allLearning);
+  }, [learning, book.id]);
 
   const visibleOrder = filterMode === "learning"
     ? order.filter(i => learning.has(i))
@@ -3250,9 +3358,9 @@ function ProgressDashboard() {
     );
   }
 
-  const { totalAnswered, totalCorrect, skillBreakdown, selfRatingAccuracy, streak, recentSessions } = metrics;
+  const { totalAnswered, totalCorrect, skillBreakdown, selfRatingAccuracy, streak, recentSessions, attemptHistory } = metrics;
 
-  if (totalAnswered === 0 && !selfRatingAccuracy) {
+  if (totalAnswered === 0 && !selfRatingAccuracy && attemptHistory.length === 0) {
     return (
       <div style={{ textAlign: "center", padding: "80px 20px", maxWidth: 480, margin: "0 auto" }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>🌱</div>
@@ -3318,6 +3426,23 @@ function ProgressDashboard() {
         </div>
       )}
 
+      {/* Attempt history — only shown when a written response was retried */}
+      {attemptHistory.length > 0 && (
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 800, marginBottom: 6 }}>
+            🔁 Retry Growth
+          </h3>
+          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 12.5, marginBottom: 14, lineHeight: 1.5 }}>
+            Questions you've attempted more than once — the clearest signal of whether you're actually improving on the same skill.
+          </p>
+          <div style={{ display: "grid", gap: 12 }}>
+            {attemptHistory.map((group, i) => (
+              <AttemptHistoryCard key={i} group={group} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Recent sessions */}
       {recentSessions.length > 0 && (
         <div>
@@ -3351,6 +3476,72 @@ function StatCard({ emoji, label, value, sub, color }) {
       <div style={{ fontSize: 28, fontWeight: 900, color, fontFamily: "'Georgia', serif", marginBottom: 2 }}>{value}</div>
       <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>{label}</div>
       <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 4 }}>{sub}</div>
+    </div>
+  );
+}
+
+function AttemptHistoryCard({ group }) {
+  const [expanded, setExpanded] = useState(false);
+  const isECR = group.questionType.includes("Extended");
+  const latest = group.attempts[group.attempts.length - 1];
+  const first = group.attempts[0];
+
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 12, overflow: "hidden",
+    }}>
+      <div
+        onClick={() => setExpanded(e => !e)}
+        style={{ padding: "14px 18px", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
+      >
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 4, flexWrap: "wrap" }}>
+            <span style={{ background: isECR ? "#E74C3C" : "#27AE60", color: "#fff", borderRadius: 5, padding: "2px 8px", fontSize: 10, fontWeight: 800 }}>
+              {isECR ? "ECR" : "SCR"}
+            </span>
+            <span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>{group.book} · Q{group.questionNumber}</span>
+            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>{group.skill}</span>
+          </div>
+          <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>
+            {group.attempts.length} attempts{first.selfRating ? ` · started at ${first.selfRating}` : ""}{first.selfRating && latest.selfRating ? " → " : ""}{latest.selfRating ? `now ${latest.selfRating}` : ""}
+          </div>
+        </div>
+        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 18, flexShrink: 0 }}>{expanded ? "▲" : "▼"}</span>
+      </div>
+
+      {expanded && (
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "14px 18px" }}>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 12, fontStyle: "italic" }}>
+            {group.questionText}
+          </div>
+          <div style={{ display: "grid", gap: 12 }}>
+            {group.attempts.map((a, i) => (
+              <div key={i} style={{
+                background: "rgba(255,255,255,0.04)", borderRadius: 8, padding: "12px 14px",
+                borderLeft: `3px solid ${i === group.attempts.length - 1 ? "#27AE60" : "rgba(255,255,255,0.2)"}`,
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, flexWrap: "wrap", gap: 6 }}>
+                  <span style={{ color: "#fff", fontSize: 12, fontWeight: 800 }}>
+                    Attempt {i + 1}{i === group.attempts.length - 1 ? " (most recent)" : ""}
+                  </span>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    {a.selfRating && (
+                      <span style={{ background: "#6C3483", color: "#fff", borderRadius: 5, padding: "1px 8px", fontSize: 11, fontWeight: 700 }}>
+                        🪞 {a.selfRating}
+                      </span>
+                    )}
+                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 11 }}>{a.timestamp}</span>
+                  </div>
+                </div>
+                <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 12.5, lineHeight: 1.6, fontFamily: "'Georgia', serif" }}>
+                  {a.answer || <em style={{ color: "rgba(255,255,255,0.3)" }}>No response recorded</em>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -3588,22 +3779,23 @@ function loadProgress() {
       drafts: raw.drafts || {},
       selections: raw.selections || {},
       selfRatings: raw.selfRatings || {},
+      selfRatingWhy: raw.selfRatingWhy || {},
     };
   } catch {
-    return { drafts: {}, selections: {}, selfRatings: {} };
+    return { drafts: {}, selections: {}, selfRatings: {}, selfRatingWhy: {} };
   }
 }
 
-function saveProgress(drafts, selections, selfRatings) {
+function saveProgress(drafts, selections, selfRatings, selfRatingWhy) {
   try {
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ drafts, selections, selfRatings }));
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ drafts, selections, selfRatings, selfRatingWhy }));
   } catch {
     // Storage full or unavailable — fail silently, in-memory state still works for this session
   }
 }
 
 // Remove all stored keys belonging to a specific book (called after successful submit)
-function clearProgressForBook(bookId, drafts, selections, selfRatings) {
+function clearProgressForBook(bookId, drafts, selections, selfRatings, selfRatingWhy) {
   const prefix = `${bookId}-`;
   const filterOut = (obj) => {
     const next = {};
@@ -3615,8 +3807,38 @@ function clearProgressForBook(bookId, drafts, selections, selfRatings) {
   const newDrafts = filterOut(drafts);
   const newSelections = filterOut(selections);
   const newSelfRatings = filterOut(selfRatings);
-  saveProgress(newDrafts, newSelections, newSelfRatings);
-  return { newDrafts, newSelections, newSelfRatings };
+  const newSelfRatingWhy = filterOut(selfRatingWhy || {});
+  saveProgress(newDrafts, newSelections, newSelfRatings, newSelfRatingWhy);
+  return { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy };
+}
+
+// ── Flashcard "Still Learning" Persistence ────────────────────────────────────
+// Connects the Vocab Flashcards tab to Practice Questions: words marked
+// "Still Learning" in flashcards get flagged on matching Vocabulary in Context
+// questions, so the two parts of the app share memory instead of being islands.
+const FLASHCARD_LEARNING_KEY = "elar_flashcard_learning_v1";
+
+function loadFlashcardLearning() {
+  try {
+    return JSON.parse(localStorage.getItem(FLASHCARD_LEARNING_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveFlashcardLearning(data) {
+  try {
+    localStorage.setItem(FLASHCARD_LEARNING_KEY, JSON.stringify(data));
+  } catch {
+    // fail silently
+  }
+}
+
+// Extract the word being tested from a Vocabulary in Context question's text.
+// These questions always wrap the target word in single quotes, e.g. "...as 'tenacious' in the way..."
+function extractVocabWord(questionText) {
+  const match = questionText.match(/'([a-zA-Z]+)'/);
+  return match ? match[1].toLowerCase() : null;
 }
 
 export default function App() {
@@ -3627,6 +3849,7 @@ export default function App() {
   const [drafts, setDrafts] = useState(() => loadProgress().drafts);
   const [selections, setSelections] = useState(() => loadProgress().selections);
   const [selfRatings, setSelfRatings] = useState(() => loadProgress().selfRatings);
+  const [selfRatingWhy, setSelfRatingWhy] = useState(() => loadProgress().selfRatingWhy);
   const [restoredNotice, setRestoredNotice] = useState(() => {
     const { drafts, selections } = loadProgress();
     return Object.keys(drafts).length > 0 || Object.keys(selections).length > 0;
@@ -3643,8 +3866,8 @@ export default function App() {
 
   // Auto-save drafts/selections/self-ratings to localStorage on every change
   useEffect(() => {
-    saveProgress(drafts, selections, selfRatings);
-  }, [drafts, selections, selfRatings]);
+    saveProgress(drafts, selections, selfRatings, selfRatingWhy);
+  }, [drafts, selections, selfRatings, selfRatingWhy]);
 
   // Derive displayed question list (shuffled or original)
   const displayedQuestions = (() => {
@@ -3661,10 +3884,11 @@ export default function App() {
       setQuestionOrder(null);
       setShuffled(false);
     }
-    const { newDrafts, newSelections, newSelfRatings } = clearProgressForBook(book.id, drafts, selections, selfRatings);
+    const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(book.id, drafts, selections, selfRatings, selfRatingWhy);
     setDrafts(newDrafts);
     setSelections(newSelections);
     setSelfRatings(newSelfRatings);
+    setSelfRatingWhy(newSelfRatingWhy);
     setSubmitState("idle");
   };
 
@@ -3682,6 +3906,10 @@ export default function App() {
 
   const handleSelfRatingChange = (qIndex, score) => {
     setSelfRatings(prev => ({ ...prev, [draftKey(qIndex)]: score }));
+  };
+
+  const handleSelfRatingWhyChange = (qIndex, why) => {
+    setSelfRatingWhy(prev => ({ ...prev, [draftKey(qIndex)]: why }));
   };
 
   // Track ALL questions for progress
@@ -3756,6 +3984,8 @@ export default function App() {
       const isECRq = q.type.includes("Extended");
       const maxScore = isECRq ? 4 : 2;
       const selfScore = isWritten ? (selfRatings[draftKey(origIdx)] ?? "") : "";
+      const whyLabel = { claim: "Making a claim", evidence: "Finding evidence", explanation: "Explaining evidence", time: "Running out of time" };
+      const selfWhy = isWritten ? (whyLabel[selfRatingWhy[draftKey(origIdx)]] || "") : "";
 
       return {
         timestamp,
@@ -3768,6 +3998,7 @@ export default function App() {
         correct_answer: isWritten ? "" : q.answer,
         is_correct: isCorrect,
         self_rating: selfScore !== "" ? `${selfScore} / ${maxScore}` : "",
+        self_rating_why: selfWhy,
       };
     });
 
@@ -3792,10 +4023,11 @@ export default function App() {
       try { localStorage.setItem("elar_sessions", JSON.stringify(updated)); } catch {}
 
       // Clear this book's saved drafts/selections/self-ratings now that they're safely submitted
-      const { newDrafts, newSelections, newSelfRatings } = clearProgressForBook(book.id, drafts, selections, selfRatings);
+      const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(book.id, drafts, selections, selfRatings, selfRatingWhy);
       setDrafts(newDrafts);
       setSelections(newSelections);
       setSelfRatings(newSelfRatings);
+      setSelfRatingWhy(newSelfRatingWhy);
     }
   };
 
@@ -4292,6 +4524,7 @@ export default function App() {
                       q={q}
                       index={displayIdx}
                       bookColor={book.color}
+                      bookId={book.id}
                       bookTitle={book.title}
                       unlocked={unlocked}
                       draftText={drafts[draftKey(origIdx)] || ""}
@@ -4300,6 +4533,8 @@ export default function App() {
                       onSelect={(_, optIdx) => handleSelect(origIdx, optIdx)}
                       selfRating={selfRatings[draftKey(origIdx)] ?? null}
                       onSelfRatingChange={(_, score) => handleSelfRatingChange(origIdx, score)}
+                      selfRatingWhy={selfRatingWhy[draftKey(origIdx)] ?? null}
+                      onSelfRatingWhyChange={(_, why) => handleSelfRatingWhyChange(origIdx, why)}
                       submitted={submitState === "done"}
                     />
                   ))}
