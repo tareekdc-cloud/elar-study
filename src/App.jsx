@@ -4263,7 +4263,7 @@ export default function App() {
                   padding: "12px 18px", fontSize: 13, color: "#1A5276", lineHeight: 1.6, marginBottom: 24,
                   display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
                 }}>
-                  <span><strong>📋 How to use:</strong> For MC questions, tap an answer then reveal the explanation. For <strong>✏️ Written Response</strong> questions, draft your answer using the RACES framework, then compare to the answer guide.</span>
+                  <span><strong>📋 How to use:</strong> Answer every question on the page — <strong>Multiple Choice</strong> and <strong>✏️ Written Response</strong> alike — then unlock the page-bottom panel to submit everything at once.</span>
                   <button
                     onClick={handleToggleShuffle}
                     style={{
