@@ -2390,6 +2390,26 @@ async function fetchSheetRows() {
   }
 }
 
+// Permanently deletes every row in the Sheet belonging to a given student.
+// Distinct from the local-only delete — this is irreversible and requires the
+// parent PIN to reach (gated in the UI, not here, since this function just
+// executes whatever it's told to).
+async function deleteStudentFromSheet(student) {
+  if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return { ok: false, demo: true };
+  try {
+    const response = await fetch(SHEET_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "delete_student", student }),
+    });
+    const result = await response.json();
+    if (!result.ok) return { ok: false, error: result.error };
+    return { ok: true, rowsDeleted: result.rowsDeleted };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}
+
 // ── Progress Dashboard Data Hook ──────────────────────────────────────────────
 // Fetches all submitted rows from the Sheet and computes the three headline metrics:
 // skill accuracy, self-rating accuracy, and overall streak/totals.
@@ -3106,10 +3126,12 @@ function StudentPicker({ studentList, onSelect, onAdd }) {
 }
 
 // ── Student Switcher (header dropdown) ────────────────────────────────────────
-function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd }) {
+function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd, onDelete }) {
   const [open, setOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState("");
+  const [confirmingDelete, setConfirmingDelete] = useState(null); // name pending delete confirmation
+  const [eraseSheetToo, setEraseSheetToo] = useState(false);
 
   const submitNew = () => {
     if (newName.trim()) {
@@ -3118,6 +3140,11 @@ function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd }) {
       setAdding(false);
       setOpen(false);
     }
+  };
+
+  const startConfirming = (name) => {
+    setConfirmingDelete(name);
+    setEraseSheetToo(false); // always default to off — never pre-check the destructive option
   };
 
   return (
@@ -3142,34 +3169,104 @@ function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd }) {
 
       {open && (
         <>
-          <div onClick={() => { setOpen(false); setAdding(false); }} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
+          <div onClick={() => { setOpen(false); setAdding(false); setConfirmingDelete(null); }} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
           <div style={{
             position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 999,
             background: "#1A252F", border: "1px solid rgba(255,255,255,0.15)",
-            borderRadius: 10, padding: 8, minWidth: 180,
+            borderRadius: 10, padding: 8, minWidth: 240,
             boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
           }}>
-            {studentList.map(name => (
-              <button
-                key={name}
-                onClick={() => { onSwitch(name); setOpen(false); }}
-                style={{
-                  display: "flex", alignItems: "center", gap: 8, width: "100%",
-                  background: name === currentStudent ? "rgba(52,152,219,0.15)" : "none",
-                  border: "none", borderRadius: 6, padding: "8px 10px",
-                  color: "#fff", fontSize: 12.5, fontWeight: 600, cursor: "pointer", textAlign: "left",
-                }}
-              >
-                <span style={{
-                  background: "#3498DB", borderRadius: "50%", width: 18, height: 18,
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 900, flexShrink: 0,
-                }}>
-                  {name.charAt(0).toUpperCase()}
-                </span>
-                {name}
-                {name === currentStudent && <span style={{ marginLeft: "auto", fontSize: 11 }}>✓</span>}
-              </button>
-            ))}
+            {studentList.map(name => {
+              const isConfirming = confirmingDelete === name;
+              return (
+                <div
+                  key={name}
+                  style={{
+                    background: isConfirming ? "rgba(231,76,60,0.1)" : name === currentStudent ? "rgba(52,152,219,0.15)" : "none",
+                    borderRadius: 6, marginBottom: 2, overflow: "hidden",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 4, width: "100%" }}>
+                    <button
+                      onClick={() => { onSwitch(name); setOpen(false); }}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0,
+                        background: "none", border: "none", borderRadius: 6, padding: "8px 10px",
+                        color: "#fff", fontSize: 12.5, fontWeight: 600, cursor: "pointer", textAlign: "left",
+                      }}
+                    >
+                      <span style={{
+                        background: "#3498DB", borderRadius: "50%", width: 18, height: 18,
+                        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 900, flexShrink: 0,
+                      }}>
+                        {name.charAt(0).toUpperCase()}
+                      </span>
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</span>
+                      {name === currentStudent && <span style={{ marginLeft: "auto", fontSize: 11, flexShrink: 0 }}>✓</span>}
+                    </button>
+
+                    {!isConfirming && (
+                      <button
+                        onClick={() => startConfirming(name)}
+                        title={`Remove ${name} from this browser`}
+                        style={{
+                          background: "none", border: "none", color: "rgba(255,255,255,0.3)",
+                          fontSize: 13, padding: "6px 10px", cursor: "pointer", flexShrink: 0,
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = "#E74C3C"}
+                        onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}
+                      >
+                        🗑
+                      </button>
+                    )}
+                  </div>
+
+                  {isConfirming && (
+                    <div style={{ padding: "4px 10px 10px" }}>
+                      <label style={{
+                        display: "flex", alignItems: "flex-start", gap: 6, cursor: "pointer",
+                        marginBottom: 8, padding: "6px 8px", background: "rgba(255,255,255,0.04)", borderRadius: 6,
+                      }}>
+                        <input
+                          type="checkbox"
+                          checked={eraseSheetToo}
+                          onChange={e => setEraseSheetToo(e.target.checked)}
+                          style={{ marginTop: 2, flexShrink: 0 }}
+                        />
+                        <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.4 }}>
+                          Also permanently erase their submitted work in the review sheet
+                          {eraseSheetToo && (
+                            <span style={{ display: "block", color: "#E74C3C", fontWeight: 700, marginTop: 3 }}>
+                              ⚠️ Requires parent PIN — cannot be undone
+                            </span>
+                          )}
+                        </span>
+                      </label>
+                      <div style={{ display: "flex", gap: 6 }}>
+                        <button
+                          onClick={() => { onDelete(name, eraseSheetToo); setConfirmingDelete(null); }}
+                          style={{
+                            flex: 1, background: "#E74C3C", border: "none", borderRadius: 6,
+                            color: "#fff", fontSize: 11, fontWeight: 800, padding: "7px 0", cursor: "pointer",
+                          }}
+                        >
+                          {eraseSheetToo ? "Delete & Erase" : "Delete (this browser only)"}
+                        </button>
+                        <button
+                          onClick={() => setConfirmingDelete(null)}
+                          style={{
+                            background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 6,
+                            color: "rgba(255,255,255,0.7)", fontSize: 11, fontWeight: 700, padding: "7px 12px", cursor: "pointer",
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 6, paddingTop: 6 }}>
               {adding ? (
                 <div style={{ display: "flex", gap: 6, padding: "2px 6px" }}>
@@ -4026,6 +4123,25 @@ function studentPrefix(student) {
   return `elar_s_${safe}_`;
 }
 
+// Wipes every localStorage key belonging to a given student — drafts, timers,
+// flashcard progress, session history, all of it. Does NOT touch the Google
+// Sheet (their submitted work stays there permanently; this only clears what's
+// local to this browser). Does not touch other students' data, since every key
+// is scoped by studentPrefix().
+function deleteStudentData(student) {
+  const prefix = studentPrefix(student);
+  try {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(prefix)) keysToRemove.push(key);
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch {
+    // fail silently — worst case, a little orphaned storage remains, nothing breaks
+  }
+}
+
 // ── Draft/Selection Persistence (localStorage) ────────────────────────────────
 // Keeps in-progress answers safe across refresh, tab crash, or accidental back button.
 // Keyed globally (not per-book) since draftKey() already namespaces by book.id.
@@ -4185,6 +4301,54 @@ export default function App() {
     setStudentList(updated);
     saveStudentList(updated);
     handleSwitchStudent(trimmed);
+  };
+
+  // Removes a student profile entirely from THIS browser: their localStorage
+  // data (drafts, timers, flashcard progress, session badges) is wiped, and
+  // they're removed from the student list. Their submitted work in the Google
+  // Sheet is untouched UNLESS eraseSheetToo is true — that path requires the
+  // parent PIN (handled via pendingDeleteRef + a dedicated PinModal instance,
+  // kept separate from the answer-guide unlock so the two never get conflated).
+  const [pendingDelete, setPendingDelete] = useState(null); // { name } awaiting PIN, or null
+  const [deleteStatus, setDeleteStatus] = useState(null); // { type: 'success'|'error', message } | null
+
+  const finishLocalDelete = (name) => {
+    deleteStudentData(name);
+    const updated = studentList.filter(s => s !== name);
+    setStudentList(updated);
+    saveStudentList(updated);
+
+    if (name === currentStudent) {
+      if (updated.length > 0) {
+        handleSwitchStudent(updated[0]);
+      } else {
+        setCurrentStudent(null);
+        setActiveStudentStorage(null);
+      }
+    }
+  };
+
+  const handleDeleteStudent = (name, eraseSheetToo) => {
+    if (!eraseSheetToo) {
+      finishLocalDelete(name);
+      return;
+    }
+    // Sheet erasure requires the PIN first — hold the deletion until it's entered.
+    setPendingDelete({ name });
+  };
+
+  const handleDeletePinConfirmed = async () => {
+    if (!pendingDelete) return;
+    const { name } = pendingDelete;
+    setPendingDelete(null);
+    const result = await deleteStudentFromSheet(name);
+    if (result.ok || result.demo) {
+      finishLocalDelete(name);
+      setDeleteStatus({ type: "success", message: `${name}'s data was removed from this browser${result.demo ? "" : ` and ${result.rowsDeleted ?? "their"} row(s) were permanently erased from the review sheet`}.` });
+    } else {
+      setDeleteStatus({ type: "error", message: `Couldn't erase ${name}'s Sheet history (${result.error || "unknown error"}). Their local browser data was NOT deleted either, so you can try again.` });
+    }
+    setTimeout(() => setDeleteStatus(null), 6000);
   };
 
   // Auto-save drafts/selections/self-ratings to localStorage on every change
@@ -4383,12 +4547,33 @@ export default function App() {
       background: "linear-gradient(160deg, #0d1117 0%, #161b22 40%, #0d1b2a 100%)",
       fontFamily: "'Segoe UI', system-ui, sans-serif",
     }}>
-      {/* PIN Modal */}
+      {/* PIN Modal — answer guide unlock */}
       {showPin && (
         <PinModal
           onSuccess={() => { setUnlocked(true); setShowPin(false); }}
           onCancel={() => setShowPin(false)}
         />
+      )}
+
+      {/* PIN Modal — Sheet erase confirmation (separate from the answer-guide unlock above) */}
+      {pendingDelete && (
+        <PinModal
+          onSuccess={handleDeletePinConfirmed}
+          onCancel={() => setPendingDelete(null)}
+        />
+      )}
+
+      {/* Delete result toast */}
+      {deleteStatus && (
+        <div style={{
+          position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", zIndex: 1100,
+          background: deleteStatus.type === "success" ? "#1E8449" : "#922B21",
+          color: "#fff", borderRadius: 10, padding: "12px 20px",
+          fontSize: 13, fontWeight: 600, maxWidth: 480, textAlign: "center",
+          boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
+        }}>
+          {deleteStatus.type === "success" ? "✅ " : "⚠️ "}{deleteStatus.message}
+        </div>
       )}
 
       {/* ── Header ── */}
@@ -4459,6 +4644,7 @@ export default function App() {
             studentList={studentList}
             onSwitch={handleSwitchStudent}
             onAdd={handleAddStudent}
+            onDelete={handleDeleteStudent}
           />
 
           {/* Lock control */}
