@@ -2535,29 +2535,76 @@ function useProgressData() {
 }
 
 // ── Writing Timer Hook ────────────────────────────────────────────────────────
-function useWritingTimer(isECR, frozen) {
+// ── Timer Elapsed-Time Persistence ────────────────────────────────────────────
+// Separate from drafts/selections storage — this only tracks "how many seconds
+// has the clock run for this specific question," so a refresh can restore the
+// timer's position (paused) instead of either losing it or silently resetting to 0:00.
+const TIMER_STORAGE_KEY = "elar_timer_elapsed_v1";
+
+function loadTimerElapsed() {
+  try {
+    return JSON.parse(localStorage.getItem(TIMER_STORAGE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveTimerElapsed(storageKey, seconds) {
+  try {
+    const all = loadTimerElapsed();
+    all[storageKey] = seconds;
+    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(all));
+  } catch {
+    // fail silently
+  }
+}
+
+function useWritingTimer(isECR, frozen, storageKey) {
   const LIMIT_SECS = isECR ? 20 * 60 : 8 * 60; // 20 min ECR, 8 min SCR
 
-  const [elapsed, setElapsed] = useState(0);
+  // On first mount, restore any previously-saved elapsed time for this exact question.
+  const [elapsed, setElapsed] = useState(() => {
+    if (!storageKey) return 0;
+    const saved = loadTimerElapsed()[storageKey];
+    return typeof saved === "number" ? saved : 0;
+  });
+  // running = actively ticking. restoredPaused = has elapsed time from a prior
+  // session but hasn't been resumed yet (no keystroke since reload).
   const [running, setRunning] = useState(false);
+  const [restoredPaused, setRestoredPaused] = useState(() => {
+    if (!storageKey) return false;
+    const saved = loadTimerElapsed()[storageKey];
+    return typeof saved === "number" && saved > 0;
+  });
   const intervalRef = useRef(null);
 
   useEffect(() => {
     if (running && !frozen) {
       intervalRef.current = setInterval(() => {
         setElapsed(e => {
-          if (e + 1 >= LIMIT_SECS) {
+          const next = e + 1;
+          if (storageKey) saveTimerElapsed(storageKey, Math.min(next, LIMIT_SECS));
+          if (next >= LIMIT_SECS) {
             clearInterval(intervalRef.current);
             return LIMIT_SECS;
           }
-          return e + 1;
+          return next;
         });
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [running, frozen]);
+  }, [running, frozen, storageKey]);
 
-  const startIfNotStarted = () => { if (!running && !frozen) setRunning(true); };
+  // Resume from a paused/restored state, or start fresh — either way, first
+  // keystroke after mount is what gets the clock moving again.
+  const startIfNotStarted = () => {
+    if (frozen) return;
+    if (restoredPaused) setRestoredPaused(false);
+    if (!running) setRunning(true);
+  };
+
+  // Note: per-book timer cleanup happens in clearProgressForBook(), not here —
+  // that keeps timer state in sync with drafts/selections in exactly one place.
 
   const remaining = LIMIT_SECS - elapsed;
   const expired = remaining <= 0;
@@ -2572,26 +2619,29 @@ function useWritingTimer(isECR, frozen) {
   if (remaining <= 2 * 60) color = "#E74C3C";
   if (expired) color = "#7F8C8D";
   if (frozen) color = "#27AE60";
+  if (restoredPaused) color = "#3498DB";
 
   const label = frozen
     ? `✅ Submitted at ${display}`
+    : restoredPaused
+    ? `⏸ Paused at ${display}`
     : !running
     ? `⏱ ${isECR ? "20:00" : "8:00"}`
     : expired
     ? "🔒 Time's Up"
     : `⏱ ${display}`;
 
-  return { label, color, startIfNotStarted, running, expired, frozen };
+  return { label, color, startIfNotStarted, running, expired, frozen, restoredPaused };
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted }) {
+function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted, storageKey }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
   const isECR = q.type.includes("Extended");
-  const timer = useWritingTimer(isECR, submitted);
+  const timer = useWritingTimer(isECR, submitted, isWritten ? storageKey : null);
 
   // Check if this is a Vocabulary in Context question testing a word the student
   // marked "Still Learning" in the Vocab Flashcards tab for this book.
@@ -2739,20 +2789,20 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
           {/* Draft textarea with timer */}
           <div style={{
             background: "#fff",
-            border: `2px solid ${timer.frozen ? "#27AE60" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border}`,
+            border: `2px solid ${timer.frozen ? "#27AE60" : timer.restoredPaused ? "#3498DB" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border}`,
             borderRadius: 10, overflow: "hidden",
             transition: "border-color 0.3s ease",
             opacity: timer.expired && !timer.frozen ? 0.85 : 1,
           }}>
             {/* Textarea header with live timer */}
             <div style={{
-              background: timer.frozen ? "#27AE60" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border,
+              background: timer.frozen ? "#27AE60" : timer.restoredPaused ? "#3498DB" : timer.expired ? "#7F8C8D" : timer.running ? timer.color : colors.border,
               padding: "8px 14px", display: "flex", alignItems: "center", gap: 8,
               transition: "background 0.5s ease",
             }}>
-              <span style={{ fontSize: 14 }}>{timer.frozen ? "✅" : timer.expired ? "🔒" : "✏️"}</span>
+              <span style={{ fontSize: 14 }}>{timer.frozen ? "✅" : timer.restoredPaused ? "⏸" : timer.expired ? "🔒" : "✏️"}</span>
               <span style={{ color: "#fff", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                {timer.frozen ? "Submitted" : timer.expired ? "Response Locked" : "Your Response"}
+                {timer.frozen ? "Submitted" : timer.restoredPaused ? "Your Response (Paused)" : timer.expired ? "Response Locked" : "Your Response"}
               </span>
               <span style={{
                 marginLeft: "auto",
@@ -2761,11 +2811,24 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
                 fontWeight: 800,
                 fontFamily: "monospace",
                 letterSpacing: 1,
-                opacity: timer.running || timer.frozen ? 1 : 0.7,
+                opacity: timer.running || timer.frozen || timer.restoredPaused ? 1 : 0.7,
               }}>
                 {timer.label}
               </span>
             </div>
+
+            {/* Restored/paused banner — shown after a refresh while time was still on the clock */}
+            {timer.restoredPaused && (
+              <div style={{
+                background: "#EBF5FB", borderBottom: "1px solid #3498DB",
+                padding: "10px 14px", display: "flex", alignItems: "center", gap: 8,
+              }}>
+                <span style={{ fontSize: 16 }}>⏸</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#1A5276" }}>
+                  Your timer paused at {timer.label.replace("⏸ Paused at ", "")} — it'll resume the moment you start typing again.
+                </span>
+              </div>
+            )}
 
             {/* Submitted banner */}
             {timer.frozen && (
@@ -2826,8 +2889,8 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
             </div>
           </div>
 
-          {/* Timer hint — shown before timer starts */}
-          {!timer.running && !timer.expired && !timer.frozen && (
+          {/* Timer hint — shown before timer starts (and not redundant with the paused banner) */}
+          {!timer.running && !timer.expired && !timer.frozen && !timer.restoredPaused && (
             <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 11, color: "#999" }}>
                 ⏱ Timer starts on first keystroke · {isECR ? "20 min" : "8 min"} · field locks when time is up
@@ -3744,6 +3807,19 @@ function clearProgressForBook(bookId, drafts, selections, selfRatings, selfRatin
   const newSelfRatings = filterOut(selfRatings);
   const newSelfRatingWhy = filterOut(selfRatingWhy || {});
   saveProgress(newDrafts, newSelections, newSelfRatings, newSelfRatingWhy);
+
+  // Also clear any persisted timer elapsed-time for this book's questions —
+  // a submitted/reset book shouldn't leave stale paused timers behind.
+  try {
+    const allTimers = loadTimerElapsed();
+    Object.keys(allTimers).forEach(k => {
+      if (k.startsWith(prefix)) delete allTimers[k];
+    });
+    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(allTimers));
+  } catch {
+    // fail silently
+  }
+
   return { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy };
 }
 
@@ -4480,6 +4556,7 @@ export default function App() {
                       selfRatingWhy={selfRatingWhy[draftKey(origIdx)] ?? null}
                       onSelfRatingWhyChange={(_, why) => handleSelfRatingWhyChange(origIdx, why)}
                       submitted={submitState === "done"}
+                      storageKey={`${book.id}-${origIdx}`}
                     />
                   ))}
                 </div>
