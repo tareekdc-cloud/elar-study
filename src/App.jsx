@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 
 const books = [
   {
@@ -2671,7 +2671,7 @@ function useWritingTimer(isECR, frozen, storageKey, student) {
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted, storageKey, student }) {
+function QuestionCard({ q, index, bookColor, bookId, bookVocab, stilLearningWords, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted, storageKey, student }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
@@ -2685,8 +2685,9 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
     if (q.type !== "Vocabulary in Context") return false;
     const word = extractVocabWord(q.question, bookVocab);
     if (!word) return false;
-    const learningWords = loadFlashcardLearning(student)[bookId] || [];
-    return learningWords.includes(word);
+    // stilLearningWords is passed as a prop from App (read once per book switch,
+    // not on every QuestionCard render) to avoid 15 localStorage reads per render cycle.
+    return (stilLearningWords || []).includes(word);
   })();
 
   // Re-lock: hide answers when parent locks
@@ -4356,16 +4357,29 @@ export default function App() {
     setTimeout(() => setDeleteStatus(null), 6000);
   };
 
-  // Auto-save drafts/selections/self-ratings to localStorage on every change
+  // Auto-save — debounced 500ms so we don't JSON.stringify + write localStorage on every
+  // single keystroke. At most ~2 writes/second while typing vs. one per character.
+  const saveTimerRef = useRef(null);
   useEffect(() => {
-    saveProgress(currentStudent, drafts, selections, selfRatings, selfRatingWhy);
-  }, [drafts, selections, selfRatings, selfRatingWhy]);
+    clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      saveProgress(currentStudent, drafts, selections, selfRatings, selfRatingWhy);
+    }, 500);
+    return () => clearTimeout(saveTimerRef.current);
+  }, [drafts, selections, selfRatings, selfRatingWhy, currentStudent]);
 
-  // Derive displayed question list (shuffled or original)
-  const displayedQuestions = (() => {
+  // Memoized — only recomputes when book or shuffle order actually changes.
+  const displayedQuestions = useMemo(() => {
     if (!shuffled || !questionOrder) return book.questions.map((q, i) => ({ q, origIdx: i }));
     return questionOrder.map(origIdx => ({ q: book.questions[origIdx], origIdx }));
-  })();
+  }, [book, shuffled, questionOrder]);
+
+  // Compute "still learning" vocab words once per book/student switch — not inside
+  // every QuestionCard render — so we do 1 localStorage read instead of 15 per cycle.
+  const stilLearningWords = useMemo(
+    () => loadFlashcardLearning(currentStudent)[book.id] || [],
+    [currentStudent, book.id]
+  );
 
   const handleToggleShuffle = () => {
     if (!shuffled) {
@@ -4406,22 +4420,24 @@ export default function App() {
 
   // Track ALL questions for progress
   const totalQuestions = book.questions.length;
-  const answeredCount = displayedQuestions.filter(({ q, origIdx }) => {
-    if (isWrittenResponse(q.type)) {
-      const hasDraft = (drafts[draftKey(origIdx)] || "").trim().length > 0;
-      const hasRating = selfRatings[draftKey(origIdx)] !== null && selfRatings[draftKey(origIdx)] !== undefined;
-      return hasDraft && hasRating;
-    } else if (q.type.includes("Part A")) {
-      // Part A/B needs both parts answered
-      const sel = selections[draftKey(origIdx)];
-      return sel && sel.a !== null && sel.b !== null;
-    } else if (q.options.length > 0) {
-      return selections[draftKey(origIdx)] !== undefined && selections[draftKey(origIdx)] !== null;
-    }
-    return false;
-  }).length;
 
-  const writtenQuestions = displayedQuestions.filter(({ q }) => isWrittenResponse(q.type));
+  const { answeredCount, writtenQuestions } = useMemo(() => {
+    const written = displayedQuestions.filter(({ q }) => isWrittenResponse(q.type));
+    const answered = displayedQuestions.filter(({ q, origIdx }) => {
+      if (isWrittenResponse(q.type)) {
+        const hasDraft = (drafts[draftKey(origIdx)] || "").trim().length > 0;
+        const hasRating = selfRatings[draftKey(origIdx)] !== null && selfRatings[draftKey(origIdx)] !== undefined;
+        return hasDraft && hasRating;
+      } else if (q.type.includes("Part A")) {
+        const sel = selections[draftKey(origIdx)];
+        return sel && sel.a !== null && sel.b !== null;
+      } else if (q.options.length > 0) {
+        return selections[draftKey(origIdx)] !== undefined && selections[draftKey(origIdx)] !== null;
+      }
+      return false;
+    }).length;
+    return { answeredCount: answered, writtenQuestions: written };
+  }, [displayedQuestions, drafts, selections, selfRatings]);
 
   const allAnswered = answeredCount === totalQuestions;
 
@@ -5062,6 +5078,7 @@ export default function App() {
                       bookColor={book.color}
                       bookId={book.id}
                       bookVocab={book.vocab}
+                      stilLearningWords={stilLearningWords}
                       unlocked={unlocked}
                       draftText={drafts[draftKey(origIdx)] || ""}
                       onDraftChange={(_, text) => handleDraftChange(origIdx, text)}
