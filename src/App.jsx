@@ -2285,7 +2285,12 @@ function SelfRating({ isECR, value, onChange, whyValue, onWhyChange }) {
           return (
             <button
               key={r.score}
-              onClick={() => onChange(r.score)}
+              onClick={() => {
+                onChange(r.score);
+                // If switching to max score, clear any previously-selected "why" —
+                // the follow-up question is irrelevant for a perfect self-rating.
+                if (r.score === maxScore && onWhyChange) onWhyChange(null);
+              }}
               style={{
                 display: "flex", alignItems: "center", gap: 8,
                 background: isSelected ? r.color : "#fff",
@@ -4403,7 +4408,9 @@ export default function App() {
   const totalQuestions = book.questions.length;
   const answeredCount = displayedQuestions.filter(({ q, origIdx }) => {
     if (isWrittenResponse(q.type)) {
-      return (drafts[draftKey(origIdx)] || "").trim().length > 0;
+      const hasDraft = (drafts[draftKey(origIdx)] || "").trim().length > 0;
+      const hasRating = selfRatings[draftKey(origIdx)] !== null && selfRatings[draftKey(origIdx)] !== undefined;
+      return hasDraft && hasRating;
     } else if (q.type.includes("Part A")) {
       // Part A/B needs both parts answered
       const sel = selections[draftKey(origIdx)];
@@ -5082,11 +5089,20 @@ export default function App() {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
                       <div>
                         <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.55 }}>
-                          {answeredCount === 0
-                            ? `Answer all ${totalQuestions} questions above to unlock submission.`
-                            : answeredCount < totalQuestions
-                            ? `${answeredCount} of ${totalQuestions} questions answered — finish the remaining ${totalQuestions - answeredCount} to submit.`
-                            : `All ${totalQuestions} questions answered — ready to submit!`}
+                          {answeredCount === totalQuestions
+                            ? `All ${totalQuestions} questions answered — ready to submit!`
+                            : (() => {
+                                // Distinguish the specific blocker type for a clearer message
+                                const missingRating = displayedQuestions.some(({ q, origIdx }) =>
+                                  isWrittenResponse(q.type) &&
+                                  (drafts[draftKey(origIdx)] || "").trim().length > 0 &&
+                                  (selfRatings[draftKey(origIdx)] === null || selfRatings[draftKey(origIdx)] === undefined)
+                                );
+                                if (missingRating) return `Almost there — rate your own response on the written question${writtenQuestions.length > 1 ? "s" : ""} above before submitting.`;
+                                if (answeredCount === 0) return `Answer all ${totalQuestions} questions above to unlock submission.`;
+                                return `${answeredCount} of ${totalQuestions} questions answered — finish the remaining ${totalQuestions - answeredCount} to submit.`;
+                              })()
+                          }
                         </div>
 
                         {/* Progress bar */}
