@@ -2393,7 +2393,7 @@ async function fetchSheetRows() {
 // ── Progress Dashboard Data Hook ──────────────────────────────────────────────
 // Fetches all submitted rows from the Sheet and computes the three headline metrics:
 // skill accuracy, self-rating accuracy, and overall streak/totals.
-function useProgressData() {
+function useProgressData(student) {
   const [state, setState] = useState({ loading: true, error: null, rows: [] });
 
   useEffect(() => {
@@ -2403,11 +2403,21 @@ function useProgressData() {
       if (!result.ok) {
         setState({ loading: false, error: result.demo ? "demo" : (result.error || "Couldn't load progress data."), rows: [] });
       } else {
-        setState({ loading: false, error: null, rows: result.rows });
+        // Filter to only this student's rows. Falls back gracefully for any rows
+        // submitted before multi-student support existed (no "student" column yet) —
+        // those are treated as belonging to whichever student is currently active,
+        // so existing history for the first student isn't silently lost.
+        const allRows = result.rows || [];
+        const studentRows = allRows.filter(r => {
+          const rowStudent = (r.student || r["Student"] || "").trim();
+          if (!rowStudent) return true; // legacy row with no student column — keep visible
+          return rowStudent.toLowerCase() === (student || "").toLowerCase();
+        });
+        setState({ loading: false, error: null, rows: studentRows });
       }
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [student]);
 
   const metrics = (() => {
     const { rows } = state;
@@ -2539,33 +2549,34 @@ function useProgressData() {
 // Separate from drafts/selections storage — this only tracks "how many seconds
 // has the clock run for this specific question," so a refresh can restore the
 // timer's position (paused) instead of either losing it or silently resetting to 0:00.
-const TIMER_STORAGE_KEY = "elar_timer_elapsed_v1";
+// Scoped per-student, same as everything else.
+const TIMER_STORAGE_KEY_BASE = "elar_timer_elapsed_v1";
 
-function loadTimerElapsed() {
+function loadTimerElapsed(student) {
   try {
-    return JSON.parse(localStorage.getItem(TIMER_STORAGE_KEY) || "{}");
+    return JSON.parse(localStorage.getItem(studentPrefix(student) + TIMER_STORAGE_KEY_BASE) || "{}");
   } catch {
     return {};
   }
 }
 
-function saveTimerElapsed(storageKey, seconds) {
+function saveTimerElapsed(student, storageKey, seconds) {
   try {
-    const all = loadTimerElapsed();
+    const all = loadTimerElapsed(student);
     all[storageKey] = seconds;
-    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(all));
+    localStorage.setItem(studentPrefix(student) + TIMER_STORAGE_KEY_BASE, JSON.stringify(all));
   } catch {
     // fail silently
   }
 }
 
-function useWritingTimer(isECR, frozen, storageKey) {
+function useWritingTimer(isECR, frozen, storageKey, student) {
   const LIMIT_SECS = isECR ? 20 * 60 : 8 * 60; // 20 min ECR, 8 min SCR
 
   // On first mount, restore any previously-saved elapsed time for this exact question.
   const [elapsed, setElapsed] = useState(() => {
     if (!storageKey) return 0;
-    const saved = loadTimerElapsed()[storageKey];
+    const saved = loadTimerElapsed(student)[storageKey];
     return typeof saved === "number" ? saved : 0;
   });
   // running = actively ticking. restoredPaused = has elapsed time from a prior
@@ -2573,7 +2584,7 @@ function useWritingTimer(isECR, frozen, storageKey) {
   const [running, setRunning] = useState(false);
   const [restoredPaused, setRestoredPaused] = useState(() => {
     if (!storageKey) return false;
-    const saved = loadTimerElapsed()[storageKey];
+    const saved = loadTimerElapsed(student)[storageKey];
     return typeof saved === "number" && saved > 0;
   });
   const intervalRef = useRef(null);
@@ -2583,7 +2594,7 @@ function useWritingTimer(isECR, frozen, storageKey) {
       intervalRef.current = setInterval(() => {
         setElapsed(e => {
           const next = e + 1;
-          if (storageKey) saveTimerElapsed(storageKey, Math.min(next, LIMIT_SECS));
+          if (storageKey) saveTimerElapsed(student, storageKey, Math.min(next, LIMIT_SECS));
           if (next >= LIMIT_SECS) {
             clearInterval(intervalRef.current);
             return LIMIT_SECS;
@@ -2593,7 +2604,7 @@ function useWritingTimer(isECR, frozen, storageKey) {
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [running, frozen, storageKey]);
+  }, [running, frozen, storageKey, student]);
 
   // Resume from a paused/restored state, or start fresh — either way, first
   // keystroke after mount is what gets the clock moving again.
@@ -2635,13 +2646,13 @@ function useWritingTimer(isECR, frozen, storageKey) {
 }
 
 // ── Main Question Card ───────────────────────────────────────────────────────
-function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted, storageKey }) {
+function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftText, onDraftChange, selectedOption, onSelect, selfRating, onSelfRatingChange, selfRatingWhy, onSelfRatingWhyChange, submitted, storageKey, student }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const colors = questionTypeColors[q.type] || { bg: "#F0F0F0", border: "#999", label: "#333" };
   const isWritten = isWrittenResponse(q.type);
   const isECR = q.type.includes("Extended");
-  const timer = useWritingTimer(isECR, submitted, isWritten ? storageKey : null);
+  const timer = useWritingTimer(isECR, submitted, isWritten ? storageKey : null, student);
 
   // Check if this is a Vocabulary in Context question testing a word the student
   // marked "Still Learning" in the Vocab Flashcards tab for this book.
@@ -2649,7 +2660,7 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
     if (q.type !== "Vocabulary in Context") return false;
     const word = extractVocabWord(q.question, bookVocab);
     if (!word) return false;
-    const learningWords = loadFlashcardLearning()[bookId] || [];
+    const learningWords = loadFlashcardLearning(student)[bookId] || [];
     return learningWords.includes(word);
   })();
 
@@ -2991,6 +3002,209 @@ function QuestionCard({ q, index, bookColor, bookId, bookVocab, unlocked, draftT
   );
 }
 
+// ── Student Picker ────────────────────────────────────────────────────────────
+// Shown full-screen when no student is active yet. Picking a name (or adding a
+// new one) scopes every piece of progress data from that point forward.
+function StudentPicker({ studentList, onSelect, onAdd }) {
+  const [newName, setNewName] = useState("");
+  const [adding, setAdding] = useState(studentList.length === 0);
+
+  const submitNew = () => {
+    if (newName.trim()) {
+      onAdd(newName.trim());
+      setNewName("");
+    }
+  };
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 1000,
+      background: "linear-gradient(160deg, #0d1117 0%, #161b22 40%, #0d1b2a 100%)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      padding: 24,
+    }}>
+      <div style={{ maxWidth: 440, width: "100%", textAlign: "center" }}>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>📚</div>
+        <h1 style={{ color: "#fff", fontFamily: "'Georgia', serif", fontSize: 24, fontWeight: 800, marginBottom: 6 }}>
+          Who's studying today?
+        </h1>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 28 }}>
+          Each student's progress, drafts, and flashcards stay separate.
+        </p>
+
+        {studentList.length > 0 && !adding && (
+          <div style={{ display: "grid", gap: 10, marginBottom: 20 }}>
+            {studentList.map(name => (
+              <button
+                key={name}
+                onClick={() => onSelect(name)}
+                style={{
+                  background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.15)",
+                  borderRadius: 12, padding: "14px 20px", color: "#fff",
+                  fontSize: 15, fontWeight: 700, cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 12, textAlign: "left",
+                  transition: "all 0.15s ease",
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+                onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
+              >
+                <span style={{
+                  background: "#3498DB", borderRadius: "50%", width: 32, height: 32,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 14, fontWeight: 900, flexShrink: 0,
+                }}>
+                  {name.charAt(0).toUpperCase()}
+                </span>
+                {name}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {adding || studentList.length === 0 ? (
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              autoFocus
+              value={newName}
+              onChange={e => setNewName(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") submitNew(); }}
+              placeholder="Enter a name..."
+              style={{
+                flex: 1, background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.2)",
+                borderRadius: 10, padding: "12px 16px", color: "#fff", fontSize: 15,
+                outline: "none",
+              }}
+            />
+            <button
+              onClick={submitNew}
+              disabled={!newName.trim()}
+              style={{
+                background: newName.trim() ? "#27AE60" : "rgba(255,255,255,0.1)",
+                color: newName.trim() ? "#fff" : "rgba(255,255,255,0.3)",
+                border: "none", borderRadius: 10, padding: "12px 22px",
+                fontSize: 14, fontWeight: 800, cursor: newName.trim() ? "pointer" : "not-allowed",
+              }}
+            >
+              Start
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setAdding(true)}
+            style={{
+              background: "none", border: "1.5px dashed rgba(255,255,255,0.25)",
+              borderRadius: 12, padding: "12px 20px", color: "rgba(255,255,255,0.5)",
+              fontSize: 13, fontWeight: 700, cursor: "pointer", width: "100%",
+            }}
+          >
+            + Add a new student
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Student Switcher (header dropdown) ────────────────────────────────────────
+function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd }) {
+  const [open, setOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [newName, setNewName] = useState("");
+
+  const submitNew = () => {
+    if (newName.trim()) {
+      onAdd(newName.trim());
+      setNewName("");
+      setAdding(false);
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div style={{ position: "relative" }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)",
+          borderRadius: 8, padding: "6px 12px", display: "flex", alignItems: "center", gap: 8,
+          cursor: "pointer", color: "#fff", fontSize: 12, fontWeight: 700,
+        }}
+      >
+        <span style={{
+          background: "#3498DB", borderRadius: "50%", width: 20, height: 20,
+          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 900,
+        }}>
+          {(currentStudent || "?").charAt(0).toUpperCase()}
+        </span>
+        {currentStudent}
+        <span style={{ fontSize: 9, opacity: 0.6 }}>▼</span>
+      </button>
+
+      {open && (
+        <>
+          <div onClick={() => { setOpen(false); setAdding(false); }} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
+          <div style={{
+            position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 999,
+            background: "#1A252F", border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: 10, padding: 8, minWidth: 180,
+            boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
+          }}>
+            {studentList.map(name => (
+              <button
+                key={name}
+                onClick={() => { onSwitch(name); setOpen(false); }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8, width: "100%",
+                  background: name === currentStudent ? "rgba(52,152,219,0.15)" : "none",
+                  border: "none", borderRadius: 6, padding: "8px 10px",
+                  color: "#fff", fontSize: 12.5, fontWeight: 600, cursor: "pointer", textAlign: "left",
+                }}
+              >
+                <span style={{
+                  background: "#3498DB", borderRadius: "50%", width: 18, height: 18,
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 900, flexShrink: 0,
+                }}>
+                  {name.charAt(0).toUpperCase()}
+                </span>
+                {name}
+                {name === currentStudent && <span style={{ marginLeft: "auto", fontSize: 11 }}>✓</span>}
+              </button>
+            ))}
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 6, paddingTop: 6 }}>
+              {adding ? (
+                <div style={{ display: "flex", gap: 6, padding: "2px 6px" }}>
+                  <input
+                    autoFocus
+                    value={newName}
+                    onChange={e => setNewName(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") submitNew(); }}
+                    placeholder="Name..."
+                    style={{
+                      flex: 1, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.2)",
+                      borderRadius: 6, padding: "5px 8px", color: "#fff", fontSize: 12, outline: "none",
+                    }}
+                  />
+                  <button onClick={submitNew} style={{ background: "#27AE60", border: "none", borderRadius: 6, color: "#fff", fontSize: 11, fontWeight: 800, padding: "0 10px", cursor: "pointer" }}>✓</button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setAdding(true)}
+                  style={{
+                    width: "100%", background: "none", border: "none", color: "rgba(255,255,255,0.5)",
+                    fontSize: 12, fontWeight: 600, padding: "8px 10px", cursor: "pointer", textAlign: "left",
+                  }}
+                >
+                  + Add student
+                </button>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 // ── PIN Modal ────────────────────────────────────────────────────────────────
 const CORRECT_PIN = "8959";
 
@@ -3125,14 +3339,14 @@ function PinModal({ onSuccess, onCancel }) {
 }
 
 // ── Flashcard Tab ─────────────────────────────────────────────────────────────
-function FlashcardTab({ book }) {
+function FlashcardTab({ book, student }) {
   const [cardIndex, setCardIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [mode, setMode] = useState("word"); // "word" | "sentence"
   const [known, setKnown] = useState(new Set());
   const [learning, setLearning] = useState(() => {
     // Restore "still learning" words for this specific book from localStorage
-    const stored = loadFlashcardLearning()[book.id] || [];
+    const stored = loadFlashcardLearning(student)[book.id] || [];
     const indices = stored
       .map(word => book.vocab.findIndex(v => v.word.toLowerCase() === word))
       .filter(i => i !== -1);
@@ -3143,10 +3357,10 @@ function FlashcardTab({ book }) {
 
   // Persist "still learning" words (by word text, not index, so it survives reshuffling/reordering)
   useEffect(() => {
-    const allLearning = loadFlashcardLearning();
+    const allLearning = loadFlashcardLearning(student);
     allLearning[book.id] = [...learning].map(i => book.vocab[i]?.word.toLowerCase()).filter(Boolean);
-    saveFlashcardLearning(allLearning);
-  }, [learning, book.id]);
+    saveFlashcardLearning(student, allLearning);
+  }, [learning, book.id, student]);
 
   const visibleOrder = filterMode === "learning"
     ? order.filter(i => learning.has(i))
@@ -3324,8 +3538,8 @@ function FlashcardTab({ book }) {
 }
 
 // ── Progress Dashboard ────────────────────────────────────────────────────────
-function ProgressDashboard() {
-  const { loading, error, metrics } = useProgressData();
+function ProgressDashboard({ student }) {
+  const { loading, error, metrics } = useProgressData(student);
 
   if (loading) {
     return (
@@ -3765,14 +3979,62 @@ function BookGridCard({ book, active, onClick, sessionCount, lastSession }) {
   );
 }
 
+// ── Student Profiles ───────────────────────────────────────────────────────────
+// Lightweight, single-household multi-student support: no real authentication,
+// just a named profile that scopes every localStorage key and tags every Sheet
+// submission, so siblings/cousins sharing this site don't see each other's work.
+const STUDENT_LIST_KEY = "elar_students_v1";
+const ACTIVE_STUDENT_KEY = "elar_active_student_v1";
+
+function loadStudentList() {
+  try {
+    return JSON.parse(localStorage.getItem(STUDENT_LIST_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveStudentList(list) {
+  try {
+    localStorage.setItem(STUDENT_LIST_KEY, JSON.stringify(list));
+  } catch {
+    // fail silently
+  }
+}
+
+function loadActiveStudent() {
+  try {
+    return localStorage.getItem(ACTIVE_STUDENT_KEY) || null;
+  } catch {
+    return null;
+  }
+}
+
+function setActiveStudentStorage(name) {
+  try {
+    if (name) localStorage.setItem(ACTIVE_STUDENT_KEY, name);
+    else localStorage.removeItem(ACTIVE_STUDENT_KEY);
+  } catch {
+    // fail silently
+  }
+}
+
+// Every per-student storage key gets this prefix so switching students never
+// mixes data. Sanitized to keep keys predictable even with odd name input.
+function studentPrefix(student) {
+  const safe = (student || "default").trim().toLowerCase().replace(/[^a-z0-9]/g, "_");
+  return `elar_s_${safe}_`;
+}
+
 // ── Draft/Selection Persistence (localStorage) ────────────────────────────────
 // Keeps in-progress answers safe across refresh, tab crash, or accidental back button.
 // Keyed globally (not per-book) since draftKey() already namespaces by book.id.
-const PROGRESS_STORAGE_KEY = "elar_progress_v1";
+// Also scoped per-student so siblings sharing this site don't see each other's drafts.
+const PROGRESS_STORAGE_KEY_BASE = "elar_progress_v1";
 
-function loadProgress() {
+function loadProgress(student) {
   try {
-    const raw = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY) || "{}");
+    const raw = JSON.parse(localStorage.getItem(studentPrefix(student) + PROGRESS_STORAGE_KEY_BASE) || "{}");
     return {
       drafts: raw.drafts || {},
       selections: raw.selections || {},
@@ -3784,16 +4046,16 @@ function loadProgress() {
   }
 }
 
-function saveProgress(drafts, selections, selfRatings, selfRatingWhy) {
+function saveProgress(student, drafts, selections, selfRatings, selfRatingWhy) {
   try {
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ drafts, selections, selfRatings, selfRatingWhy }));
+    localStorage.setItem(studentPrefix(student) + PROGRESS_STORAGE_KEY_BASE, JSON.stringify({ drafts, selections, selfRatings, selfRatingWhy }));
   } catch {
     // Storage full or unavailable — fail silently, in-memory state still works for this session
   }
 }
 
 // Remove all stored keys belonging to a specific book (called after successful submit)
-function clearProgressForBook(bookId, drafts, selections, selfRatings, selfRatingWhy) {
+function clearProgressForBook(student, bookId, drafts, selections, selfRatings, selfRatingWhy) {
   const prefix = `${bookId}-`;
   const filterOut = (obj) => {
     const next = {};
@@ -3806,16 +4068,16 @@ function clearProgressForBook(bookId, drafts, selections, selfRatings, selfRatin
   const newSelections = filterOut(selections);
   const newSelfRatings = filterOut(selfRatings);
   const newSelfRatingWhy = filterOut(selfRatingWhy || {});
-  saveProgress(newDrafts, newSelections, newSelfRatings, newSelfRatingWhy);
+  saveProgress(student, newDrafts, newSelections, newSelfRatings, newSelfRatingWhy);
 
   // Also clear any persisted timer elapsed-time for this book's questions —
   // a submitted/reset book shouldn't leave stale paused timers behind.
   try {
-    const allTimers = loadTimerElapsed();
+    const allTimers = loadTimerElapsed(student);
     Object.keys(allTimers).forEach(k => {
       if (k.startsWith(prefix)) delete allTimers[k];
     });
-    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(allTimers));
+    localStorage.setItem(studentPrefix(student) + TIMER_STORAGE_KEY_BASE, JSON.stringify(allTimers));
   } catch {
     // fail silently
   }
@@ -3827,19 +4089,20 @@ function clearProgressForBook(bookId, drafts, selections, selfRatings, selfRatin
 // Connects the Vocab Flashcards tab to Practice Questions: words marked
 // "Still Learning" in flashcards get flagged on matching Vocabulary in Context
 // questions, so the two parts of the app share memory instead of being islands.
-const FLASHCARD_LEARNING_KEY = "elar_flashcard_learning_v1";
+// Scoped per-student.
+const FLASHCARD_LEARNING_KEY_BASE = "elar_flashcard_learning_v1";
 
-function loadFlashcardLearning() {
+function loadFlashcardLearning(student) {
   try {
-    return JSON.parse(localStorage.getItem(FLASHCARD_LEARNING_KEY) || "{}");
+    return JSON.parse(localStorage.getItem(studentPrefix(student) + FLASHCARD_LEARNING_KEY_BASE) || "{}");
   } catch {
     return {};
   }
 }
 
-function saveFlashcardLearning(data) {
+function saveFlashcardLearning(student, data) {
   try {
-    localStorage.setItem(FLASHCARD_LEARNING_KEY, JSON.stringify(data));
+    localStorage.setItem(studentPrefix(student) + FLASHCARD_LEARNING_KEY_BASE, JSON.stringify(data));
   } catch {
     // fail silently
   }
@@ -3863,16 +4126,21 @@ function extractVocabWord(questionText, vocabList) {
 }
 
 export default function App() {
+  // Resolved first, synchronously, since everything else (drafts, timers, flashcards,
+  // progress data) is scoped to whichever student is active.
+  const [currentStudent, setCurrentStudent] = useState(() => loadActiveStudent());
+  const [studentList, setStudentList] = useState(() => loadStudentList());
+
   const [activeBook, setActiveBook] = useState(0);
   const [activeTab, setActiveTab] = useState("summary");
   const [unlocked, setUnlocked] = useState(false);
   const [showPin, setShowPin] = useState(false);
-  const [drafts, setDrafts] = useState(() => loadProgress().drafts);
-  const [selections, setSelections] = useState(() => loadProgress().selections);
-  const [selfRatings, setSelfRatings] = useState(() => loadProgress().selfRatings);
-  const [selfRatingWhy, setSelfRatingWhy] = useState(() => loadProgress().selfRatingWhy);
+  const [drafts, setDrafts] = useState(() => loadProgress(currentStudent).drafts);
+  const [selections, setSelections] = useState(() => loadProgress(currentStudent).selections);
+  const [selfRatings, setSelfRatings] = useState(() => loadProgress(currentStudent).selfRatings);
+  const [selfRatingWhy, setSelfRatingWhy] = useState(() => loadProgress(currentStudent).selfRatingWhy);
   const [restoredNotice, setRestoredNotice] = useState(() => {
-    const { drafts, selections } = loadProgress();
+    const { drafts, selections } = loadProgress(currentStudent);
     return Object.keys(drafts).length > 0 || Object.keys(selections).length > 0;
   });
   const [topView, setTopView] = useState("books"); // "books" | "progress"
@@ -3881,13 +4149,47 @@ export default function App() {
   const [shuffled, setShuffled] = useState(false);
   const [questionOrder, setQuestionOrder] = useState(null); // null = original order
   const [sessionHistory, setSessionHistory] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("elar_sessions") || "[]"); } catch { return []; }
+    try { return JSON.parse(localStorage.getItem(studentPrefix(currentStudent) + "elar_sessions") || "[]"); } catch { return []; }
   });
   const book = books[activeBook];
 
+  // Switching students: reload every piece of per-student state from that
+  // student's own storage, and reset any in-progress book navigation/timers.
+  const handleSwitchStudent = (name) => {
+    setCurrentStudent(name);
+    setActiveStudentStorage(name);
+    const p = loadProgress(name);
+    setDrafts(p.drafts);
+    setSelections(p.selections);
+    setSelfRatings(p.selfRatings);
+    setSelfRatingWhy(p.selfRatingWhy);
+    setRestoredNotice(Object.keys(p.drafts).length > 0 || Object.keys(p.selections).length > 0);
+    try {
+      setSessionHistory(JSON.parse(localStorage.getItem(studentPrefix(name) + "elar_sessions") || "[]"));
+    } catch {
+      setSessionHistory([]);
+    }
+    setActiveBook(0);
+    setActiveTab("summary");
+    setTopView("books");
+    setShuffled(false);
+    setQuestionOrder(null);
+    setSubmitState("idle");
+    setUnlocked(false);
+  };
+
+  const handleAddStudent = (name) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const updated = studentList.includes(trimmed) ? studentList : [...studentList, trimmed];
+    setStudentList(updated);
+    saveStudentList(updated);
+    handleSwitchStudent(trimmed);
+  };
+
   // Auto-save drafts/selections/self-ratings to localStorage on every change
   useEffect(() => {
-    saveProgress(drafts, selections, selfRatings, selfRatingWhy);
+    saveProgress(currentStudent, drafts, selections, selfRatings, selfRatingWhy);
   }, [drafts, selections, selfRatings, selfRatingWhy]);
 
   // Derive displayed question list (shuffled or original)
@@ -3905,7 +4207,7 @@ export default function App() {
       setQuestionOrder(null);
       setShuffled(false);
     }
-    const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(book.id, drafts, selections, selfRatings, selfRatingWhy);
+    const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(currentStudent, book.id, drafts, selections, selfRatings, selfRatingWhy);
     setDrafts(newDrafts);
     setSelections(newSelections);
     setSelfRatings(newSelfRatings);
@@ -4009,6 +4311,7 @@ export default function App() {
 
       return {
         timestamp,
+        student: currentStudent || "Default",
         book: book.title,
         question_number: origIdx + 1,
         question_type: q.type,
@@ -4040,10 +4343,10 @@ export default function App() {
       };
       const updated = [session, ...sessionHistory].slice(0, 50);
       setSessionHistory(updated);
-      try { localStorage.setItem("elar_sessions", JSON.stringify(updated)); } catch {}
+      try { localStorage.setItem(studentPrefix(currentStudent) + "elar_sessions", JSON.stringify(updated)); } catch {}
 
       // Clear this book's saved drafts/selections/self-ratings now that they're safely submitted
-      const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(book.id, drafts, selections, selfRatings, selfRatingWhy);
+      const { newDrafts, newSelections, newSelfRatings, newSelfRatingWhy } = clearProgressForBook(currentStudent, book.id, drafts, selections, selfRatings, selfRatingWhy);
       setDrafts(newDrafts);
       setSelections(newSelections);
       setSelfRatings(newSelfRatings);
@@ -4061,6 +4364,18 @@ export default function App() {
       document.getElementById("book-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 50);
   };
+
+  // Gate the entire app behind student selection — every hook above already
+  // handles a null/default student gracefully, so it's safe to early-return here.
+  if (!currentStudent) {
+    return (
+      <StudentPicker
+        studentList={studentList}
+        onSelect={handleSwitchStudent}
+        onAdd={handleAddStudent}
+      />
+    );
+  }
 
   return (
     <div style={{
@@ -4137,6 +4452,14 @@ export default function App() {
               </button>
             ))}
           </div>
+
+          {/* Student switcher */}
+          <StudentSwitcher
+            currentStudent={currentStudent}
+            studentList={studentList}
+            onSwitch={handleSwitchStudent}
+            onAdd={handleAddStudent}
+          />
 
           {/* Lock control */}
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -4219,7 +4542,7 @@ export default function App() {
                 {sessionHistory.length} session{sessionHistory.length !== 1 ? "s" : ""} completed
               </span>
               <button
-                onClick={() => { setSessionHistory([]); try { localStorage.removeItem("elar_sessions"); } catch {} }}
+                onClick={() => { setSessionHistory([]); try { localStorage.removeItem(studentPrefix(currentStudent) + "elar_sessions"); } catch {} }}
                 style={{ marginLeft: "auto", background: "none", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.3)", borderRadius: 6, padding: "3px 10px", fontSize: 11, cursor: "pointer" }}
               >
                 Clear History
@@ -4557,6 +4880,7 @@ export default function App() {
                       onSelfRatingWhyChange={(_, why) => handleSelfRatingWhyChange(origIdx, why)}
                       submitted={submitState === "done"}
                       storageKey={`${book.id}-${origIdx}`}
+                      student={currentStudent}
                     />
                   ))}
                 </div>
@@ -4646,7 +4970,7 @@ export default function App() {
               </div>
             )}
             {activeTab === "vocab" && (
-              <FlashcardTab book={book} />
+              <FlashcardTab book={book} student={currentStudent} />
             )}
 
           </div>
@@ -4664,7 +4988,7 @@ export default function App() {
               How you're doing across all books, all sessions — pulled live from the review sheet.
             </p>
           </div>
-          <ProgressDashboard />
+          <ProgressDashboard student={currentStudent} />
         </section>
       )}
 
