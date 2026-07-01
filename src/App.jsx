@@ -3698,8 +3698,13 @@ function FlashcardTab({ book, student }) {
             <div style={{ fontSize: 28, fontFamily: "'Georgia', serif", fontWeight: 900, color: "#fff", marginBottom: 4 }}>{card.word}</div>
             {card.syllables && (
               <div style={{
-                fontSize: 13, color: `${book.color}cc`, fontFamily: "monospace",
-                letterSpacing: 2, marginBottom: 12, fontWeight: 600,
+                display: "inline-block",
+                background: `${book.color}33`,
+                border: `1px solid ${book.color}66`,
+                borderRadius: 6,
+                padding: "3px 10px",
+                fontSize: 12.5, color: "#fff", fontFamily: "monospace",
+                letterSpacing: 3, marginBottom: 14, fontWeight: 600,
               }}>
                 {card.syllables}
               </div>
