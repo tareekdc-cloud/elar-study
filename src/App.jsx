@@ -3434,7 +3434,14 @@ function FlashcardTab({ book, student }) {
   const [cardIndex, setCardIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [mode, setMode] = useState("word"); // "word" | "sentence"
-  const [known, setKnown] = useState(new Set());
+  const [known, setKnown] = useState(() => {
+    // Restore "know it" words from localStorage — stored by word text, converted back to indices
+    const stored = loadFlashcardLearning(student)[book.id + "_known"] || [];
+    const indices = stored
+      .map(word => book.vocab.findIndex(v => v.word.toLowerCase() === word))
+      .filter(i => i !== -1);
+    return new Set(indices);
+  });
   const [learning, setLearning] = useState(() => {
     // Restore "still learning" words for this specific book from localStorage
     const stored = loadFlashcardLearning(student)[book.id] || [];
@@ -3462,12 +3469,14 @@ function FlashcardTab({ book, student }) {
     return firstCard ? generateMCOptions(firstCard.word) : [];
   });
 
-  // Persist "still learning" words (by word text, not index, so it survives reshuffling/reordering)
+  // Persist both "still learning" and "know it" words by word text (not index),
+  // so they survive reshuffling, reordering, and page refreshes.
   useEffect(() => {
     const allLearning = loadFlashcardLearning(student);
     allLearning[book.id] = [...learning].map(i => book.vocab[i]?.word.toLowerCase()).filter(Boolean);
+    allLearning[book.id + "_known"] = [...known].map(i => book.vocab[i]?.word.toLowerCase()).filter(Boolean);
     saveFlashcardLearning(student, allLearning);
-  }, [learning, book.id, student]);
+  }, [learning, known, book.id, student]);
 
   const visibleOrder = filterMode === "learning"
     ? order.filter(i => learning.has(i))
