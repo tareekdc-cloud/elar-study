@@ -3297,7 +3297,7 @@ function StudentSwitcher({ currentStudent, studentList, onSwitch, onAdd, onDelet
 }
 
 // ── PIN Modal ────────────────────────────────────────────────────────────────
-const CORRECT_PIN = "0305";
+const CORRECT_PIN = "8959";
 
 function PinModal({ onSuccess, onCancel }) {
   const [pin, setPin] = useState("");
@@ -3445,6 +3445,22 @@ function FlashcardTab({ book, student }) {
   });
   const [order, setOrder] = useState(() => [...book.vocab.map((_, i) => i)].sort(() => Math.random() - 0.5));
   const [filterMode, setFilterMode] = useState("all");
+  const [selectedAnswer, setSelectedAnswer] = useState(null); // null | { word, correct }
+
+  // Generate 4 MC options for the current card: the correct word + 3 random distractors
+  // from the same book's vocab list. Re-generated whenever the card or mode changes.
+  const generateMCOptions = (correctWord) => {
+    const pool = book.vocab
+      .map(v => v.word)
+      .filter(w => w.toLowerCase() !== correctWord.toLowerCase());
+    // Shuffle pool and take 3 distractors
+    const distractors = [...pool].sort(() => Math.random() - 0.5).slice(0, 3);
+    return [...distractors, correctWord].sort(() => Math.random() - 0.5);
+  };
+  const [mcOptions, setMCOptions] = useState(() => {
+    const firstCard = book.vocab[order[0]];
+    return firstCard ? generateMCOptions(firstCard.word) : [];
+  });
 
   // Persist "still learning" words (by word text, not index, so it survives reshuffling/reordering)
   useEffect(() => {
@@ -3471,21 +3487,29 @@ function FlashcardTab({ book, student }) {
   const reset = () => {
     setKnown(new Set());
     setLearning(new Set());
-    setOrder([...book.vocab.map((_, i) => i)].sort(() => Math.random() - 0.5));
+    const newOrder = [...book.vocab.map((_, i) => i)].sort(() => Math.random() - 0.5);
+    setOrder(newOrder);
     setCardIndex(0);
     setFlipped(false);
     setFilterMode("all");
+    setSelectedAnswer(null);
+    const firstCard = book.vocab[newOrder[0]];
+    if (firstCard) setMCOptions(generateMCOptions(firstCard.word));
   };
 
-  const goNext = () => {
+  const advanceTo = (newIndex, newVisibleOrder) => {
+    const targetOrder = newVisibleOrder || visibleOrder;
     setFlipped(false);
-    setTimeout(() => setCardIndex(i => Math.min(i + 1, totalCards - 1)), 150);
+    setSelectedAnswer(null);
+    setTimeout(() => {
+      setCardIndex(newIndex);
+      const nextCard = book.vocab[targetOrder[newIndex]];
+      if (nextCard) setMCOptions(generateMCOptions(nextCard.word));
+    }, 150);
   };
 
-  const goPrev = () => {
-    setFlipped(false);
-    setTimeout(() => setCardIndex(i => Math.max(i - 1, 0)), 150);
-  };
+  const goNext = () => advanceTo(Math.min(cardIndex + 1, totalCards - 1));
+  const goPrev = () => advanceTo(Math.max(cardIndex - 1, 0));
 
   const markKnown = () => {
     setKnown(prev => { const s = new Set(prev); s.add(currentIdx); return s; });
@@ -3499,6 +3523,21 @@ function FlashcardTab({ book, student }) {
     goNext();
   };
 
+  const handleMCSelect = (word) => {
+    if (selectedAnswer) return; // already answered — locked
+    const correct = word.toLowerCase() === card.word.toLowerCase();
+    setSelectedAnswer({ word, correct });
+    setFlipped(true); // reveal back of card immediately
+    // Auto-mark known/learning based on correctness
+    if (correct) {
+      setKnown(prev => { const s = new Set(prev); s.add(currentIdx); return s; });
+      setLearning(prev => { const s = new Set(prev); s.delete(currentIdx); return s; });
+    } else {
+      setLearning(prev => { const s = new Set(prev); s.add(currentIdx); return s; });
+      setKnown(prev => { const s = new Set(prev); s.delete(currentIdx); return s; });
+    }
+  };
+
   if (!card) return (
     <div style={{ textAlign: "center", padding: "60px 20px" }}>
       <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
@@ -3506,10 +3545,6 @@ function FlashcardTab({ book, student }) {
       <button onClick={reset} style={{ background: book.color, color: "#fff", border: "none", borderRadius: 10, padding: "12px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", marginTop: 12 }}>Start Over</button>
     </div>
   );
-
-  const frontText = mode === "word"
-    ? card.word
-    : card.context.replace(new RegExp(`\\b${card.word}\\b`, "gi"), "▢▢▢▢▢▢");
 
   const cardStatus = known.has(currentIdx) ? "known" : learning.has(currentIdx) ? "learning" : "unseen";
 
@@ -3523,7 +3558,12 @@ function FlashcardTab({ book, student }) {
             { id: "word", label: "Word → Definition" },
             { id: "sentence", label: "Sentence → Word" },
           ].map(m => (
-            <button key={m.id} onClick={() => { setMode(m.id); setFlipped(false); }} style={{
+            <button key={m.id} onClick={() => {
+              setMode(m.id);
+              setFlipped(false);
+              setSelectedAnswer(null);
+              if (m.id === "sentence" && card) setMCOptions(generateMCOptions(card.word));
+            }} style={{
               background: mode === m.id ? book.color : "none",
               color: mode === m.id ? "#fff" : "#555",
               border: "none", borderRadius: 8, padding: "7px 14px",
@@ -3557,10 +3597,11 @@ function FlashcardTab({ book, student }) {
       </div>
 
       {/* The Card */}
-      <div onClick={() => setFlipped(f => !f)} style={{
+      <div onClick={() => { if (mode === "word") setFlipped(f => !f); }} style={{
         minHeight: 280, background: flipped ? "#1A252F" : "#fff",
         border: `2px solid ${cardStatus === "known" ? "#27AE60" : cardStatus === "learning" ? "#E74C3C" : book.color}`,
-        borderRadius: 20, padding: "36px 40px", cursor: "pointer",
+        borderRadius: 20, padding: "36px 40px",
+        cursor: mode === "word" ? "pointer" : "default",
         transition: "all 0.25s ease", boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
         position: "relative", marginBottom: 16,
       }}>
@@ -3587,10 +3628,69 @@ function FlashcardTab({ book, student }) {
                 <div style={{ color: "#BDC3C7", fontSize: 13 }}>tap to see definition</div>
               </>
             ) : (
-              <>
-                <div style={{ fontFamily: "'Georgia', serif", fontSize: 17, color: "#2C3E50", lineHeight: 1.75, marginBottom: 12, paddingTop: 16 }}>"{frontText}"</div>
-                <div style={{ color: "#BDC3C7", fontSize: 13 }}>What word fills the blank? Tap to reveal.</div>
-              </>
+              /* Sentence → Word: multiple choice instead of blank recall */
+              <div style={{ width: "100%", textAlign: "left" }} onClick={e => e.stopPropagation()}>
+                <div style={{ fontFamily: "'Georgia', serif", fontSize: 16, color: "#2C3E50", lineHeight: 1.75, marginBottom: 20, textAlign: "center" }}>
+                  {(() => {
+                    const regex = new RegExp(`\\b${card.word}\\b`, "gi");
+                    const parts = card.context.split(regex);
+                    return (
+                      <>
+                        "
+                        {parts.map((part, i) => (
+                          <span key={i}>
+                            {part}
+                            {i < parts.length - 1 && (
+                              <span style={{
+                                display: "inline-block",
+                                borderBottom: "2.5px solid #2C3E50",
+                                width: "6em",
+                                marginBottom: "4px",
+                                verticalAlign: "bottom",
+                              }} />
+                            )}
+                          </span>
+                        ))}
+                        "
+                      </>
+                    );
+                  })()}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  {mcOptions.map(option => {
+                    const isCorrect = option.toLowerCase() === card.word.toLowerCase();
+                    const isSelected = selectedAnswer?.word.toLowerCase() === option.toLowerCase();
+                    let bg = "#F8F9FA", border = "#DEE2E6", color = "#2C3E50";
+                    if (selectedAnswer) {
+                      if (isCorrect) { bg = "#EAFAF1"; border = "#27AE60"; color = "#1E8449"; }
+                      else if (isSelected) { bg = "#FDEDEC"; border = "#E74C3C"; color = "#C0392B"; }
+                    }
+                    return (
+                      <button
+                        key={option}
+                        onClick={() => handleMCSelect(option)}
+                        disabled={!!selectedAnswer}
+                        style={{
+                          background: bg, border: `2px solid ${border}`, borderRadius: 10,
+                          padding: "12px 16px", fontSize: 14, fontWeight: 700, color,
+                          cursor: selectedAnswer ? "default" : "pointer",
+                          transition: "all 0.15s ease", textAlign: "left",
+                          display: "flex", alignItems: "center", gap: 8,
+                        }}
+                      >
+                        {selectedAnswer && isCorrect && <span>✓</span>}
+                        {selectedAnswer && isSelected && !isCorrect && <span>✗</span>}
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+                {selectedAnswer && (
+                  <div style={{ marginTop: 14, textAlign: "center", fontSize: 13, fontWeight: 700, color: selectedAnswer.correct ? "#27AE60" : "#E74C3C" }}>
+                    {selectedAnswer.correct ? "✓ Correct! See the full definition below." : `✗ The answer was "${card.word}" — see why below.`}
+                  </div>
+                )}
+              </div>
             )}
           </div>
         ) : (
