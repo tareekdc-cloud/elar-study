@@ -3443,7 +3443,7 @@ function FlashcardTab({ book, student }) {
       .filter(i => i !== -1);
     return new Set(indices);
   });
-  const [order, setOrder] = useState(() => book.vocab.map((_, i) => i));
+  const [order, setOrder] = useState(() => [...book.vocab.map((_, i) => i)].sort(() => Math.random() - 0.5));
   const [filterMode, setFilterMode] = useState("all");
 
   // Persist "still learning" words (by word text, not index, so it survives reshuffling/reordering)
@@ -3471,7 +3471,7 @@ function FlashcardTab({ book, student }) {
   const reset = () => {
     setKnown(new Set());
     setLearning(new Set());
-    setOrder(book.vocab.map((_, i) => i));
+    setOrder([...book.vocab.map((_, i) => i)].sort(() => Math.random() - 0.5));
     setCardIndex(0);
     setFlipped(false);
     setFilterMode("all");
